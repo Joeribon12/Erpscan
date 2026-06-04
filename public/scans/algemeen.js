@@ -191,7 +191,7 @@ export default {
     eyebrow: "Laatste stap",
     heading: "Ontvang je volledige ERP-verbeterplan",
     sub: "We sturen je je diagnose plus concrete next steps per as. Een adviseur kijkt vrijblijvend met je mee.",
-    privacy_url: "#privacy", // placeholder — vervang door de echte privacy-URL
+    privacy_url: "/info/privacy", // placeholder — vervang door de echte privacy-URL
     thanks_heading: "Bedankt — je advies is onderweg",
     thanks_sub: "Een adviseur neemt binnen één werkdag contact op met je persoonlijke ERP-verbeterplan.",
   },

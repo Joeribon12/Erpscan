@@ -168,7 +168,7 @@ export default {
     eyebrow: "Laatste stap",
     heading: "Ontvang je utilities-verbeterplan",
     sub: "We sturen je je diagnose plus concrete next steps per as. Een adviseur met energie- en utilities-ervaring kijkt vrijblijvend mee.",
-    privacy_url: "#privacy",
+    privacy_url: "/info/privacy",
     thanks_heading: "Bedankt — je advies is onderweg",
     thanks_sub: "Een adviseur neemt binnen één werkdag contact op met je persoonlijke utilities-verbeterplan.",
   },

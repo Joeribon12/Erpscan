@@ -527,7 +527,7 @@ function renderArticle(cfg) {
     ? `<aside class="sources"><h3>Bronnen &amp; verantwoording</h3><ul>${cfg.sources.map((s) => `<li>${esc(s)}</li>`).join("")}</ul></aside>` : "";
 
   app.replaceChildren(el(`<article class="article">
-    <a class="back-link" href="/info">← Kennisbank</a>
+    <a class="back-link" href="${esc(cfg.backHref || "/info")}">${esc(cfg.backLabel || "← Kennisbank")}</a>
     <span class="eyebrow">${esc(cfg.eyebrow || "Kennis")}</span>
     <h1>${esc(cfg.title)}</h1>
     ${cfg.intro ? `<p class="lede">${esc(cfg.intro)}</p>` : ""}

@@ -181,7 +181,7 @@ export default {
     eyebrow: "Laatste stap",
     heading: "Ontvang je S/4HANA-gereedheidsrapport",
     sub: "We sturen je je diagnose plus concrete prioriteiten richting 2027. Een adviseur met maakindustrie-ervaring kijkt vrijblijvend mee.",
-    privacy_url: "#privacy", // placeholder — vervang door de echte privacy-URL
+    privacy_url: "/info/privacy", // placeholder — vervang door de echte privacy-URL
     thanks_heading: "Bedankt — je gereedheidsrapport is onderweg",
     thanks_sub: "Een adviseur neemt binnen één werkdag contact op met je persoonlijke route naar S/4HANA.",
   },

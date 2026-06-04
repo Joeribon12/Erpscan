@@ -23,7 +23,7 @@ export const RUNTIME = {
 };
 
 // Vaste fallback-link voor het privacybeleid wanneer een scan er zelf geen opgeeft.
-export const DEFAULT_PRIVACY_URL = "#privacy"; // placeholder — vervang door de echte privacy-URL
+export const DEFAULT_PRIVACY_URL = "/info/privacy"; // privacyverklaring (zie public/pages/privacy.js)
 
 // ──────────────────────────────────────────────────────────────────────────
 // PROFIELVRAGEN — verschijnen in ELKE scan (stap 1, vóór de scanvragen).
