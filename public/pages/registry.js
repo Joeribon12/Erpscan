@@ -8,6 +8,12 @@
 
 export const PAGES = [
   {
+    id: "wat-is-erp",
+    title: "Wat is een ERP-systeem?",
+    teaser: "ERP-betekenis, uitleg en voorbeelden zoals SAP ERP — in heldere taal.",
+    path: "/info/wat-is-erp",
+  },
+  {
     id: "erp-feiten",
     title: "ERP in cijfers: 10 feiten die je moet kennen",
     teaser: "Van migratiedeadlines tot benutte functionaliteit — de stand van zaken op een rij.",

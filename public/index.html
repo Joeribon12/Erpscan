@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ERP Growth Hack Scan</title>
-  <meta name="description" content="Scan je ERP-landschap en krijg direct een concrete diagnose met verbeterpunten." />
+  <title>ERP-systeem scan: hoe futureproof is jouw ERP?</title>
+  <meta name="description" content="Doe de gratis ERP-scan en ontdek in 3 minuten hoe futureproof je ERP-systeem is, met concreet advies per as. Voor SAP ERP, S/4HANA en andere systemen." />
 
   <!-- Favicon: het gouden merk-mark op donkere achtergrond -->
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -12,8 +12,8 @@
   <meta name="theme-color" content="#0b0e13" />
 
   <!-- Social preview (pas de URL aan na deploy) -->
-  <meta property="og:title" content="ERP Growth Hack Scan" />
-  <meta property="og:description" content="Hoe futureproof is jouw ERP-landschap? Doe de scan en krijg direct een diagnose." />
+  <meta property="og:title" content="ERP-systeem scan: hoe futureproof is jouw ERP?" />
+  <meta property="og:description" content="Doe de gratis ERP-scan en ontdek hoe futureproof je ERP-systeem is, met concreet advies per as. Voor SAP ERP, S/4HANA en meer." />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="ERP Growth Hack Scan" />
   <meta property="og:url" content="https://erpscan.erp-nederland.workers.dev/" />
@@ -22,8 +22,8 @@
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="ERP Growth Hack Scan" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="ERP Growth Hack Scan" />
-  <meta name="twitter:description" content="Hoe futureproof is jouw ERP-landschap? Doe de scan en krijg direct een diagnose." />
+  <meta name="twitter:title" content="ERP-systeem scan: hoe futureproof is jouw ERP?" />
+  <meta name="twitter:description" content="Doe de gratis ERP-scan en ontdek hoe futureproof je ERP-systeem is, met concreet advies per as." />
   <meta name="twitter:image" content="https://erpscan.erp-nederland.workers.dev/og-image.png" />
 
   <!-- Typografie: bewust geen Inter. Display-grotesk + leesbare sans + mono voor cijfers. -->
@@ -32,6 +32,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="/assets/styles.css" />
+
+  <!-- Structured data: WebSite (per-pagina FAQ wordt door de Worker geïnjecteerd) -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","name":"ERP-systeem scan","url":"https://erpscan.erp-nederland.workers.dev/","description":"Gratis ERP-scan: ontdek hoe futureproof je ERP-systeem is."}
+  </script>
 </head>
 <body>
   <!-- Skip-link voor toegankelijkheid -->
@@ -54,8 +59,36 @@
     </div>
   </header>
 
-  <!-- De engine rendert alles binnen #app -->
-  <main id="app" class="wrap app" aria-live="polite"></main>
+  <!-- De engine rendert alles binnen #app. De <noscript> hieronder geeft
+       zoekmachines en bezoekers zonder JavaScript tekst + links. -->
+  <main id="app" class="wrap app" aria-live="polite">
+    <noscript>
+      <h1>ERP-systeem scan: hoe futureproof is jouw ERP?</h1>
+      <p>Een ERP-systeem (Enterprise Resource Planning) is het centrale systeem waarin een organisatie processen als financiën, inkoop, voorraad en productie beheert. Wil je weten hoe futureproof jouw ERP-systeem is? Doe de gratis ERP-scan en krijg in 3 minuten een diagnose met concreet advies.</p>
+      <p>Deze scan werkt het best met JavaScript ingeschakeld. Kies hieronder je scan of lees meer over ERP-systemen:</p>
+      <h2>Scans per branche</h2>
+      <ul>
+        <li><a href="/algemeen">Algemene ERP-scan</a></li>
+        <li><a href="/maakindustrie">ERP-scan maakindustrie (SAP ECC naar S/4HANA)</a></li>
+        <li><a href="/retail">ERP-scan retail &amp; e-commerce</a></li>
+        <li><a href="/groothandel">ERP-scan groothandel &amp; distributie</a></li>
+        <li><a href="/food">ERP-scan food &amp; beverage</a></li>
+        <li><a href="/finance">ERP-scan finance &amp; control</a></li>
+        <li><a href="/logistiek">ERP-scan transport &amp; logistiek</a></li>
+        <li><a href="/bouw">ERP-scan bouw &amp; installatietechniek</a></li>
+        <li><a href="/utilities">ERP-scan energie &amp; nutsbedrijven</a></li>
+        <li><a href="/dienstverlening">ERP-scan zakelijke dienstverlening</a></li>
+      </ul>
+      <h2>Kennisbank over ERP</h2>
+      <ul>
+        <li><a href="/info/wat-is-erp">Wat is een ERP-systeem? (betekenis &amp; uitleg)</a></li>
+        <li><a href="/info/erp-feiten">ERP in cijfers</a></li>
+        <li><a href="/info/optimaliseren">ERP-systeem optimaliseren</a></li>
+        <li><a href="/info/s4hana">SAP ECC naar S/4HANA</a></li>
+        <li><a href="/info/ai-erp">AI in je ERP-systeem</a></li>
+      </ul>
+    </noscript>
+  </main>
 
   <footer class="site-footer">
     <div class="wrap footer-inner">

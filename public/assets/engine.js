@@ -491,6 +491,11 @@ async function renderLanding() {
       ${registry.length ? `<div class="scan-list">${tiles}</div>` : `<p class="fatal">Nog geen scans geregistreerd in <code>/scans/registry.js</code>.</p>`}
     </section>
 
+    <section class="home-explainer">
+      <h2>Wat is een ERP-systeem?</h2>
+      <p class="lede">Een ERP-systeem (Enterprise Resource Planning) is het centrale systeem waarin je financiën, inkoop, voorraad, productie en meer beheert. Benieuwd naar de ERP-betekenis, voorbeelden zoals SAP ERP en waarom een futureproof ERP-systeem telt? <a href="/info/wat-is-erp">Lees: wat is een ERP-systeem? →</a></p>
+    </section>
+
     <p class="kennis-cta">Liever eerst inlezen? Bekijk de <a href="/info">kennisbank met feiten &amp; inzichten over ERP →</a></p>
   </div>`));
 }

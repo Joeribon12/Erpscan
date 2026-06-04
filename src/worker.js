@@ -29,12 +29,82 @@ export default {
       return handleLead(request, env);
     }
 
-    // ── Statische site + SPA-fallback ──────────────────────────────────────
+    // ── Statische assets (js/css/img/xml/...): direct serveren ─────────────
     const res = await env.ASSETS.fetch(request);
-    if (res.status !== 404) return res;
-    // Onbekend pad (bv. /maakindustrie, /info/erp-feiten) -> index.html (SPA).
-    return env.ASSETS.fetch(new Request(new URL("/index.html", url.origin), { method: "GET" }));
+    const ct = res.headers.get("content-type") || "";
+    if (res.status === 200 && !ct.includes("text/html")) return res;
+
+    // ── HTML-paginaroute: index.html met per-route SEO-meta (titel,
+    //    description, canonical, og + optionele FAQ-structured-data) ────────
+    return servePage(env, url, res);
   },
+};
+
+// ── SEO: per-route titel/description (+ optionele FAQ) ───────────────────────
+async function servePage(env, url, matched) {
+  let html;
+  if (matched && matched.status === 200) html = await matched.text();
+  else {
+    const idx = await env.ASSETS.fetch(new Request(new URL("/index.html", url.origin), { method: "GET" }));
+    html = await idx.text();
+  }
+  const m = SEO[url.pathname] || SEO["/"];
+  return new Response(injectSEO(html, m, url.origin + url.pathname), {
+    status: 200,
+    headers: { "content-type": "text/html; charset=utf-8" },
+  });
+}
+
+function injectSEO(html, m, canonical) {
+  const e = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  const t = e(m.t), d = e(m.d), u = e(canonical);
+  html = html
+    .replace(/<title>[\s\S]*?<\/title>/, `<title>${t}</title>`)
+    .replace(/(<meta name="description" content=")[^"]*(")/, `$1${d}$2`)
+    .replace(/(<meta property="og:title" content=")[^"]*(")/, `$1${t}$2`)
+    .replace(/(<meta property="og:description" content=")[^"]*(")/, `$1${d}$2`)
+    .replace(/(<meta property="og:url" content=")[^"]*(")/, `$1${u}$2`)
+    .replace(/(<meta name="twitter:title" content=")[^"]*(")/, `$1${t}$2`)
+    .replace(/(<meta name="twitter:description" content=")[^"]*(")/, `$1${d}$2`);
+  let head = `<link rel="canonical" href="${u}"/>`;
+  if (m.faq) {
+    const ld = {
+      "@context": "https://schema.org", "@type": "FAQPage",
+      mainEntity: m.faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    };
+    head += `<script type="application/ld+json">${JSON.stringify(ld)}</script>`;
+  }
+  return html.replace("</head>", head + "</head>");
+}
+
+const SEO = {
+  "/": { t: "ERP-systeem scan: hoe futureproof is jouw ERP?", d: "Doe de gratis ERP-scan en ontdek in 3 minuten hoe futureproof je ERP-systeem is, met concreet advies per as. Voor SAP ERP, S/4HANA en andere systemen." },
+  "/algemeen": { t: "ERP Futureproof Scan: test je ERP-systeem gratis", d: "Hoe futureproof is jouw ERP-systeem? Doe de gratis ERP-scan en krijg een diagnose met verbeterpunten op strategie, AI, clean core, data en schaalbaarheid." },
+  "/maakindustrie": { t: "ERP-scan maakindustrie: van SAP ECC naar S/4HANA", d: "Hoe klaar is je ERP-systeem voor S/4HANA? Gratis ERP-scan voor de maakindustrie op SAP ERP (ECC), met advies richting de 2027-deadline." },
+  "/retail": { t: "ERP-scan retail & e-commerce: futureproof ERP-systeem?", d: "Hoe futureproof is je ERP-systeem voor omnichannel retail? Doe de gratis ERP-scan en zie waar voorraad, data of marges je remmen." },
+  "/groothandel": { t: "ERP-scan groothandel & distributie", d: "Hoe sterk staat je ERP-systeem in de groothandel? Gratis ERP-scan met advies over marge, voorraad, EDI en schaalbaarheid." },
+  "/food": { t: "ERP-scan food & beverage: traceability & compliance", d: "Hoe food-proof is je ERP-systeem? Gratis ERP-scan over batchtracering, kwaliteit, data en schaalbaarheid in de voedingsindustrie." },
+  "/finance": { t: "ERP-scan finance & control voor de CFO", d: "Hoe futureproof is je financiële ERP-systeem? Gratis ERP-scan over afsluiting, data, AI en S/4HANA Finance." },
+  "/logistiek": { t: "ERP-scan transport & logistiek / supply chain", d: "Hoe sterk is je ERP-systeem in de logistiek? Gratis ERP-scan over planning, WMS/TMS-integratie, data en schaalbaarheid." },
+  "/bouw": { t: "ERP-scan bouw & installatietechniek", d: "Grip op je projecten? Gratis ERP-scan voor de bouw over onderhanden werk, marge en de schaalbaarheid van je ERP-systeem." },
+  "/utilities": { t: "ERP-scan energie & nutsbedrijven", d: "Is je ERP-systeem klaar voor de energietransitie? Gratis ERP-scan over asset management, meter-to-cash, data en schaalbaarheid." },
+  "/dienstverlening": { t: "ERP-scan zakelijke dienstverlening", d: "Declarabel en schaalbaar? Gratis ERP-scan voor projectorganisaties over bezetting, marge en je ERP-systeem." },
+  "/info": { t: "ERP kennisbank: wat is ERP & je ERP-systeem optimaliseren", d: "Wat is ERP en hoe optimaliseer je je ERP-systeem? Korte, scherpe artikelen over ERP, SAP ERP, S/4HANA en AI." },
+  "/info/wat-is-erp": {
+    t: "Wat is ERP? Betekenis van een ERP-systeem uitgelegd",
+    d: "Wat is ERP en wat is een ERP-systeem? Heldere uitleg van de ERP-betekenis, voorbeelden zoals SAP ERP, en wat een ERP-systeem doet.",
+    faq: [
+      { q: "Wat is ERP?", a: "ERP staat voor Enterprise Resource Planning. Het is software waarmee een organisatie kernprocessen zoals financiën, inkoop, voorraad, productie en HR in één centraal systeem beheert." },
+      { q: "Wat is een ERP-systeem?", a: "Een ERP-systeem is het centrale softwaresysteem dat bedrijfsprocessen en data samenbrengt, zodat afdelingen op dezelfde, actuele informatie werken." },
+      { q: "Wat betekent ERP?", a: "ERP is de afkorting van Enterprise Resource Planning: het plannen en beheren van de middelen en processen van een onderneming." },
+      { q: "Wat is SAP ERP?", a: "SAP ERP is het ERP-systeem van marktleider SAP. De bekende versies zijn SAP ECC en het modernere SAP S/4HANA." },
+    ],
+  },
+  "/info/erp-feiten": { t: "ERP in cijfers: 10 feiten over ERP-systemen", d: "Tien feiten over ERP-systemen die je moet kennen: van migratiedeadlines tot benutte functionaliteit en de rol van SAP ERP." },
+  "/info/optimaliseren": { t: "ERP-systeem optimaliseren: 7 hefbomen", d: "Hoe optimaliseer je je ERP-systeem? De 7 grootste hefbomen, van clean core en data tot AI, met de meeste impact eerst." },
+  "/info/s4hana": { t: "SAP ECC naar S/4HANA: alles over de migratie", d: "Alles over de overstap van SAP ERP (ECC) naar S/4HANA: de 2027-deadline, greenfield vs. brownfield en hoe je je voorbereidt." },
+  "/info/ai-erp": { t: "AI in je ERP-systeem: van hype naar waarde", d: "Welke AI-use-cases in je ERP-systeem leveren echt iets op, en wat heb je ervoor nodig? Van factuurherkenning tot predictive maintenance." },
+  "/info/privacy": { t: "Privacyverklaring | ERP-scan", d: "Privacyverklaring van de ERP-scan: welke gegevens we verwerken, waarom, met welke partijen en wat jouw rechten zijn." },
 };
 
 // ── Lead-afhandeling ──────────────────────────────────────────────────────
