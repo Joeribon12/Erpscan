@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="ERP Scan">
+  <!-- Donkere afgeronde achtergrond, gelijk aan het sitethema -->
+  <rect width="32" height="32" rx="7" fill="#0b0e13"/>
+  <!-- Zachte gloed rond het merkteken -->
+  <rect x="7" y="7" width="18" height="18" rx="5.5" fill="#f4b740" opacity="0.16"/>
+  <!-- Het gouden merk-mark (zelfde accentkleur als op de site) -->
+  <rect x="10" y="10" width="12" height="12" rx="3.5" fill="#f4b740"/>
+</svg>
