@@ -18,14 +18,21 @@ const esc = (s) =>
 // Bouw een element uit een HTML-string.
 const el = (html) => { const t = document.createElement("template"); t.innerHTML = html.trim(); return t.content.firstElementChild; };
 
-// ── 1. Welke scan? ─────────────────────────────────────────────────────────
-// Volgorde: ?scan=… (handig lokaal)  >  eerste padsegment (/maakindustrie)  >  default.
-function resolveScanId() {
-  const q = new URLSearchParams(location.search).get("scan");
-  if (q) return q.trim().toLowerCase();
-  const seg = location.pathname.split("/").filter(Boolean)[0];
-  if (seg) return decodeURIComponent(seg).toLowerCase();
-  return null; // -> landing
+// ── 1. Welke route? ─────────────────────────────────────────────────────────
+// Bepaalt wat we renderen op basis van pad of queryparam.
+//   ""                -> landing (scan-keuze)
+//   /info             -> kennisbank-index
+//   /info/<slug>      -> artikel uit /pages/<slug>.js
+//   /<scan_id>        -> scan uit /scans/<scan_id>.js
+// Lokaal werkt ook ?scan=<id> en ?page=<id>.
+function resolveRoute() {
+  const params = new URLSearchParams(location.search);
+  if (params.get("page")) return { kind: "article", id: params.get("page").trim().toLowerCase() };
+  if (params.get("scan")) return { kind: "scan", id: params.get("scan").trim().toLowerCase() };
+  const segs = location.pathname.split("/").filter(Boolean).map((s) => decodeURIComponent(s).toLowerCase());
+  if (!segs.length) return { kind: "landing" };
+  if (segs[0] === "info") return segs[1] ? { kind: "article", id: segs[1] } : { kind: "info-index" };
+  return { kind: "scan", id: segs[0] };
 }
 
 // ── 2. Config valideren ─────────────────────────────────────────────────────
@@ -379,6 +386,7 @@ function renderThanks(result) {
 
 // ── 6. Landing (geen scan gekozen) ──────────────────────────────────────────
 async function renderLanding() {
+  setHeaderMeta("");
   let registry = [];
   try { registry = (await import("../scans/registry.js")).SCANS; } catch { /* registry optioneel */ }
   const tiles = registry.map((s) => `
@@ -393,34 +401,100 @@ async function renderLanding() {
     <h1>Hoe futureproof is jouw ERP-landschap?</h1>
     <p class="lede">Kies de scan die bij jouw situatie past. In ~3 minuten krijg je een concrete diagnose met verbeterpunten per as.</p>
     ${registry.length ? `<div class="scan-list">${tiles}</div>` : `<p class="fatal">Nog geen scans geregistreerd in <code>/scans/registry.js</code>.</p>`}
+    <p style="margin-top:30px;color:var(--text-soft)">Liever eerst inlezen? Bekijk de <a href="/info">kennisbank met feiten &amp; inzichten over ERP →</a></p>
   </section>`));
 }
 
-function renderFatal(scanId, errs) {
-  app.replaceChildren(el(`<section class="fatal">
-    <span class="eyebrow">Scan niet beschikbaar</span>
-    <h1>Deze scan konden we niet laden</h1>
-    <p>Gevraagde scan: <code>${esc(scanId)}</code></p>
-    ${errs?.length ? `<p style="color:var(--bad)">${errs.map(esc).join("<br>")}</p>` : ""}
-    <p><a href="/">← Naar het overzicht</a></p>
+// ── 6b. Kennisbank: index + artikelen ───────────────────────────────────────
+async function renderInfoIndex() {
+  setHeaderMeta("");
+  document.title = "Kennisbank — ERP Scan";
+  let registry = [];
+  try { registry = (await import("../pages/registry.js")).PAGES; } catch { /* registry optioneel */ }
+  const tiles = registry.map((p) => `
+    <a class="scan-tile" href="${esc(p.path || "/info/" + p.id)}">
+      <h3>${esc(p.title)}</h3>
+      <p>${esc(p.teaser || "")}</p>
+      <span class="go">Lees verder →</span>
+    </a>`).join("");
+
+  app.replaceChildren(el(`<section>
+    <span class="eyebrow">Kennisbank</span>
+    <h1>Feiten &amp; inzichten over ERP</h1>
+    <p class="lede">Korte, scherpe artikelen over ERP-optimalisatie, S/4HANA en AI — met de feiten op een rij.</p>
+    ${registry.length ? `<div class="scan-list">${tiles}</div>` : `<p class="fatal">Nog geen artikelen geregistreerd in <code>/pages/registry.js</code>.</p>`}
+    <p style="margin-top:30px"><a href="/">← Naar de scans</a></p>
   </section>`));
 }
 
-// ── 7. Bootstrap ────────────────────────────────────────────────────────────
-async function boot() {
-  $("#year").textContent = new Date().getFullYear();
-  $("#footer-privacy").href = DEFAULT_PRIVACY_URL;
-
-  const scanId = resolveScanId();
-  if (!scanId) return renderLanding();
-
-  let mod;
-  try {
-    mod = await import(`../scans/${scanId}.js`);
-  } catch (e) {
-    console.error(e);
-    return renderFatal(scanId);
+// Rendert één inhoudsblok van een artikel (data-driven, geen scan-logica).
+function renderSection(s) {
+  if (s.type === "stats") {
+    const items = (s.items || []).map((it) => `
+      <div class="stat">
+        <b>${esc(it.value)}</b>
+        <span>${esc(it.label)}</span>
+        ${it.note ? `<small>${esc(it.note)}</small>` : ""}
+      </div>`).join("");
+    return `<section class="stats-block">${s.heading ? `<h2>${esc(s.heading)}</h2>` : ""}<div class="stat-grid">${items}</div></section>`;
   }
+  if (s.type === "facts") {
+    const items = (s.items || []).map((it, i) => `
+      <div class="fact">
+        <span class="fact-num">${String(i + 1).padStart(2, "0")}</span>
+        <div><h3>${esc(it.title)}</h3><p>${esc(it.body)}</p></div>
+      </div>`).join("");
+    return `<section class="facts-block">${s.heading ? `<h2>${esc(s.heading)}</h2>` : ""}<div class="fact-list">${items}</div></section>`;
+  }
+  if (s.type === "prose") {
+    const body = Array.isArray(s.body) ? s.body : [s.body];
+    return `<section class="prose-block">${s.heading ? `<h2>${esc(s.heading)}</h2>` : ""}${body.map((p) => `<p>${esc(p)}</p>`).join("")}</section>`;
+  }
+  return "";
+}
+
+function renderArticle(cfg) {
+  setHeaderMeta("");
+  const sections = (cfg.sections || []).map(renderSection).join("");
+  const cta = cfg.cta ? `
+    <div class="article-cta card">
+      <div>
+        <h2>${esc(cfg.cta.heading || "Benieuwd hoe jij ervoor staat?")}</h2>
+        <p>${esc(cfg.cta.body || "")}</p>
+      </div>
+      <a class="btn btn-primary" href="${esc(cfg.cta.href || "/")}">${esc(cfg.cta.label || "Doe de scan")} <span class="arrow">→</span></a>
+    </div>` : "";
+  const sources = Array.isArray(cfg.sources) && cfg.sources.length
+    ? `<aside class="sources"><h3>Bronnen &amp; verantwoording</h3><ul>${cfg.sources.map((s) => `<li>${esc(s)}</li>`).join("")}</ul></aside>` : "";
+
+  app.replaceChildren(el(`<article class="article">
+    <a class="back-link" href="/info">← Kennisbank</a>
+    <span class="eyebrow">${esc(cfg.eyebrow || "Kennis")}</span>
+    <h1>${esc(cfg.title)}</h1>
+    ${cfg.intro ? `<p class="lede">${esc(cfg.intro)}</p>` : ""}
+    ${sections}
+    ${cta}
+    ${sources}
+  </article>`));
+  window.scrollTo({ top: 0, behavior: "auto" });
+}
+
+function renderFatal(id, errs, kind = "scan") {
+  const isInfo = kind === "info";
+  app.replaceChildren(el(`<section class="fatal">
+    <span class="eyebrow">${isInfo ? "Pagina" : "Scan"} niet beschikbaar</span>
+    <h1>Dit konden we niet laden</h1>
+    <p>Gevraagd: <code>${esc(id)}</code></p>
+    ${errs?.length ? `<p style="color:var(--bad)">${errs.map(esc).join("<br>")}</p>` : ""}
+    <p><a href="${isInfo ? "/info" : "/"}">← Terug naar ${isInfo ? "de kennisbank" : "het overzicht"}</a></p>
+  </section>`));
+}
+
+// ── 7. Loaders per type ──────────────────────────────────────────────────────
+async function loadScan(scanId) {
+  let mod;
+  try { mod = await import(`../scans/${scanId}.js`); }
+  catch (e) { console.error(e); return renderFatal(scanId); }
   const cfg = mod.default || mod.config;
   const errs = validateConfig(cfg);
   if (errs.length) { console.error("Config-fouten:", errs); return renderFatal(scanId, errs); }
@@ -429,6 +503,28 @@ async function boot() {
   document.title = `${cfg.title} — ERP Scan`;
   if (cfg.lead?.privacy_url) $("#footer-privacy").href = cfg.lead.privacy_url;
   renderIntro();
+}
+
+async function loadArticle(id) {
+  let mod;
+  try { mod = await import(`../pages/${id}.js`); }
+  catch (e) { console.error(e); return renderFatal(id, null, "info"); }
+  const cfg = mod.default || mod.config;
+  if (!cfg || !cfg.title) return renderFatal(id, ["title ontbreekt in de pagina-config"], "info");
+  document.title = `${cfg.title} — ERP Scan`;
+  renderArticle(cfg);
+}
+
+// ── 8. Bootstrap ────────────────────────────────────────────────────────────
+async function boot() {
+  $("#year").textContent = new Date().getFullYear();
+  $("#footer-privacy").href = DEFAULT_PRIVACY_URL;
+
+  const route = resolveRoute();
+  if (route.kind === "landing") return renderLanding();
+  if (route.kind === "info-index") return renderInfoIndex();
+  if (route.kind === "article") return loadArticle(route.id);
+  return loadScan(route.id);
 }
 
 boot();
