@@ -12,7 +12,7 @@ Een **config-driven** lead-generatie-webapp. Prospects vullen een korte scan in 
 - [Mappenstructuur](#mappenstructuur)
 - [Lokaal previewen](#lokaal-previewen)
 - [Een nieuwe doelgroep-scan toevoegen](#een-nieuwe-doelgroep-scan-toevoegen-stap-voor-stap)
-- [De Worker deployen (lead capture)](#de-worker-deployen)
+- [Leads ontvangen (e-mail)](#leads-ontvangen)
 - [Naar Cloudflare Pages pushen](#naar-cloudflare-pages-pushen)
 - [Hoe de scoring werkt](#hoe-de-scoring-werkt)
 
@@ -23,13 +23,13 @@ Een **config-driven** lead-generatie-webapp. Prospects vullen een korte scan in 
 | Onderdeel | Keuze | Waarom |
 |---|---|---|
 | Frontend | Statische site, **vanilla JS (ES-modules), geen build-stap** | Snel laadbaar, geen toolchain, makkelijk te onderhouden |
-| Routing | Eén `index.html` + SPA-fallback (`not_found_handling`) | `/maakindustrie` laadt dezelfde engine, die op het pad de juiste config kiest |
+| Routing | Eén `index.html` + SPA-fallback (in de site-Worker) | `/maakindustrie` laadt dezelfde engine, die op het pad de juiste config kiest |
 | Engine | `public/assets/engine.js` | Kent géén scan-inhoud, alleen het configschema: rendert, scoort, valideert, verstuurt |
 | Scan | `public/scans/<id>.js` | Pure data: vragen, assen, adviezen, drempels, formuliercopy |
-| Lead capture | `worker/` (Cloudflare Worker) | Eén endpoint voor alle scans → valideert → schrijft naar Google Sheet |
-| Hosting | Cloudflare Pages (`public/`) + Worker | Gratis, snel, schaalbaar |
+| Lead capture | `src/worker.js` → `POST /api/lead` | Zit ín de site-Worker: valideert en stuurt elke lead per e-mail door (optioneel Google Sheet) |
+| Hosting | Cloudflare (site-Worker + static assets) | Gratis, snel, schaalbaar; auto-deploy via GitHub |
 
-**Routing-detail:** Cloudflare serveert bestaande bestanden (`/assets/*`, `/scans/*`) direct; elk ander pad valt via `not_found_handling = "single-page-application"` (in `wrangler.toml`) terug op `index.html` met status 200 (de URL blijft staan). De engine leest `location.pathname`, neemt het eerste segment als `scan_id` en importeert `./scans/<scan_id>.js` dynamisch. Lokaal werkt ook `?scan=<id>`.
+**Routing-detail:** de site-Worker (`src/worker.js`) draait eerst. `POST /api/lead` gaat naar de lead-afhandeling; alle andere paden serveert hij via de assets-binding, met een SPA-fallback naar `index.html` (status 200, de URL blijft staan). De engine leest `location.pathname`, neemt het eerste segment als `scan_id` en importeert `./scans/<scan_id>.js` dynamisch. Lokaal werkt ook `?scan=<id>`.
 
 ---
 
@@ -39,26 +39,27 @@ Een **config-driven** lead-generatie-webapp. Prospects vullen een korte scan in 
 erp-scan/
 ├── README.md                 ← dit bestand
 ├── CONTENT-GUIDE.md          ← hoe je scherpe vragen & adviezen schrijft
-├── wrangler.toml             ← Cloudflare deploy-config van de site (assets + SPA-fallback)
+├── wrangler.toml             ← Cloudflare deploy-config (site-Worker + assets)
 ├── .gitignore
 │
-├── public/                   ← document root (assets-directory voor Cloudflare)
-│   ├── index.html            ← enige HTML-pagina (loader-shell)
-│   ├── _headers              ← security-/cache-headers
-│   ├── assets/
-│   │   ├── engine.js         ← render + scoring engine (kent geen scans)
-│   │   ├── config.js         ← globale runtime-instellingen (WORKER_ENDPOINT!)
-│   │   └── styles.css        ← design system (donker thema, één accent)
-│   └── scans/
-│       ├── registry.js       ← lijst voor de landingspagina (1 regel per scan)
-│       ├── algemeen.js       ← voorbeeldconfig 1: algemene ERP-scan
-│       └── maakindustrie.js  ← voorbeeldconfig 2: maakindustrie / SAP ECC→S/4HANA
+├── src/
+│   └── worker.js             ← site-Worker: serveert assets + lead-API (/api/lead → e-mail)
 │
-└── worker/                   ← lead-capture endpoint (zie worker/README.md)
-    ├── src/index.js
-    ├── wrangler.toml
-    ├── package.json
-    └── .dev.vars.example
+└── public/                   ← static assets (door Cloudflare geserveerd)
+    ├── index.html            ← enige HTML-pagina (loader-shell)
+    ├── _headers              ← security-/cache-headers
+    ├── google….html          ← Google Search Console-verificatie
+    ├── assets/
+    │   ├── engine.js         ← render + scoring engine (kent geen scans)
+    │   ├── config.js         ← runtime-instellingen (WORKER_ENDPOINT = /api/lead)
+    │   └── styles.css        ← design system (donker thema, één accent)
+    ├── scans/                ← 10 scan-configs + registry
+    │   ├── registry.js       ← lijst voor de landingspagina (1 regel per scan)
+    │   ├── algemeen.js · maakindustrie.js · retail.js · …
+    │   └── …
+    └── pages/                ← kennisbank-artikelen (/info)
+        ├── registry.js
+        └── erp-feiten.js · optimaliseren.js · s4hana.js · ai-erp.js
 ```
 
 ---
@@ -81,9 +82,9 @@ Open daarna:
 - **`http://localhost:3000/?scan=maakindustrie`** — de maakindustrie-scan
 - **`http://localhost:3000/`** — de landingspagina met scankeuze
 
-> **Waarom `?scan=`?** Een kale statische server kent het pad `/maakindustrie` niet en geeft 404. De queryparam werkt overal. Op Cloudflare Pages zorgt `_redirects` ervoor dat het **pad** `/maakindustrie` óók werkt. Wil je padroutering lokaal testen, gebruik dan `npx serve public -s` (SPA-modus).
+> **Waarom `?scan=`?** Een kale statische server kent het pad `/maakindustrie` niet en geeft 404. De queryparam werkt overal. In productie zorgt de site-Worker ervoor dat het **pad** `/maakindustrie` óók werkt. Wil je padroutering lokaal testen, gebruik dan `npx serve public -s` (SPA-modus).
 
-De lead-knop werkt pas écht als `WORKER_ENDPOINT` in `public/assets/config.js` naar een draaiende Worker wijst (zie hieronder).
+De lead-knop werkt pas écht als de Worker-secrets zijn ingesteld (zie [Leads ontvangen](#leads-ontvangen)). `WORKER_ENDPOINT` staat al goed op `/api/lead`.
 
 ---
 
@@ -115,21 +116,27 @@ Stel: je wilt een scan voor **retail**.
 
 ---
 
-## De Worker deployen
+## Leads ontvangen
 
-De Worker ontvangt leads en schrijft ze naar Google Sheets. Volledige instructies (Google Sheet aanmaken, service account, secrets) staan in **[`worker/README.md`](worker/README.md)**. Kort:
+De lead-API zit ín de site-Worker (`src/worker.js`, endpoint `POST /api/lead`) en wordt automatisch meegedeployd bij elke push — **geen Node, wrangler of aparte worker nodig**. Elke ingevulde scan wordt per e-mail doorgestuurd via [Resend](https://resend.com).
 
-```bash
-cd worker
-npm install
-npx wrangler login
-npx wrangler secret put GOOGLE_PRIVATE_KEY            # uit service-account JSON
-npx wrangler secret put GOOGLE_SERVICE_ACCOUNT_EMAIL
-npx wrangler secret put GOOGLE_SHEET_ID
-npm run deploy
-```
+🔒 **Het ontvangstadres is een secret** en staat nergens in code/frontend/repo. Je zet het in het Cloudflare-dashboard.
 
-Na deploy print Wrangler de URL. **Zet die in `public/assets/config.js`** bij `WORKER_ENDPOINT` en push de site opnieuw. Zet daar ook `ALLOWED_ORIGIN` (in `worker/wrangler.toml`) op je Pages-URL voor strakkere CORS.
+**Eenmalige setup:**
+
+1. **Resend-account** (gratis) → **API Keys → Create** → kopieer de sleutel (`re_…`).
+   - Afzender: laat voor een snelle test `LEAD_FROM_EMAIL` weg (gebruikt `onboarding@resend.dev`, levert alleen op je eigen Resend-account). Voor productie: verifieer een eigen domein in Resend en zet `LEAD_FROM_EMAIL` op bv. `ERP Scan <leads@jouw-domein.nl>`.
+
+2. **Cloudflare-dashboard → Workers & Pages → `erpscan` → Settings → Variables and Secrets** en voeg toe:
+   | Naam | Type | Waarde |
+   |------|------|--------|
+   | `RESEND_API_KEY` | Secret | je Resend-sleutel |
+   | `LEAD_FORWARD_EMAIL` | Secret | het ontvangstadres (blijft geheim) |
+   | `LEAD_FROM_EMAIL` | Variable | optioneel; afzender bij eigen domein |
+
+3. **Save** → klaar. De volgende lead komt binnen op je inbox (reply-to staat op de prospect).
+
+> **Optioneel: ook naar Google Sheets.** Voeg dan de secrets `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_PRIVATE_KEY`, `GOOGLE_SHEET_ID` toe (service account met Sheets API; deel de Sheet met het service-account-adres). De Worker schrijft dan naar beide kanalen.
 
 ---
 

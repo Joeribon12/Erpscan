@@ -1,66 +1,71 @@
 // ══════════════════════════════════════════════════════════════════════════
-// Cloudflare Worker — lead-capture endpoint voor de ERP Growth Hack Scan.
+// SITE-WORKER — serveert de statische site én handelt lead-submissions af.
 //
-// Ontvangt JSON van élke scan (scan_id zit in de payload), valideert, en stuurt
-// de lead per E-MAIL door naar een vast adres. Optioneel óók naar Google Sheets.
+// Deze Worker wordt automatisch door Cloudflare gedeployd bij elke git push
+// (geen lokale tooling nodig). Hij doet twee dingen:
+//   1. POST /api/lead   -> valideert de lead en stuurt 'm per e-mail door
+//   2. al het andere    -> serveert statische bestanden uit /public (met
+//                          SPA-fallback naar index.html voor /maakindustrie etc.)
 //
-// BELANGRIJK — privacy van het doel-adres:
-//   Het ontvangende e-mailadres staat NERGENS in de code of de frontend, maar
-//   uitsluitend als SECRET (env-variabele LEAD_FORWARD_EMAIL). Zo kan niemand
-//   die de site of de repo bekijkt zien waar de leads heen gaan.
+// 🔒 Het ontvangende e-mailadres staat NERGENS in code/frontend/repo, maar
+//    uitsluitend als SECRET (LEAD_FORWARD_EMAIL) in het Cloudflare-dashboard.
+//    Niemand die de site of repo bekijkt, kan zien waar de leads heen gaan.
 //
-// Env-variabelen (zie /worker/README.md):
-//   E-mail (primair):
-//     RESEND_API_KEY        API-sleutel van Resend            (SECRET)
-//     LEAD_FORWARD_EMAIL    ontvangend adres                  (SECRET)
-//     LEAD_FROM_EMAIL       afzender, geverifieerd domein     (var of secret)
-//   Google Sheets (optioneel — alleen als ingesteld):
-//     GOOGLE_SERVICE_ACCOUNT_EMAIL, GOOGLE_PRIVATE_KEY (SECRET), GOOGLE_SHEET_ID, SHEET_TAB
-//   Algemeen:
-//     ALLOWED_ORIGIN        toegestane origin voor CORS (default "*")
+// Secrets/vars (Cloudflare-dashboard → Worker → Settings → Variables and Secrets):
+//   RESEND_API_KEY       Resend API-sleutel                 (SECRET)
+//   LEAD_FORWARD_EMAIL   ontvangend adres                   (SECRET)
+//   LEAD_FROM_EMAIL      afzender (geverifieerd domein)     (var, optioneel)
+//   GOOGLE_*             optioneel, voor schrijven naar Google Sheets
 // ══════════════════════════════════════════════════════════════════════════
 
 export default {
   async fetch(request, env) {
-    const cors = corsHeaders(env);
+    const url = new URL(request.url);
 
-    if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: cors });
-    if (request.method !== "POST") return json({ error: "Method not allowed" }, 405, cors);
-
-    let body;
-    try { body = await request.json(); }
-    catch { return json({ error: "Ongeldige JSON" }, 400, cors); }
-
-    const errors = validate(body);
-    if (errors.length) return json({ error: "Validatie mislukt", details: errors }, 422, cors);
-
-    // Verzamel de afleverkanalen die zijn geconfigureerd.
-    const tasks = [];
-    if (env.RESEND_API_KEY && env.LEAD_FORWARD_EMAIL) tasks.push(["email", sendLeadEmail(env, body)]);
-    if (env.GOOGLE_SERVICE_ACCOUNT_EMAIL && env.GOOGLE_PRIVATE_KEY && env.GOOGLE_SHEET_ID) {
-      tasks.push(["sheet", appendToSheet(env, toRow(body))]);
+    // ── Lead-API ──────────────────────────────────────────────────────────
+    if (url.pathname === "/api/lead") {
+      if (request.method === "OPTIONS") return new Response(null, { status: 204 });
+      if (request.method !== "POST") return json({ error: "Method not allowed" }, 405);
+      return handleLead(request, env);
     }
 
-    if (!tasks.length) {
-      console.error("Geen afleverkanaal geconfigureerd (e-mail of Sheets).");
-      return json({ error: "Server niet geconfigureerd" }, 500, cors);
-    }
-
-    const results = await Promise.allSettled(tasks.map((t) => t[1]));
-    const failed = results
-      .map((r, i) => ({ name: tasks[i][0], r }))
-      .filter((x) => x.r.status === "rejected");
-
-    failed.forEach((f) => console.error(`Kanaal '${f.name}' faalde:`, f.r.reason && f.r.reason.stack ? f.r.reason.stack : f.r.reason));
-
-    // Geslaagd zolang minstens één kanaal de lead heeft afgeleverd.
-    if (failed.length === results.length) return json({ error: "Afleveren mislukte" }, 502, cors);
-
-    return json({ ok: true }, 200, cors);
+    // ── Statische site + SPA-fallback ──────────────────────────────────────
+    const res = await env.ASSETS.fetch(request);
+    if (res.status !== 404) return res;
+    // Onbekend pad (bv. /maakindustrie, /info/erp-feiten) -> index.html (SPA).
+    return env.ASSETS.fetch(new Request(new URL("/index.html", url.origin), { method: "GET" }));
   },
 };
 
-// ── Validatie ───────────────────────────────────────────────────────────────
+// ── Lead-afhandeling ──────────────────────────────────────────────────────
+async function handleLead(request, env) {
+  let body;
+  try { body = await request.json(); }
+  catch { return json({ error: "Ongeldige JSON" }, 400); }
+
+  const errors = validate(body);
+  if (errors.length) return json({ error: "Validatie mislukt", details: errors }, 422);
+
+  const tasks = [];
+  if (env.RESEND_API_KEY && env.LEAD_FORWARD_EMAIL) tasks.push(["email", sendLeadEmail(env, body)]);
+  if (env.GOOGLE_SERVICE_ACCOUNT_EMAIL && env.GOOGLE_PRIVATE_KEY && env.GOOGLE_SHEET_ID) {
+    tasks.push(["sheet", appendToSheet(env, toRow(body))]);
+  }
+  if (!tasks.length) {
+    console.error("Geen afleverkanaal geconfigureerd (e-mail of Sheets).");
+    return json({ error: "Server niet geconfigureerd" }, 500);
+  }
+
+  const results = await Promise.allSettled(tasks.map((t) => t[1]));
+  results.forEach((r, i) => {
+    if (r.status === "rejected") console.error(`Kanaal '${tasks[i][0]}' faalde:`, r.reason && r.reason.stack ? r.reason.stack : r.reason);
+  });
+  if (results.every((r) => r.status === "rejected")) return json({ error: "Afleveren mislukte" }, 502);
+
+  return json({ ok: true }, 200);
+}
+
+// ── Validatie ──────────────────────────────────────────────────────────────
 function validate(b) {
   const e = [];
   if (!b || typeof b !== "object") return ["payload ontbreekt"];
@@ -75,19 +80,15 @@ function validate(b) {
 
 // ── E-mail doorsturen (Resend) ───────────────────────────────────────────────
 async function sendLeadEmail(env, b) {
-  const to = env.LEAD_FORWARD_EMAIL;
   const from = env.LEAD_FROM_EMAIL || "ERP Scan <onboarding@resend.dev>";
-  const subject = `Nieuwe lead — ${b.scan_title || b.scan_id} (${b.total_score ?? "?"}/100)`;
-
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       from,
-      to: [to],
-      // Antwoorden gaat direct naar de prospect:
+      to: [env.LEAD_FORWARD_EMAIL],
       reply_to: b.lead?.email || undefined,
-      subject,
+      subject: `Nieuwe lead — ${b.scan_title || b.scan_id} (${b.total_score ?? "?"}/100)`,
       html: buildEmailHtml(b),
     }),
   });
@@ -96,40 +97,36 @@ async function sendLeadEmail(env, b) {
 
 function buildEmailHtml(b) {
   const lead = b.lead || {};
-  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const e = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const dims = Array.isArray(b.dimensions) ? b.dimensions : [];
   const dimRows = dims.map((d) =>
-    `<tr><td style="padding:4px 10px;border-bottom:1px solid #eee">${esc(d.label)}</td>
-         <td style="padding:4px 10px;border-bottom:1px solid #eee;text-align:right">${esc(d.pct)}%</td>
-         <td style="padding:4px 10px;border-bottom:1px solid #eee">${esc(d.level)}</td></tr>`).join("");
+    `<tr><td style="padding:4px 10px;border-bottom:1px solid #eee">${e(d.label)}</td>
+         <td style="padding:4px 10px;border-bottom:1px solid #eee;text-align:right">${e(d.pct)}%</td>
+         <td style="padding:4px 10px;border-bottom:1px solid #eee">${e(d.level)}</td></tr>`).join("");
   const answers = Array.isArray(b.answers) ? b.answers : [];
   const answerRows = answers.map((a) =>
-    `<tr><td style="padding:3px 10px;border-bottom:1px solid #f3f3f3;color:#555">${esc(a.text || a.question_id)}</td>
-         <td style="padding:3px 10px;border-bottom:1px solid #f3f3f3">${esc(a.label || "")} (${esc(a.score)})</td></tr>`).join("");
+    `<tr><td style="padding:3px 10px;border-bottom:1px solid #f3f3f3;color:#555">${e(a.text || a.question_id)}</td>
+         <td style="padding:3px 10px;border-bottom:1px solid #f3f3f3">${e(a.label || "")} (${e(a.score)})</td></tr>`).join("");
 
   return `<div style="font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;max-width:640px">
     <h2 style="margin:0 0 4px">Nieuwe lead via de ERP-scan</h2>
-    <p style="margin:0 0 16px;color:#666">${esc(b.scan_title || b.scan_id)} — score ${esc(b.total_score)}/100 — <b>${esc(b.verdict_label || "")}</b></p>
-
+    <p style="margin:0 0 16px;color:#666">${e(b.scan_title || b.scan_id)} — score ${e(b.total_score)}/100 — <b>${e(b.verdict_label || "")}</b></p>
     <h3 style="margin:18px 0 6px">Contact</h3>
     <table style="border-collapse:collapse;font-size:14px">
-      <tr><td style="padding:3px 10px;color:#666">Naam</td><td style="padding:3px 10px"><b>${esc(lead.name)}</b></td></tr>
-      <tr><td style="padding:3px 10px;color:#666">Organisatie</td><td style="padding:3px 10px">${esc(lead.organisation)}</td></tr>
-      <tr><td style="padding:3px 10px;color:#666">E-mail</td><td style="padding:3px 10px"><a href="mailto:${esc(lead.email)}">${esc(lead.email)}</a></td></tr>
-      <tr><td style="padding:3px 10px;color:#666">Telefoon</td><td style="padding:3px 10px">${esc(lead.phone || "—")}</td></tr>
+      <tr><td style="padding:3px 10px;color:#666">Naam</td><td style="padding:3px 10px"><b>${e(lead.name)}</b></td></tr>
+      <tr><td style="padding:3px 10px;color:#666">Organisatie</td><td style="padding:3px 10px">${e(lead.organisation)}</td></tr>
+      <tr><td style="padding:3px 10px;color:#666">E-mail</td><td style="padding:3px 10px"><a href="mailto:${e(lead.email)}">${e(lead.email)}</a></td></tr>
+      <tr><td style="padding:3px 10px;color:#666">Telefoon</td><td style="padding:3px 10px">${e(lead.phone || "—")}</td></tr>
     </table>
-
     <h3 style="margin:20px 0 6px">Score per as</h3>
     <table style="border-collapse:collapse;font-size:14px;width:100%">${dimRows}</table>
-
     <h3 style="margin:20px 0 6px">Antwoorden</h3>
     <table style="border-collapse:collapse;font-size:13px;width:100%">${answerRows}</table>
-
-    <p style="margin:18px 0 0;color:#999;font-size:12px">Bron: ${esc(b.meta?.url || "")}</p>
+    <p style="margin:18px 0 0;color:#999;font-size:12px">Bron: ${e(b.meta?.url || "")}</p>
   </div>`;
 }
 
-// ── Google Sheets (optioneel): rij toevoegen ─────────────────────────────────
+// ── Google Sheets (optioneel) ────────────────────────────────────────────────
 function toRow(b) {
   const lead = b.lead || {};
   const dims = Array.isArray(b.dimensions) ? b.dimensions : [];
@@ -170,7 +167,6 @@ async function getAccessToken(env) {
   const key = await importPrivateKey(env.GOOGLE_PRIVATE_KEY);
   const sig = await crypto.subtle.sign("RSASSA-PKCS1-v1_5", key, new TextEncoder().encode(signingInput));
   const jwt = `${signingInput}.${b64url(new Uint8Array(sig))}`;
-
   const res = await fetch("https://oauth2.googleapis.com/token", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -181,11 +177,7 @@ async function getAccessToken(env) {
 }
 
 async function importPrivateKey(pem) {
-  const clean = pem
-    .replace(/\\n/g, "\n")
-    .replace(/-----BEGIN PRIVATE KEY-----/, "")
-    .replace(/-----END PRIVATE KEY-----/, "")
-    .replace(/\s+/g, "");
+  const clean = pem.replace(/\\n/g, "\n").replace(/-----BEGIN PRIVATE KEY-----/, "").replace(/-----END PRIVATE KEY-----/, "").replace(/\s+/g, "");
   const der = Uint8Array.from(atob(clean), (c) => c.charCodeAt(0));
   return crypto.subtle.importKey("pkcs8", der.buffer, { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" }, false, ["sign"]);
 }
@@ -197,15 +189,6 @@ function b64url(bytes) {
   return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
-function corsHeaders(env) {
-  return {
-    "Access-Control-Allow-Origin": env.ALLOWED_ORIGIN || "*",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
-    "Access-Control-Max-Age": "86400",
-  };
-}
-
-function json(obj, status, headers) {
-  return new Response(JSON.stringify(obj), { status, headers: { "Content-Type": "application/json", ...headers } });
+function json(obj, status) {
+  return new Response(JSON.stringify(obj), { status, headers: { "Content-Type": "application/json" } });
 }

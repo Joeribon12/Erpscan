@@ -4,11 +4,10 @@
 // ──────────────────────────────────────────────────────────────────────────
 
 export const RUNTIME = {
-  // Endpoint van de Cloudflare Worker die leads ontvangt.
-  // Na het deployen van de worker (zie /worker/README of de hoofd-README)
-  // zet je hier de definitieve URL neer, bv.:
-  //   "https://lead-capture.<jouw-subdomein>.workers.dev"
-  WORKER_ENDPOINT: "https://lead-capture.example.workers.dev",
+  // Endpoint dat leads ontvangt. De lead-API zit IN de site-Worker zelf
+  // (src/worker.js), dus dit is een relatief pad op hetzelfde domein —
+  // geen aparte URL en geen CORS nodig.
+  WORKER_ENDPOINT: "/api/lead",
 
   // Standaardscan als er geen pad/queryparam is opgegeven (de root "/").
   DEFAULT_SCAN: "algemeen",
