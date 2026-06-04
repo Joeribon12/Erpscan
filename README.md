@@ -23,13 +23,13 @@ Een **config-driven** lead-generatie-webapp. Prospects vullen een korte scan in 
 | Onderdeel | Keuze | Waarom |
 |---|---|---|
 | Frontend | Statische site, **vanilla JS (ES-modules), geen build-stap** | Snel laadbaar, geen toolchain, makkelijk te onderhouden |
-| Routing | Eén `index.html` + `_redirects` SPA-fallback | `/maakindustrie` laadt dezelfde engine, die op het pad de juiste config kiest |
+| Routing | Eén `index.html` + SPA-fallback (`not_found_handling`) | `/maakindustrie` laadt dezelfde engine, die op het pad de juiste config kiest |
 | Engine | `public/assets/engine.js` | Kent géén scan-inhoud, alleen het configschema: rendert, scoort, valideert, verstuurt |
 | Scan | `public/scans/<id>.js` | Pure data: vragen, assen, adviezen, drempels, formuliercopy |
 | Lead capture | `worker/` (Cloudflare Worker) | Eén endpoint voor alle scans → valideert → schrijft naar Google Sheet |
 | Hosting | Cloudflare Pages (`public/`) + Worker | Gratis, snel, schaalbaar |
 
-**Routing-detail:** Cloudflare Pages serveert bestaande bestanden (`/assets/*`, `/scans/*`) direct; elk ander pad valt via `public/_redirects` terug op `index.html` met status 200 (de URL blijft staan). De engine leest `location.pathname`, neemt het eerste segment als `scan_id` en importeert `./scans/<scan_id>.js` dynamisch. Lokaal werkt ook `?scan=<id>`.
+**Routing-detail:** Cloudflare serveert bestaande bestanden (`/assets/*`, `/scans/*`) direct; elk ander pad valt via `not_found_handling = "single-page-application"` (in `wrangler.toml`) terug op `index.html` met status 200 (de URL blijft staan). De engine leest `location.pathname`, neemt het eerste segment als `scan_id` en importeert `./scans/<scan_id>.js` dynamisch. Lokaal werkt ook `?scan=<id>`.
 
 ---
 
@@ -39,11 +39,11 @@ Een **config-driven** lead-generatie-webapp. Prospects vullen een korte scan in 
 ctac-erp-scan/
 ├── README.md                 ← dit bestand
 ├── CONTENT-GUIDE.md          ← hoe je scherpe vragen & adviezen schrijft
+├── wrangler.toml             ← Cloudflare deploy-config van de site (assets + SPA-fallback)
 ├── .gitignore
 │
-├── public/                   ← document root voor Cloudflare Pages
+├── public/                   ← document root (assets-directory voor Cloudflare)
 │   ├── index.html            ← enige HTML-pagina (loader-shell)
-│   ├── _redirects            ← SPA-routing voor /maakindustrie, /retail, …
 │   ├── _headers              ← security-/cache-headers
 │   ├── assets/
 │   │   ├── engine.js         ← render + scoring engine (kent geen scans)
@@ -143,17 +143,19 @@ git commit -m "Initial ERP Growth Hack Scan"
 git push -u origin main
 ```
 
-### Cloudflare Pages koppelen
+### Cloudflare koppelen
 
-1. Cloudflare-dashboard → **Workers & Pages → Create → Pages → Connect to Git.**
-2. Kies deze repo.
-3. Build-instellingen:
-   - **Framework preset:** *None*
-   - **Build command:** *(leeg laten)*
-   - **Build output directory:** `public`
-4. **Save and Deploy.** Je site staat live op `https://<project>.pages.dev`.
+1. Cloudflare-dashboard → **Workers & Pages → Create → Connect to Git.**
+2. Kies deze repo. Cloudflare detecteert een statisch project en draait bij elke push
+   `npx wrangler deploy` vanaf de repo-root.
+3. De **`wrangler.toml` in de root** bepaalt de rest automatisch: `directory = "./public"`
+   en `not_found_handling = "single-page-application"` (de SPA-fallback). Je hoeft dus geen
+   build command of output directory in de UI in te vullen.
+4. Na de eerste deploy staat de site live op `https://<naam>.<subdomein>.workers.dev`
+   (of een `*.pages.dev`-URL, afhankelijk van het projecttype).
 
-Elke `git push` naar `main` triggert automatisch een nieuwe deploy. De scans zijn dan bereikbaar op `/<scan_id>` (bv. `/maakindustrie`).
+Elke `git push` naar `main` triggert automatisch een nieuwe deploy. De scans zijn dan
+bereikbaar op `/<scan_id>` (bv. `/maakindustrie`).
 
 > **Custom domein?** Voeg het toe onder Pages → Custom domains. De padroutering (`/maakindustrie`) werkt identiek.
 

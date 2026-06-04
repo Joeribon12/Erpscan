@@ -1,0 +1,14 @@
+# Cloudflare deploy-config voor de STATISCHE SITE (Workers Static Assets).
+# Cloudflare draait bij elke push `npx wrangler deploy` vanaf de repo-root en
+# gebruikt dit bestand. (De lead-capture Worker is een apart project; zie /worker.)
+
+name = "erpscan"
+compatibility_date = "2024-11-01"
+
+[assets]
+directory = "./public"
+
+# SPA-fallback: onbekende paden (bv. /maakindustrie, /retail) serveren index.html
+# met status 200, zodat de engine client-side de juiste scan laadt op basis van het
+# pad. Dit vervangt de oude _redirects-regel (die op Workers Assets een loop gaf).
+not_found_handling = "single-page-application"
