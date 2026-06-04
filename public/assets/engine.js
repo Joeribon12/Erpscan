@@ -182,64 +182,78 @@ function checkProfileReady(root) {
   $("#profile-next", root).disabled = !ok;
 }
 
+let Q_INDEX = 0; // huidige vraag in de wizard
+
 function renderQuestions() {
+  Q_INDEX = 0;
   setHeaderMeta(CFG.title);
   const wrap = el(`<section class="scan-run">
     <div class="progress">
-      <div class="progress-head"><span id="prog-text">0 / ${CFG.questions.length} beantwoord</span><span id="prog-pct">0%</span></div>
+      <div class="progress-head"><span id="prog-text"></span><span id="prog-pct"></span></div>
       <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
     </div>
-    <div class="questions" id="questions"></div>
-    <div class="submit-row">
-      <button class="btn btn-primary" id="submit" disabled>Toon mijn diagnose <span class="arrow">→</span></button>
-      <span class="submit-hint" id="submit-hint">Beantwoord alle vragen om verder te gaan</span>
+    <div class="qstage" id="qstage" aria-live="polite"></div>
+    <div class="qnav">
+      <button class="btn btn-ghost" id="q-prev" type="button">← Vorige</button>
+      <span class="submit-hint" id="q-hint"></span>
     </div>
   </section>`);
-
-  const dimLabel = Object.fromEntries(CFG.dimensions.map((d) => [d.id, d.label]));
-  const qWrap = $(".questions", wrap);
-  CFG.questions.forEach((q, i) => {
-    const card = el(`<article class="q" id="q-${esc(q.id)}" data-answered="false">
-      <div class="q-top">
-        <span class="q-index">Vraag ${i + 1}</span>
-        <span class="q-dim">${esc(dimLabel[q.dimension] || q.dimension)}</span>
-      </div>
-      <div class="q-text">${esc(q.text)}</div>
-      <div class="options"></div>
-    </article>`);
-    const opts = $(".options", card);
-    q.options.forEach((o, j) => {
-      const opt = el(`<label class="opt">
-        <input type="radio" name="${esc(q.id)}" value="${j}" />
-        <span class="dot" aria-hidden="true"></span>
-        <span class="opt-label">${esc(o.label)}</span>
-      </label>`);
-      $("input", opt).addEventListener("change", () => { ANSWERS[q.id] = j; card.dataset.answered = "true"; updateProgress(wrap); });
-      opts.appendChild(opt);
-    });
-    qWrap.appendChild(card);
-  });
-
   app.replaceChildren(wrap);
-  $("#submit", wrap).addEventListener("click", () => {
-    const result = computeScores(CFG, ANSWERS);
-    renderResult(result);
-  });
-  updateProgress(wrap);
-  window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+  $("#q-prev", wrap).addEventListener("click", () => { if (Q_INDEX > 0) { Q_INDEX--; paintQuestion(); } });
+  paintQuestion();
+  window.scrollTo({ top: 0, behavior: "auto" });
 }
 
-function updateProgress(root) {
+// Toont één vraag. Bij het kiezen van een antwoord springt de wizard automatisch
+// door naar de volgende vraag (of naar het resultaat na de laatste). Geen scrollen.
+function paintQuestion() {
+  const total = CFG.questions.length;
+  const q = CFG.questions[Q_INDEX];
+  const dimLabel = Object.fromEntries(CFG.dimensions.map((d) => [d.id, d.label]));
+  const card = el(`<article class="q qcard">
+    <div class="q-top">
+      <span class="q-index">Vraag ${Q_INDEX + 1} / ${total}</span>
+      <span class="q-dim">${esc(dimLabel[q.dimension] || q.dimension)}</span>
+    </div>
+    <div class="q-text">${esc(q.text)}</div>
+    <div class="options"></div>
+  </article>`);
+  const opts = $(".options", card);
+  q.options.forEach((o, j) => {
+    const sel = ANSWERS[q.id] === j ? " selected" : "";
+    const b = el(`<button type="button" class="opt${sel}">
+      <span class="dot" aria-hidden="true"></span>
+      <span class="opt-label">${esc(o.label)}</span>
+    </button>`);
+    b.addEventListener("click", () => chooseOption(q, j, b));
+    opts.appendChild(b);
+  });
+  $("#qstage").replaceChildren(card);
+  $("#q-prev").disabled = Q_INDEX === 0;
+  $("#q-hint").textContent = (Q_INDEX === total - 1) ? "Laatste vraag — je krijgt direct je diagnose" : "Kies een antwoord om door te gaan";
+  updateProgress();
+}
+
+function chooseOption(q, j, btn) {
+  ANSWERS[q.id] = j;
+  const group = btn.parentElement;
+  group.querySelectorAll(".opt").forEach((b) => { b.classList.remove("selected"); b.disabled = true; });
+  btn.classList.add("selected");
+  updateProgress();
+  const total = CFG.questions.length;
+  setTimeout(() => {
+    if (Q_INDEX < total - 1) { Q_INDEX++; paintQuestion(); }
+    else { renderResult(computeScores(CFG, ANSWERS)); }
+  }, 300);
+}
+
+function updateProgress() {
   const done = CFG.questions.filter((q) => ANSWERS[q.id] != null).length;
   const total = CFG.questions.length;
   const pct = Math.round((done / total) * 100);
-  $("#prog-fill", root).style.width = pct + "%";
-  $("#prog-text", root).textContent = `${done} / ${total} beantwoord`;
-  $("#prog-pct", root).textContent = pct + "%";
-  const submit = $("#submit", root);
-  const ready = done === total;
-  submit.disabled = !ready;
-  $("#submit-hint", root).textContent = ready ? "Klaar — bekijk je resultaat" : `Nog ${total - done} te gaan`;
+  const pf = $("#prog-fill"); if (pf) pf.style.width = pct + "%";
+  const pt = $("#prog-text"); if (pt) pt.textContent = `${done} / ${total} beantwoord`;
+  const pp = $("#prog-pct"); if (pp) pp.textContent = pct + "%";
 }
 
 function renderResult(result) {
@@ -455,13 +469,30 @@ async function renderLanding() {
       <span class="go">Start scan →</span>
     </a>`).join("");
 
-  app.replaceChildren(el(`<section>
-    <span class="eyebrow">ERP Growth Hack Scan</span>
-    <h1>Hoe futureproof is jouw ERP-landschap?</h1>
-    <p class="lede">Kies de scan die bij jouw situatie past. In ~3 minuten krijg je een concrete diagnose met verbeterpunten per as.</p>
-    ${registry.length ? `<div class="scan-list">${tiles}</div>` : `<p class="fatal">Nog geen scans geregistreerd in <code>/scans/registry.js</code>.</p>`}
-    <p style="margin-top:30px;color:var(--text-soft)">Liever eerst inlezen? Bekijk de <a href="/info">kennisbank met feiten &amp; inzichten over ERP →</a></p>
-  </section>`));
+  app.replaceChildren(el(`<div class="landing">
+    <section class="hero">
+      <span class="eyebrow">ERP Growth Hack Scan</span>
+      <h1 class="hero-title">Je ERP bepaalt je toekomst.<br>Hoe futureproof is die van jou?</h1>
+      <p class="lede hero-lede">AI, S/4HANA, clean core en realtime data: het ERP-landschap verandert sneller dan ooit. Doe de gratis scan en weet binnen 3 minuten waar jij staat — én waar je grootste winst ligt.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="/algemeen">Start de gratis scan <span class="arrow">→</span></a>
+        <a class="btn btn-ghost" href="#scans">Of kies je branche ↓</a>
+      </div>
+      <div class="hero-stats">
+        <div><b>${registry.length || 10}</b><span>branchespecifieke scans</span></div>
+        <div><b>5</b><span>assen: strategie, AI, clean core, data &amp; schaalbaarheid</span></div>
+        <div><b>~3 min</b><span>tot je persoonlijke diagnose</span></div>
+      </div>
+    </section>
+
+    <section id="scans" class="scan-choose">
+      <h2>Kies de scan die bij je past</h2>
+      <p class="lede">Elke scan is toegespitst op een branche of rol, met scherpe vragen en concreet advies per as.</p>
+      ${registry.length ? `<div class="scan-list">${tiles}</div>` : `<p class="fatal">Nog geen scans geregistreerd in <code>/scans/registry.js</code>.</p>`}
+    </section>
+
+    <p class="kennis-cta">Liever eerst inlezen? Bekijk de <a href="/info">kennisbank met feiten &amp; inzichten over ERP →</a></p>
+  </div>`));
 }
 
 // ── 6b. Kennisbank: index + artikelen ───────────────────────────────────────
