@@ -545,6 +545,30 @@ function renderSection(s) {
     const body = Array.isArray(s.body) ? s.body : [s.body];
     return `<section class="prose-block">${s.heading ? `<h2>${esc(s.heading)}</h2>` : ""}${body.map((p) => `<p>${esc(p)}</p>`).join("")}</section>`;
   }
+  if (s.type === "callout") {
+    return `<aside class="callout">${s.title ? `<h3>${esc(s.title)}</h3>` : ""}<p>${esc(s.body)}</p></aside>`;
+  }
+  if (s.type === "quote") {
+    return `<figure class="pullquote"><blockquote>${esc(s.body)}</blockquote>${s.cite ? `<figcaption>${esc(s.cite)}</figcaption>` : ""}</figure>`;
+  }
+  if (s.type === "steps") {
+    const items = (s.items || []).map((it, i) =>
+      `<li class="step"><span class="step-n">${i + 1}</span><div><h3>${esc(it.title)}</h3><p>${esc(it.body)}</p></div></li>`).join("");
+    return `<section class="steps-block">${s.heading ? `<h2>${esc(s.heading)}</h2>` : ""}<ol class="steps">${items}</ol></section>`;
+  }
+  if (s.type === "checklist") {
+    const items = (s.items || []).map((it) => `<li>${esc(typeof it === "string" ? it : (it.body || it.title))}</li>`).join("");
+    return `<section class="checklist-block">${s.heading ? `<h2>${esc(s.heading)}</h2>` : ""}<ul class="checklist">${items}</ul></section>`;
+  }
+  if (s.type === "table") {
+    const head = (s.headers || []).map((h) => `<th>${esc(h)}</th>`).join("");
+    const rows = (s.rows || []).map((r) => `<tr>${r.map((c) => `<td>${esc(c)}</td>`).join("")}</tr>`).join("");
+    return `<section class="table-block">${s.heading ? `<h2>${esc(s.heading)}</h2>` : ""}<div class="table-wrap"><table class="cmp">${head ? `<thead><tr>${head}</tr></thead>` : ""}<tbody>${rows}</tbody></table></div></section>`;
+  }
+  if (s.type === "related") {
+    const items = (s.items || []).map((it) => `<a class="related-link" href="${esc(it.href)}">${esc(it.label)} <span aria-hidden="true">→</span></a>`).join("");
+    return `<section class="related-block">${s.heading ? `<h2>${esc(s.heading)}</h2>` : ""}<div class="related-list">${items}</div></section>`;
+  }
   return "";
 }
 

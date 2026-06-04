@@ -104,6 +104,16 @@ const SEO = {
   "/info/optimaliseren": { t: "ERP-systeem optimaliseren: 7 hefbomen", d: "Hoe optimaliseer je je ERP-systeem? De 7 grootste hefbomen, van clean core en data tot AI, met de meeste impact eerst." },
   "/info/s4hana": { t: "SAP ECC naar S/4HANA: alles over de migratie", d: "Alles over de overstap van SAP ERP (ECC) naar S/4HANA: de 2027-deadline, greenfield vs. brownfield en hoe je je voorbereidt." },
   "/info/ai-erp": { t: "AI in je ERP-systeem: van hype naar waarde", d: "Welke AI-use-cases in je ERP-systeem leveren echt iets op, en wat heb je ervoor nodig? Van factuurherkenning tot predictive maintenance." },
+  "/info/ai-in-je-bedrijf": { t: "Hoe pas ik AI toe in mijn bedrijf? Stappenplan", d: "Praktisch stappenplan om AI toe te passen in je bedrijf: van één use-case naar structurele waarde, bovenop een gezond ERP-systeem." },
+  "/info/schalen-zonder-chaos": { t: "Hoe schaal ik mijn bedrijf makkelijker (zonder chaos)?", d: "Schaalbaar groeien doe je door processen te standaardiseren en automatiseren vóór het volume toeneemt. De hefbomen voor schaalbaarheid." },
+  "/info/processen-automatiseren": { t: "Bedrijfsprocessen automatiseren: waar begin je?", d: "Welke bedrijfsprocessen kun je het best automatiseren en hoe pak je het aan? Van workflows in je ERP-systeem tot AI en integratie." },
+  "/info/cloud-of-onpremise": { t: "ERP in de cloud of on-premise: wat kies je?", d: "Cloud-ERP of on-premise? De verschillen in beheer, kosten, schaalbaarheid en innovatie op een rij, zodat je een onderbouwde keuze maakt." },
+  "/info/datakwaliteit": { t: "Datakwaliteit verbeteren: fundament voor groei en AI", d: "Betere datakwaliteit en master data management zijn het fundament onder rapportage, AI en een betrouwbaar ERP-systeem. Zo pak je het aan." },
+  "/info/clean-core": { t: "Wat is clean core (en waarom telt het voor je ERP)?", d: "Clean core houdt je ERP-systeem wendbaar en upgradebaar. Uitleg van het principe en hoe je maatwerk afbouwt richting een schone kern." },
+  "/info/erp-implementatie": { t: "ERP-implementatie: succesfactoren en valkuilen", d: "Een geslaagde ERP-implementatie draait om proces, data en mensen — niet om techniek. De belangrijkste succesfactoren en valkuilen." },
+  "/info/dashboards-kpi": { t: "Realtime dashboards en KPI's die echt sturen", d: "Stuur vooruit met realtime dashboards en de juiste KPI's. Wat maakt een KPI bruikbaar, en de rol van process mining in je ERP-systeem." },
+  "/info/systeemintegratie": { t: "Systemen koppelen: slim integreren met API's", d: "Goede systeemintegratie laat data automatisch doorstromen tussen je ERP-systeem, webshop, WMS en meer. Van point-to-point naar API's." },
+  "/info/business-case-erp": { t: "De business case voor een nieuw ERP-systeem", d: "Bouw een sterke business case voor een nieuw ERP-systeem: kosten, baten en de kosten van niets doen. Verder dan kostenbesparing." },
   "/info/privacy": { t: "Privacyverklaring | ERP-scan", d: "Privacyverklaring van de ERP-scan: welke gegevens we verwerken, waarom, met welke partijen en wat jouw rechten zijn." },
 };
 
