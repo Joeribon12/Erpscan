@@ -292,6 +292,36 @@ a:hover { text-decoration: underline; }
 .sources ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: .82rem; }
 .sources li { margin-bottom: 4px; }
 
+/* ── Profielstap (kwalificatie: ERP / omzet / omvang) ──────────────────── */
+.profile-fields { display: grid; gap: 26px; margin-top: 26px; }
+.profile-field > label { display: block; font-weight: 500; color: var(--text-soft); font-size: .95rem; }
+.profile-field select {
+  width: 100%; margin-top: 9px; background: var(--bg-soft); border: 1px solid var(--line);
+  border-radius: var(--radius-sm); padding: 13px 14px; color: var(--text);
+  font-family: var(--font-body); font-size: 1rem; cursor: pointer; transition: border-color .15s;
+}
+.profile-field select:focus { outline: none; border-color: var(--accent); }
+
+.slider-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.slider-head output { font-family: var(--font-mono); color: var(--accent); font-size: .95rem; font-weight: 600; }
+
+.profile-field input[type=range] {
+  -webkit-appearance: none; appearance: none; width: 100%; height: 6px; margin-top: 16px;
+  border-radius: 99px; background: var(--surface-2); outline: none; cursor: pointer;
+}
+.profile-field input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--accent); border: 3px solid var(--bg); box-shadow: 0 0 0 1px var(--accent);
+  cursor: pointer; transition: transform .1s var(--ease);
+}
+.profile-field input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.12); }
+.profile-field input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgba(244,183,64,.3); }
+.profile-field input[type=range]::-moz-range-thumb {
+  width: 22px; height: 22px; border-radius: 50%; background: var(--accent);
+  border: 3px solid var(--bg); box-shadow: 0 0 0 1px var(--accent); cursor: pointer;
+}
+.profile-field input[type=range]::-moz-range-track { height: 6px; border-radius: 99px; background: var(--surface-2); }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
 }

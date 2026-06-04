@@ -4,7 +4,7 @@
 // configbestand in /scans/.  Zie CONTENT-GUIDE.md voor het schema.
 // ══════════════════════════════════════════════════════════════════════════
 
-import { RUNTIME, DEFAULT_PRIVACY_URL } from "./config.js";
+import { RUNTIME, DEFAULT_PRIVACY_URL, PROFILE } from "./config.js";
 
 // ── Mini-helpers ──────────────────────────────────────────────────────────
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -98,6 +98,7 @@ function computeScores(cfg, answers) {
 // ── 4. Rendering ────────────────────────────────────────────────────────────
 let CFG = null;            // actieve config
 const ANSWERS = {};        // questionId -> optionIndex
+const PROFILE_ANSWERS = {}; // profielveld-id -> { label, value }  (telt niet mee in de score)
 
 function setHeaderMeta(text) { $("#header-meta").textContent = text || ""; }
 
@@ -121,7 +122,64 @@ function renderIntro() {
       </div>
     </section>`);
   app.replaceChildren(node);
-  $("#start").addEventListener("click", renderQuestions);
+  $("#start").addEventListener("click", renderProfile);
+}
+
+// ── 4b. Profielstap (kwalificatie) — verschijnt in elke scan ────────────────
+function renderProfile() {
+  setHeaderMeta(CFG.title);
+  const fields = PROFILE.fields.map((f) => {
+    if (f.type === "select") {
+      const opts = ['<option value="" disabled selected>Kies…</option>']
+        .concat(f.options.map((o) => `<option value="${esc(o)}">${esc(o)}</option>`)).join("");
+      return `<div class="profile-field">
+        <label for="pf-${esc(f.id)}">${esc(f.label)}${f.required ? ' <span class="req">*</span>' : ""}</label>
+        <select id="pf-${esc(f.id)}">${opts}</select>
+      </div>`;
+    }
+    if (f.type === "slider") {
+      const def = Number.isInteger(f.default) ? f.default : Math.floor((f.steps.length - 1) / 2);
+      return `<div class="profile-field">
+        <div class="slider-head"><label for="pf-${esc(f.id)}">${esc(f.label)}</label><output id="po-${esc(f.id)}">${esc(f.steps[def])}</output></div>
+        <input type="range" id="pf-${esc(f.id)}" min="0" max="${f.steps.length - 1}" step="1" value="${def}" />
+      </div>`;
+    }
+    return "";
+  }).join("");
+
+  const hasRequired = PROFILE.fields.some((f) => f.required);
+  const node = el(`<section class="profile card">
+    <span class="eyebrow">Stap 1 · Over je organisatie</span>
+    <h1>${esc(PROFILE.heading)}</h1>
+    <p class="lede">${esc(PROFILE.sub)}</p>
+    <div class="profile-fields">${fields}</div>
+    <div class="actions" style="margin-top:28px">
+      <button class="btn btn-primary" id="profile-next" ${hasRequired ? "disabled" : ""}>Naar de scan <span class="arrow">→</span></button>
+    </div>
+  </section>`);
+  app.replaceChildren(node);
+
+  PROFILE.fields.forEach((f) => {
+    const input = $(`#pf-${f.id}`, node);
+    if (f.type === "slider") {
+      const out = $(`#po-${f.id}`, node);
+      const set = () => { PROFILE_ANSWERS[f.id] = { label: f.label, value: f.steps[+input.value] }; out.textContent = f.steps[+input.value]; };
+      input.addEventListener("input", set);
+      set(); // zet de standaardwaarde meteen
+    } else if (f.type === "select") {
+      input.addEventListener("change", () => {
+        PROFILE_ANSWERS[f.id] = { label: f.label, value: input.value };
+        checkProfileReady(node);
+      });
+    }
+  });
+  $("#profile-next", node).addEventListener("click", renderQuestions);
+  window.scrollTo({ top: 0, behavior: "auto" });
+}
+
+function checkProfileReady(root) {
+  const ok = PROFILE.fields.filter((f) => f.required).every((f) => PROFILE_ANSWERS[f.id]?.value);
+  $("#profile-next", root).disabled = !ok;
 }
 
 function renderQuestions() {
@@ -352,6 +410,7 @@ async function onLeadSubmit(e, result) {
     verdict_label: result.verdict.label,
     dimensions: result.dimensions,
     answers: result.detail,
+    profile: { ...PROFILE_ANSWERS },
     lead: data,
     meta: { url: location.href, referrer: document.referrer || null, user_agent: navigator.userAgent, submitted_at_client: new Date().toISOString() },
   };

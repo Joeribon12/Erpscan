@@ -107,6 +107,9 @@ function buildEmailHtml(b) {
   const answerRows = answers.map((a) =>
     `<tr><td style="padding:3px 10px;border-bottom:1px solid #f3f3f3;color:#555">${e(a.text || a.question_id)}</td>
          <td style="padding:3px 10px;border-bottom:1px solid #f3f3f3">${e(a.label || "")} (${e(a.score)})</td></tr>`).join("");
+  const profile = b.profile || {};
+  const profileRows = Object.keys(profile).map((k) =>
+    `<tr><td style="padding:3px 10px;color:#666">${e(profile[k].label || k)}</td><td style="padding:3px 10px"><b>${e(profile[k].value)}</b></td></tr>`).join("");
 
   return `<div style="font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;max-width:640px">
     <h2 style="margin:0 0 4px">Nieuwe lead via de ERP-scan</h2>
@@ -118,6 +121,7 @@ function buildEmailHtml(b) {
       <tr><td style="padding:3px 10px;color:#666">E-mail</td><td style="padding:3px 10px"><a href="mailto:${e(lead.email)}">${e(lead.email)}</a></td></tr>
       <tr><td style="padding:3px 10px;color:#666">Telefoon</td><td style="padding:3px 10px">${e(lead.phone || "—")}</td></tr>
     </table>
+    ${profileRows ? `<h3 style="margin:20px 0 6px">Profiel</h3><table style="border-collapse:collapse;font-size:14px">${profileRows}</table>` : ""}
     <h3 style="margin:20px 0 6px">Score per as</h3>
     <table style="border-collapse:collapse;font-size:14px;width:100%">${dimRows}</table>
     <h3 style="margin:20px 0 6px">Antwoorden</h3>
@@ -136,6 +140,7 @@ function toRow(b) {
     new Date().toISOString(), b.scan_id || "", b.scan_title || "", b.audience || "",
     String(b.total_score ?? ""), b.verdict_label || "",
     lead.name || "", lead.organisation || "", lead.email || "", lead.phone || "",
+    b.profile?.erp?.value || "", b.profile?.omzet?.value || "", b.profile?.fte?.value || "",
     dimStr, answers, b.meta?.url || "", b.meta?.referrer || "",
   ];
 }
