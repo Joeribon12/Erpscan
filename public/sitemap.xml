@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Bij een nieuwe scan/artikel: voeg hier één <url> toe. -->
+  <url><loc>https://erpscan.erp-nederland.workers.dev/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://erpscan.erp-nederland.workers.dev/info</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Scans -->
+  <url><loc>https://erpscan.erp-nederland.workers.dev/algemeen</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://erpscan.erp-nederland.workers.dev/maakindustrie</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://erpscan.erp-nederland.workers.dev/retail</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://erpscan.erp-nederland.workers.dev/groothandel</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://erpscan.erp-nederland.workers.dev/food</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://erpscan.erp-nederland.workers.dev/finance</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://erpscan.erp-nederland.workers.dev/logistiek</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://erpscan.erp-nederland.workers.dev/bouw</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://erpscan.erp-nederland.workers.dev/utilities</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://erpscan.erp-nederland.workers.dev/dienstverlening</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+
+  <!-- Kennisbank -->
+  <url><loc>https://erpscan.erp-nederland.workers.dev/info/erp-feiten</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://erpscan.erp-nederland.workers.dev/info/optimaliseren</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://erpscan.erp-nederland.workers.dev/info/s4hana</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://erpscan.erp-nederland.workers.dev/info/ai-erp</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+</urlset>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://erpscan.erp-nederland.workers.dev/sitemap.xml
