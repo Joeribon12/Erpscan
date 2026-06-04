@@ -19,4 +19,52 @@ export const SCANS = [
     audience: "IT- & operations-leiders in de maakindustrie",
     path: "/maakindustrie",
   },
+  {
+    id: "retail",
+    title: "Retail & e-commerce",
+    audience: "IT- & e-commerce-verantwoordelijken in retail",
+    path: "/retail",
+  },
+  {
+    id: "groothandel",
+    title: "Groothandel & distributie",
+    audience: "IT- & operations-leiders in groothandel",
+    path: "/groothandel",
+  },
+  {
+    id: "food",
+    title: "Food & beverage",
+    audience: "IT-, productie- & kwaliteitsleiders in food",
+    path: "/food",
+  },
+  {
+    id: "finance",
+    title: "Finance & control",
+    audience: "CFO's, finance managers & controllers",
+    path: "/finance",
+  },
+  {
+    id: "logistiek",
+    title: "Transport & logistiek",
+    audience: "IT-, supply chain- & operations-leiders",
+    path: "/logistiek",
+  },
+  {
+    id: "bouw",
+    title: "Bouw & installatietechniek",
+    audience: "IT-, project- & finance-leiders in bouw/installatie",
+    path: "/bouw",
+  },
+  {
+    id: "utilities",
+    title: "Energie & nutsbedrijven",
+    audience: "IT-, asset- & klantprocesleiders in utilities",
+    path: "/utilities",
+  },
+  {
+    id: "dienstverlening",
+    title: "Zakelijke dienstverlening",
+    audience: "IT-, finance- & operations-leiders in dienstverlening",
+    path: "/dienstverlening",
+  },
 ];
