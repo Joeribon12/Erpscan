@@ -1,5 +1,5 @@
 {
-  "name": "ctac-lead-capture",
+  "name": "lead-capture",
   "version": "1.0.0",
   "private": true,
   "description": "Cloudflare Worker die scan-leads valideert en naar Google Sheets schrijft.",

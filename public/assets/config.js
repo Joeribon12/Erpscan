@@ -7,8 +7,8 @@ export const RUNTIME = {
   // Endpoint van de Cloudflare Worker die leads ontvangt.
   // Na het deployen van de worker (zie /worker/README of de hoofd-README)
   // zet je hier de definitieve URL neer, bv.:
-  //   "https://ctac-lead-capture.<jouw-subdomein>.workers.dev"
-  WORKER_ENDPOINT: "https://ctac-lead-capture.example.workers.dev",
+  //   "https://lead-capture.<jouw-subdomein>.workers.dev"
+  WORKER_ENDPOINT: "https://lead-capture.example.workers.dev",
 
   // Standaardscan als er geen pad/queryparam is opgegeven (de root "/").
   DEFAULT_SCAN: "algemeen",
@@ -24,4 +24,4 @@ export const RUNTIME = {
 };
 
 // Vaste fallback-link voor het privacybeleid wanneer een scan er zelf geen opgeeft.
-export const DEFAULT_PRIVACY_URL = "https://www.ctac.nl/privacy"; // placeholder
+export const DEFAULT_PRIVACY_URL = "#privacy"; // placeholder — vervang door de echte privacy-URL

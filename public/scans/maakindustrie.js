@@ -180,9 +180,9 @@ export default {
   lead: {
     eyebrow: "Laatste stap",
     heading: "Ontvang je S/4HANA-gereedheidsrapport",
-    sub: "We sturen je je diagnose plus concrete prioriteiten richting 2027. Een Ctac-adviseur met maakindustrie-ervaring kijkt vrijblijvend mee.",
-    privacy_url: "https://www.ctac.nl/privacy", // placeholder — vervang door de echte URL
+    sub: "We sturen je je diagnose plus concrete prioriteiten richting 2027. Een adviseur met maakindustrie-ervaring kijkt vrijblijvend mee.",
+    privacy_url: "#privacy", // placeholder — vervang door de echte privacy-URL
     thanks_heading: "Bedankt — je gereedheidsrapport is onderweg",
-    thanks_sub: "Een Ctac-adviseur neemt binnen één werkdag contact op met je persoonlijke route naar S/4HANA.",
+    thanks_sub: "Een adviseur neemt binnen één werkdag contact op met je persoonlijke route naar S/4HANA.",
   },
 };

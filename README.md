@@ -1,4 +1,4 @@
-# ERP Growth Hack Scan — Ctac
+# ERP Growth Hack Scan
 
 Een **config-driven** lead-generatie-webapp. Prospects vullen een korte scan in over hun ERP-landschap, krijgen direct een diagnose met verbeterpunten per as, en laten daarna hun gegevens achter als gekwalificeerde lead.
 
@@ -36,7 +36,7 @@ Een **config-driven** lead-generatie-webapp. Prospects vullen een korte scan in 
 ## Mappenstructuur
 
 ```
-ctac-erp-scan/
+erp-scan/
 ├── README.md                 ← dit bestand
 ├── CONTENT-GUIDE.md          ← hoe je scherpe vragen & adviezen schrijft
 ├── wrangler.toml             ← Cloudflare deploy-config van de site (assets + SPA-fallback)
@@ -179,4 +179,4 @@ De volledige scores én antwoorden gaan mee in de lead-payload, zodat sales de l
 
 ## Licentie / eigendom
 
-Intern Ctac-materiaal. Placeholder-privacylinks (`https://www.ctac.nl/privacy`) vervangen door de definitieve URL vóór livegang.
+Placeholder-privacylinks (`#privacy`) vervangen door de definitieve URL vóór livegang.

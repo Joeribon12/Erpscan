@@ -79,7 +79,7 @@ Per dimensie schrijf je drie adviezen die **meebewegen met het niveau**. Het adv
 > **Voorbeeld (low, clean core, maakindustrie):**
 > *"Onbekend en omvangrijk maatwerk is dé valkuil van elke ECC-migratie. Voer een custom code-analyse uit, bepaal wat echt onderscheidend is, en plan de rest weg richting standaard of side-by-side extensies. Dit verlaagt je migratierisico én je toekomstige beheerlast drastisch."*
 
-**Verkooptoon vermijden.** Adviseer als expert, niet als verkoper. De lead-stap doet de conversie; de adviezen bouwen vertrouwen. Eén subtiele brug ("een Ctac-adviseur kijkt vrijblijvend mee") hoort in de `lead`-copy, niet in elk as-advies.
+**Verkooptoon vermijden.** Adviseer als expert, niet als verkoper. De lead-stap doet de conversie; de adviezen bouwen vertrouwen. Eén subtiele brug ("een adviseur kijkt vrijblijvend mee") hoort in de `lead`-copy, niet in elk as-advies.
 
 ---
 

@@ -285,7 +285,7 @@ function renderLead(result) {
         </div>
         <div class="consent" data-error="false">
           <input id="lf-consent" name="consent" type="checkbox" />
-          <label for="lf-consent">Ik ga akkoord dat Ctac mijn gegevens gebruikt om contact met me op te nemen over deze scan, conform het <a href="${esc(privacy)}" target="_blank" rel="noopener">privacybeleid</a>. <span class="req">*</span></label>
+          <label for="lf-consent">Ik ga akkoord dat mijn gegevens worden gebruikt om contact met me op te nemen over deze scan, conform het <a href="${esc(privacy)}" target="_blank" rel="noopener">privacybeleid</a>. <span class="req">*</span></label>
         </div>
       </div>
       <div class="form-foot">
@@ -370,7 +370,7 @@ function renderThanks(result) {
   const node = el(`<section class="thanks">
     <div class="check" aria-hidden="true">✓</div>
     <h1>${esc(CFG.lead?.thanks_heading || "Bedankt — je advies is onderweg")}</h1>
-    <p class="lede" style="margin-inline:auto">${esc(CFG.lead?.thanks_sub || "Een Ctac-adviseur neemt binnen één werkdag contact op met je persoonlijke ERP-verbeterplan.")}</p>
+    <p class="lede" style="margin-inline:auto">${esc(CFG.lead?.thanks_sub || "Een adviseur neemt binnen één werkdag contact op met je persoonlijke ERP-verbeterplan.")}</p>
     <p style="margin-top:18px;color:var(--muted);font-family:var(--font-mono);font-size:.85rem">Jouw score: ${result.total}/100 — ${esc(result.verdict.label)}</p>
   </section>`);
   app.replaceChildren(node);
@@ -426,7 +426,7 @@ async function boot() {
   if (errs.length) { console.error("Config-fouten:", errs); return renderFatal(scanId, errs); }
 
   CFG = cfg;
-  document.title = `${cfg.title} — Ctac ERP Scan`;
+  document.title = `${cfg.title} — ERP Scan`;
   if (cfg.lead?.privacy_url) $("#footer-privacy").href = cfg.lead.privacy_url;
   renderIntro();
 }

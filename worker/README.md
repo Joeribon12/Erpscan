@@ -83,7 +83,7 @@ Verwacht: `{"ok":true}` en een nieuwe regel in je Sheet.
 npm run deploy
 ```
 
-Wrangler print de live URL, bv. `https://ctac-lead-capture.<subdomein>.workers.dev`.
+Wrangler print de live URL, bv. `https://lead-capture.<subdomein>.workers.dev`.
 **Zet die URL in `public/assets/config.js` bij `WORKER_ENDPOINT`** en deploy de site opnieuw.
 
 Logs live volgen: `npm run tail`.

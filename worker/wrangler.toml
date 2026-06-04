@@ -1,4 +1,4 @@
-name = "ctac-lead-capture"
+name = "lead-capture"
 main = "src/index.js"
 compatibility_date = "2024-11-01"
 
