@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ERP Growth Hack Scan — Ctac</title>
+  <meta name="description" content="Scan je ERP-landschap en krijg direct een concrete diagnose met verbeterpunten." />
+
+  <!-- Social preview (pas de URL aan na deploy) -->
+  <meta property="og:title" content="ERP Growth Hack Scan — Ctac" />
+  <meta property="og:description" content="Hoe futureproof is jouw ERP-landschap? Doe de scan en krijg direct een diagnose." />
+  <meta property="og:type" content="website" />
+
+  <!-- Typografie: bewust geen Inter. Display-grotesk + leesbare sans + mono voor cijfers. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/assets/styles.css" />
+</head>
+<body>
+  <!-- Skip-link voor toegankelijkheid -->
+  <a class="skip-link" href="#app">Naar de inhoud</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="/" aria-label="Ctac home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">Ctac</span>
+        <span class="brand-sub">ERP Growth Hack Scan</span>
+      </a>
+      <div class="header-meta" id="header-meta"></div>
+    </div>
+  </header>
+
+  <!-- De engine rendert alles binnen #app -->
+  <main id="app" class="wrap app" aria-live="polite"></main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <span>&copy; <span id="year"></span> Ctac — SAP-consultancy</span>
+      <a id="footer-privacy" href="#privacy-placeholder">Privacybeleid</a>
+    </div>
+  </footer>
+
+  <script type="module" src="/assets/engine.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+# Kopieer dit bestand naar `.dev.vars` voor lokaal testen met `wrangler dev`.
+# `.dev.vars` staat in .gitignore en mag NOOIT gecommit worden.
+
+GOOGLE_SERVICE_ACCOUNT_EMAIL="lead-writer@jouw-project.iam.gserviceaccount.com"
+GOOGLE_SHEET_ID="1AbCdEfGhIjKlMnOpQrStUvWxYz0123456789"
+SHEET_TAB="Leads"
+ALLOWED_ORIGIN="*"
+
+# De private key uit het service-account JSON-bestand. Behoud de \n-escapes
+# (het is één regel tussen aanhalingstekens):
+GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBg...\n...rest...\n-----END PRIVATE KEY-----\n"

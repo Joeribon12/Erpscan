@@ -1,0 +1,5 @@
+# Cloudflare Pages routing.
+# Bestaande bestanden (/, /assets/*, /scans/*) worden direct geserveerd.
+# Elk ander pad (bv. /maakindustrie, /retail) valt terug op index.html (status 200,
+# dus de URL blijft staan). De engine leest het pad en laadt de juiste config.
+/*    /index.html    200

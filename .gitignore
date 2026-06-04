@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Cloudflare / Wrangler
+.wrangler/
+worker/.dev.vars
+worker/.wrangler/
+
+# Secrets — nooit committen
+*.key
+*.pem
+service-account*.json
+.env
+.env.*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,13 @@
+# Basis security-/cache-headers voor Cloudflare Pages.
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+
+# Statische assets mogen lang gecachet worden (configs/engine hebben geen build-hash,
+# dus houd de cache kort tijdens ontwikkeling; verhoog dit gerust in productie).
+/assets/*
+  Cache-Control: public, max-age=600
+/scans/*
+  Cache-Control: public, max-age=600
