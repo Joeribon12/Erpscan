@@ -233,6 +233,23 @@ a:hover { text-decoration: underline; }
 .form-status.error { color: var(--bad); }
 .form-status.ok { color: var(--ok); }
 
+/* ── Feedback ("Was deze scan behulpzaam?") + zachte lead ──────────────── */
+.feedback { margin-top: 30px; }
+.feedback h2 { margin: 0 0 16px; }
+.fb-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+.fb-btn { font-family: var(--font-display); font-weight: 500; font-size: 1rem; background: var(--bg-soft);
+  border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px 20px; cursor: pointer;
+  color: var(--text); transition: border-color .15s, background .15s, transform .08s; }
+.fb-btn:hover { border-color: var(--accent-dim); }
+.fb-btn:active { transform: scale(.98); }
+.fb-btn.selected { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--bg-soft)); }
+.feedback textarea { width: 100%; margin-top: 14px; background: var(--bg-soft); border: 1px solid var(--line);
+  border-radius: var(--radius-sm); padding: 12px 14px; color: var(--text); font-family: var(--font-body);
+  font-size: 1rem; resize: vertical; min-height: 52px; }
+.feedback textarea:focus { outline: none; border-color: var(--accent); }
+.fb-done { color: var(--ok); font-family: var(--font-mono); font-weight: 600; }
+.opt { color: var(--muted); font-weight: 400; font-size: .85em; }
+
 /* ── Bedankt ───────────────────────────────────────────────────────────── */
 .thanks { text-align: center; padding: clamp(30px,6vw,60px) 0; animation: rise .5s var(--ease) both; }
 .thanks .check { width: 64px; height: 64px; border-radius: 50%; background: color-mix(in srgb, var(--ok) 18%, transparent);

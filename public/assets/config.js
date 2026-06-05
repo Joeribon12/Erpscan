@@ -9,6 +9,9 @@ export const RUNTIME = {
   // geen aparte URL en geen CORS nodig.
   WORKER_ENDPOINT: "/api/lead",
 
+  // Endpoint voor de "Was deze scan behulpzaam?"-feedback (geen persoonsgegevens).
+  FEEDBACK_ENDPOINT: "/api/feedback",
+
   // Standaardscan als er geen pad/queryparam is opgegeven (de root "/").
   DEFAULT_SCAN: "algemeen",
 

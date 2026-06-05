@@ -33,6 +33,13 @@ export default {
       return handleLead(request, env);
     }
 
+    // ── Feedback-API ("Was deze scan behulpzaam?") — geen persoonsgegevens ──
+    if (url.pathname === "/api/feedback") {
+      if (request.method === "OPTIONS") return new Response(null, { status: 204 });
+      if (request.method !== "POST") return json({ error: "Method not allowed" }, 405);
+      return handleFeedback(request, env);
+    }
+
     // ── Statische assets (js/css/img/xml/...): direct serveren ─────────────
     const res = await env.ASSETS.fetch(request);
     const ct = res.headers.get("content-type") || "";
@@ -172,11 +179,41 @@ function validate(b) {
   if (!b || typeof b !== "object") return ["payload ontbreekt"];
   if (!b.scan_id) e.push("scan_id ontbreekt");
   const lead = b.lead || {};
-  if (!lead.name || String(lead.name).trim().length < 2) e.push("naam ongeldig");
-  if (!lead.organisation || String(lead.organisation).trim().length < 2) e.push("organisatie ongeldig");
+  // Slank: alleen geldig e-mail + consent verplicht (naam/organisatie optioneel).
   if (!lead.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(lead.email))) e.push("e-mail ongeldig");
   if (lead.consent !== true) e.push("consent verplicht");
   return e;
+}
+
+// Feedback verwerken: stuur 'm per e-mail door (geen persoonsgegevens, faalt nooit hard).
+async function handleFeedback(request, env) {
+  let b;
+  try { b = await request.json(); } catch { return json({ ok: true }, 200); }
+  if (env.RESEND_API_KEY && env.LEAD_FORWARD_EMAIL) {
+    const e = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    const helpful = b.helpful === "up" ? "👍 Ja, nuttig" : b.helpful === "down" ? "👎 Niet echt" : "—";
+    const html = `<div style="font-family:Arial,Helvetica,sans-serif;color:#1a1a1a">
+      <h2 style="margin:0 0 8px">Scan-feedback</h2>
+      <p style="font-size:18px;margin:0 0 12px"><b>${e(helpful)}</b></p>
+      <p style="color:#666">Scan: ${e(b.scan_title || b.scan_id)} — score ${e(b.total_score)}/100 (${e(b.verdict_label || "")})</p>
+      ${b.comment ? `<p><b>Opmerking:</b><br>${e(b.comment)}</p>` : ""}
+      <p style="color:#999;font-size:12px">Bron: ${e(b.meta?.url || "")}</p>
+    </div>`;
+    try {
+      const res = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          from: env.LEAD_FROM_EMAIL || "ERP Scan <onboarding@resend.dev>",
+          to: [env.LEAD_FORWARD_EMAIL],
+          subject: `Scan-feedback ${helpful} — ${b.scan_title || b.scan_id}`,
+          html,
+        }),
+      });
+      if (!res.ok) console.error("Feedback-mail faalde:", res.status, await res.text());
+    } catch (err) { console.error("Feedback-mail error:", err && err.stack ? err.stack : err); }
+  }
+  return json({ ok: true }, 200);
 }
 
 // ── E-mail doorsturen (Resend) ───────────────────────────────────────────────

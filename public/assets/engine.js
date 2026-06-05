@@ -122,7 +122,8 @@ function renderIntro() {
       </div>
     </section>`);
   app.replaceChildren(node);
-  $("#start").addEventListener("click", renderProfile);
+  // Profielvragen (omzet/omvang) overgeslagen: meteen naar de scanvragen.
+  $("#start").addEventListener("click", renderQuestions);
 }
 
 // ── 4b. Profielstap (kwalificatie) — verschijnt in elke scan ────────────────
@@ -280,10 +281,18 @@ function renderResult(result) {
     <h2 style="margin-top:36px">Per as: waar zit je winst?</h2>
     <div class="dims" id="dims"></div>
 
-    <div class="result-cta">
-      <button class="btn btn-primary" id="to-lead">Ontvang het volledige advies <span class="arrow">→</span></button>
-      <span class="submit-hint">Inclusief concrete next steps per as</span>
-    </div>
+    <section class="feedback card" id="fb">
+      <h2>Was deze scan behulpzaam?</h2>
+      <div class="fb-buttons">
+        <button type="button" class="fb-btn" data-v="up">👍 Ja, nuttig</button>
+        <button type="button" class="fb-btn" data-v="down">👎 Niet echt</button>
+      </div>
+      <textarea id="fb-comment" rows="2" placeholder="Wat zouden we beter kunnen doen? (optioneel)"></textarea>
+      <div class="form-foot">
+        <button class="btn btn-primary" id="fb-send" disabled>Versturen <span class="arrow">→</span></button>
+        <span class="form-status" id="fb-status"></span>
+      </div>
+    </section>
   </section>`);
 
   // Dimensies + meebewegend advies
@@ -312,7 +321,7 @@ function renderResult(result) {
   // Animaties: ring + cijfer tellen omhoog
   animateReveal(result.total, C);
 
-  $("#to-lead", node).addEventListener("click", () => renderLead(result));
+  wireFeedback(node, result);
   // Bewaar voor de submit-payload
   LAST_RESULT = result;
 }
@@ -443,6 +452,108 @@ async function onLeadSubmit(e, result) {
     status.textContent = "Versturen mislukte. Probeer het zo nog eens of mail ons direct.";
     console.error("Lead submit error:", err);
   }
+}
+
+// ── 5b. Feedback ("Was dit nuttig?") + optionele zachte lead ────────────────
+function wireFeedback(root, result) {
+  let chosen = null;
+  const btns = root.querySelectorAll(".fb-btn");
+  const send = $("#fb-send", root);
+  btns.forEach((b) => b.addEventListener("click", () => {
+    chosen = b.dataset.v;
+    btns.forEach((x) => x.classList.toggle("selected", x === b));
+    send.disabled = false;
+  }));
+  send.addEventListener("click", () => sendFeedback(root, result, chosen, $("#fb-comment", root).value));
+}
+
+async function sendFeedback(root, result, helpful, comment) {
+  const send = $("#fb-send", root), status = $("#fb-status", root);
+  send.disabled = true; status.className = "form-status"; status.textContent = "Versturen…";
+  const payload = {
+    scan_id: CFG.scan_id, scan_title: CFG.title, total_score: result.total,
+    verdict_label: result.verdict.label, helpful: helpful || null, comment: (comment || "").trim(),
+    meta: { url: location.href, submitted_at_client: new Date().toISOString() },
+  };
+  try {
+    await fetch(RUNTIME.FEEDBACK_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+  } catch (err) { console.error("Feedback error:", err); /* feedback is niet kritisch */ }
+  renderSoftLead(root, result);
+}
+
+// Na de feedback: vrijblijvende, slanke vraag om het advies te mailen.
+function renderSoftLead(root, result) {
+  const privacy = CFG.lead?.privacy_url || DEFAULT_PRIVACY_URL;
+  const fb = $("#fb", root);
+  fb.classList.remove("feedback");
+  fb.innerHTML = `
+    <div class="fb-done">✓ Bedankt voor je feedback!</div>
+    <h3 style="margin-top:14px">Wil je het volledige advies in je inbox? <span class="opt">(optioneel)</span></h3>
+    <p class="lede">We sturen je je diagnose en concrete next steps per as. Geen verplichting, geen spam.</p>
+    <form id="lead-form" novalidate>
+      <div class="form-grid">
+        <div class="field span-2" data-error="false">
+          <label for="lf-email">Zakelijk e-mailadres</label>
+          <input id="lf-email" name="email" type="email" autocomplete="email" placeholder="naam@bedrijf.nl" />
+          <span class="err" data-for="email"></span>
+        </div>
+        <div class="field span-2" data-error="false">
+          <label for="lf-name">Naam <span class="opt">(optioneel)</span></label>
+          <input id="lf-name" name="name" type="text" autocomplete="name" placeholder="Voor- en achternaam" />
+        </div>
+        <div class="consent" data-error="false">
+          <input id="lf-consent" name="consent" type="checkbox" />
+          <label for="lf-consent">Ik ga akkoord dat mijn e-mailadres wordt gebruikt om mij dit advies te sturen, conform het <a href="${esc(privacy)}" target="_blank" rel="noopener">privacybeleid</a>.</label>
+        </div>
+      </div>
+      <div class="form-foot">
+        <button class="btn btn-primary" type="submit" id="lead-submit">Stuur me het advies <span class="arrow">→</span></button>
+        <span class="form-status" id="lead-status"></span>
+      </div>
+    </form>`;
+  $("#lead-form", fb).addEventListener("submit", (e) => onSoftLeadSubmit(e, result));
+}
+
+function onSoftLeadSubmit(e, result) {
+  e.preventDefault();
+  const form = e.currentTarget;
+  const status = $("#lead-status");
+  const data = {
+    name: ($("#lf-name", form)?.value || "").trim(),
+    email: ($("#lf-email", form)?.value || "").trim(),
+    consent: $("#lf-consent", form)?.checked || false,
+  };
+
+  form.querySelectorAll("[data-error]").forEach((f) => (f.dataset.error = "false"));
+  form.querySelectorAll(".err").forEach((s) => (s.textContent = ""));
+  status.className = "form-status"; status.textContent = "";
+
+  const errs = {};
+  if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) errs.email = "Vul een geldig e-mailadres in.";
+  if (!data.consent) errs.consent = "Even akkoord geven om het advies te ontvangen.";
+  if (Object.keys(errs).length) {
+    Object.entries(errs).forEach(([k, msg]) => {
+      const span = form.querySelector(`.err[data-for="${k}"]`);
+      if (span) span.textContent = msg;
+      const field = (k === "consent") ? form.querySelector(".consent") : span?.closest(".field");
+      if (field) field.dataset.error = "true";
+    });
+    status.classList.add("error"); status.textContent = "Controleer de gemarkeerde velden.";
+    return;
+  }
+
+  const payload = {
+    scan_id: CFG.scan_id, scan_title: CFG.title, audience: CFG.audience || null,
+    total_score: result.total, verdict_label: result.verdict.label,
+    dimensions: result.dimensions, answers: result.detail,
+    lead: { name: data.name || "", organisation: "", email: data.email, phone: "", consent: true },
+    meta: { url: location.href, referrer: document.referrer || null, user_agent: navigator.userAgent, submitted_at_client: new Date().toISOString() },
+  };
+  const btn = $("#lead-submit"); btn.disabled = true;
+  status.textContent = "Versturen…";
+  fetch(RUNTIME.WORKER_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) })
+    .then((res) => { if (!res.ok) throw new Error("HTTP " + res.status); renderThanks(result); })
+    .catch((err) => { btn.disabled = false; status.classList.add("error"); status.textContent = "Versturen mislukte. Probeer het zo nog eens."; console.error("Lead submit error:", err); });
 }
 
 function renderThanks(result) {
