@@ -462,39 +462,34 @@ async function renderLanding() {
   setHeaderMeta("");
   let registry = [];
   try { registry = (await import("../scans/registry.js")).SCANS; } catch { /* registry optioneel */ }
-  const tiles = registry.map((s) => `
-    <a class="scan-tile" href="${esc(s.path || "/?scan=" + s.id)}">
-      <h3>${esc(s.title)}</h3>
-      <p>${esc(s.audience || "")}</p>
-      <span class="go">Start scan →</span>
-    </a>`).join("");
+  // De algemene scan staat centraal; de branchescans blijven vindbaar (uitklapbaar).
+  const niches = registry.filter((s) => s.id !== "erp-systeem-scan");
+  const nicheLinks = niches.map((s) => `<a href="${esc(s.path || "/?scan=" + s.id)}">${esc(s.title)}</a>`).join("");
 
   app.replaceChildren(el(`<div class="landing">
     <section class="hero">
-      <span class="eyebrow">ERP Growth Hack Scan</span>
+      <span class="eyebrow">Gratis ERP-systeem scan</span>
       <h1 class="hero-title">Je ERP bepaalt je toekomst.<br>Hoe futureproof is die van jou?</h1>
-      <p class="lede hero-lede">AI, S/4HANA, clean core en realtime data: het ERP-landschap verandert sneller dan ooit. Doe de gratis scan en weet binnen 3 minuten waar jij staat — én waar je grootste winst ligt.</p>
+      <p class="lede hero-lede">AI, S/4HANA, clean core en realtime data: het ERP-landschap verandert sneller dan ooit. Doe de gratis ERP-scan en weet binnen 3 minuten waar jij staat — én waar je grootste winst ligt.</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="/erp-systeem-scan">Start de gratis scan <span class="arrow">→</span></a>
-        <a class="btn btn-ghost" href="#scans">Of kies je branche ↓</a>
       </div>
       <div class="hero-stats">
-        <div><b>${registry.length || 10}</b><span>branchespecifieke scans</span></div>
         <div><b>5</b><span>assen: strategie, AI, clean core, data &amp; schaalbaarheid</span></div>
         <div><b>~3 min</b><span>tot je persoonlijke diagnose</span></div>
+        <div><b>gratis</b><span>direct inzicht, geen verkooppraatje</span></div>
       </div>
-    </section>
-
-    <section id="scans" class="scan-choose">
-      <h2>Kies de scan die bij je past</h2>
-      <p class="lede">Elke scan is toegespitst op een branche of rol, met scherpe vragen en concreet advies per as.</p>
-      ${registry.length ? `<div class="scan-list">${tiles}</div>` : `<p class="fatal">Nog geen scans geregistreerd in <code>/scans/registry.js</code>.</p>`}
     </section>
 
     <section class="home-explainer">
       <h2>Wat is een ERP-systeem?</h2>
       <p class="lede">Een ERP-systeem (Enterprise Resource Planning) is het centrale systeem waarin je financiën, inkoop, voorraad, productie en meer beheert. Benieuwd naar de ERP-betekenis, voorbeelden zoals SAP ERP en waarom een futureproof ERP-systeem telt? <a href="/info/wat-is-erp">Lees: wat is een ERP-systeem? →</a></p>
     </section>
+
+    ${niches.length ? `<details class="sectors">
+      <summary>Werk je in een specifieke sector? Bekijk de branchescans</summary>
+      <div class="sector-links">${nicheLinks}</div>
+    </details>` : ""}
 
     <p class="kennis-cta">Liever eerst inlezen? Bekijk de <a href="/info">kennisbank met feiten &amp; inzichten over ERP →</a></p>
   </div>`));

@@ -260,6 +260,20 @@ a:hover { text-decoration: underline; }
 .scan-choose > .lede { max-width: 56ch; margin-top: 2px; }
 .kennis-cta { margin-top: 34px; color: var(--text-soft); }
 
+/* Discreet uitklapblok met de branchescans (vindbaar, niet prominent) */
+.sectors { margin-top: clamp(34px, 6vw, 50px); border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--surface); padding: 2px 18px; }
+.sectors summary { cursor: pointer; padding: 15px 0; font-family: var(--font-display); font-weight: 500;
+  color: var(--text-soft); list-style: none; }
+.sectors summary::-webkit-details-marker { display: none; }
+.sectors summary::before { content: "▸"; color: var(--accent); margin-right: 9px; display: inline-block; transition: transform .15s; }
+.sectors[open] summary::before { transform: rotate(90deg); }
+.sectors summary:hover { color: var(--accent); }
+.sector-links { display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 0 18px; }
+.sector-links a { font-size: .9rem; color: var(--text-soft); border: 1px solid var(--line); border-radius: 99px;
+  padding: 7px 14px; transition: border-color .15s, color .15s; }
+.sector-links a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
 .scan-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 16px; margin-top: 26px; }
 .scan-tile { display: block; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
   padding: 22px; transition: border-color .15s, transform .12s var(--ease); }
