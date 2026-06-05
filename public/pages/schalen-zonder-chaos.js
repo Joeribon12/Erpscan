@@ -42,7 +42,7 @@ export default {
       items: [
         { label: "Bedrijfsprocessen automatiseren", href: "/info/processen-automatiseren" },
         { label: "ERP-systeem optimaliseren: 7 hefbomen", href: "/info/optimaliseren" },
-        { label: "ERP-scan voor zakelijke dienstverlening", href: "/dienstverlening" },
+        { label: "ERP-scan voor zakelijke dienstverlening", href: "/erp-scan-dienstverlening" },
       ],
     },
   ],
@@ -50,7 +50,7 @@ export default {
   cta: {
     heading: "Schaalt jouw ERP-landschap mee?",
     body: "Schaalbaarheid is één van de vijf assen in de gratis ERP-scan. Ontdek waar jouw groei nu op vastloopt.",
-    label: "Doe de ERP-scan", href: "/algemeen",
+    label: "Doe de ERP-scan", href: "/erp-systeem-scan",
   },
   sources: ["Indicatieve richtcijfers; vul aan met eigen praktijkvoorbeelden."],
 };

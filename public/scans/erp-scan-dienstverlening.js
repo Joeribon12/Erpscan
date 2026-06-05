@@ -4,7 +4,7 @@
 // ══════════════════════════════════════════════════════════════════════════
 
 export default {
-  scan_id: "dienstverlening",
+  scan_id: "erp-scan-dienstverlening",
   title: "Declarabel & schaalbaar? Scan je ERP-landschap",
   eyebrow: "Zakelijke dienstverlening",
   audience: "Voor IT-, finance- & operations-leiders in dienstverlening",

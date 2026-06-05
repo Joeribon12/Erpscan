@@ -4,7 +4,7 @@
 // ══════════════════════════════════════════════════════════════════════════
 
 export default {
-  scan_id: "utilities",
+  scan_id: "erp-scan-energie",
   title: "Klaar voor de energietransitie? Scan je ERP-landschap",
   eyebrow: "Energie & nutsbedrijven",
   audience: "Voor IT-, asset- & klantprocesleiders in utilities",

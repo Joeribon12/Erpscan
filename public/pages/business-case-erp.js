@@ -56,7 +56,7 @@ export default {
   cta: {
     heading: "Bouw je business case op feiten",
     body: "De gratis ERP-scan geeft een onafhankelijke nulmeting per as — een sterk startpunt voor je business case.",
-    label: "Doe de ERP-scan", href: "/algemeen",
+    label: "Doe de ERP-scan", href: "/erp-systeem-scan",
   },
   sources: ["Algemene uitleg; baten zijn situatieafhankelijk en indicatief."],
 };

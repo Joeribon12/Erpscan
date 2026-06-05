@@ -4,7 +4,7 @@
 // ══════════════════════════════════════════════════════════════════════════
 
 export default {
-  scan_id: "finance",
+  scan_id: "erp-scan-finance",
   title: "Future-finance? Scan je financiële ERP-landschap",
   eyebrow: "Finance & control",
   audience: "Voor CFO's, finance managers & controllers",

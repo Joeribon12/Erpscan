@@ -54,7 +54,7 @@ export default {
   cta: {
     heading: "Staat je fundament klaar voor een nieuw systeem?",
     body: "De gratis ERP-scan brengt strategie, data, processen en techniek in kaart — een goede nulmeting vóór elk traject.",
-    label: "Doe de ERP-scan", href: "/algemeen",
+    label: "Doe de ERP-scan", href: "/erp-systeem-scan",
   },
   sources: ["Gebaseerd op algemeen geaccepteerde implementatie-best-practices."],
 };

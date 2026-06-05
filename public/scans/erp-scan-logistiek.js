@@ -4,7 +4,7 @@
 // ══════════════════════════════════════════════════════════════════════════
 
 export default {
-  scan_id: "logistiek",
+  scan_id: "erp-scan-logistiek",
   title: "Supply chain op koers? Scan je ERP-landschap",
   eyebrow: "Transport & logistiek",
   audience: "Voor IT-, supply chain- & operations-leiders",

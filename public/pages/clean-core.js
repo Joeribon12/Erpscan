@@ -46,7 +46,7 @@ export default {
       items: [
         { label: "SAP ECC naar S/4HANA", href: "/info/s4hana" },
         { label: "ERP in de cloud of on-premise?", href: "/info/cloud-of-onpremise" },
-        { label: "ERP-scan voor de maakindustrie", href: "/maakindustrie" },
+        { label: "ERP-scan voor de maakindustrie", href: "/erp-scan-maakindustrie" },
       ],
     },
   ],
@@ -54,7 +54,7 @@ export default {
   cta: {
     heading: "Hoe schoon is jouw ERP-kern?",
     body: "Clean core & techniek is een aparte as in de gratis ERP-scan. Ontdek hoe wendbaar je systeem is.",
-    label: "Doe de ERP-scan", href: "/algemeen",
+    label: "Doe de ERP-scan", href: "/erp-systeem-scan",
   },
   sources: ["Algemene uitleg van het clean core-principe."],
 };

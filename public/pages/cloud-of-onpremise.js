@@ -54,7 +54,7 @@ export default {
   cta: {
     heading: "Hoe actueel is jouw ERP-platform?",
     body: "Clean core & techniek is één van de assen in de gratis ERP-scan. Ontdek hoe futureproof je platform is.",
-    label: "Doe de ERP-scan", href: "/algemeen",
+    label: "Doe de ERP-scan", href: "/erp-systeem-scan",
   },
   sources: ["Vergelijking is algemeen indicatief; de juiste keuze is situatieafhankelijk."],
 };

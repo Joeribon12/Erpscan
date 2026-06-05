@@ -46,7 +46,7 @@ export default {
     heading: "Benieuwd hoe futureproof jouw ERP is?",
     body: "Doe de gratis scan en krijg in ~3 minuten een concrete diagnose met verbeterpunten per as.",
     label: "Doe de ERP-scan",
-    href: "/algemeen",
+    href: "/erp-systeem-scan",
   },
 
   sources: [

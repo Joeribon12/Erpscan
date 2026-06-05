@@ -46,7 +46,7 @@ export default {
       heading: "Verder lezen",
       items: [
         { label: "Datakwaliteit verbeteren", href: "/info/datakwaliteit" },
-        { label: "ERP-scan finance & control", href: "/finance" },
+        { label: "ERP-scan finance & control", href: "/erp-scan-finance" },
         { label: "ERP-systeem optimaliseren", href: "/info/optimaliseren" },
       ],
     },
@@ -55,7 +55,7 @@ export default {
   cta: {
     heading: "Hoeveel realtime inzicht heb jij?",
     body: "De gratis ERP-scan meet onder meer hoe goed jij stuurt op data. Ontdek je blinde vlekken.",
-    label: "Doe de ERP-scan", href: "/algemeen",
+    label: "Doe de ERP-scan", href: "/erp-systeem-scan",
   },
   sources: ["Richtgetallen zijn indicatief."],
 };

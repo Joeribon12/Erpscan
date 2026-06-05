@@ -4,7 +4,7 @@
 // ══════════════════════════════════════════════════════════════════════════
 
 export default {
-  scan_id: "food",
+  scan_id: "erp-scan-food",
   title: "Food-proof? Scan je ERP-landschap",
   eyebrow: "Food & beverage · procesindustrie",
   audience: "Voor IT-, productie- & kwaliteitsleiders in food",

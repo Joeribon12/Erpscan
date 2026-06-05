@@ -5,7 +5,7 @@
 // ══════════════════════════════════════════════════════════════════════════
 
 export default {
-  scan_id: "retail",
+  scan_id: "erp-scan-retail",
   title: "Retail-ready? Scan je omnichannel ERP-landschap",
   eyebrow: "Retail & e-commerce",
   audience: "Voor IT- & e-commerce-verantwoordelijken in retail",

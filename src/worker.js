@@ -5,7 +5,7 @@
 // (geen lokale tooling nodig). Hij doet twee dingen:
 //   1. POST /api/lead   -> valideert de lead en stuurt 'm per e-mail door
 //   2. al het andere    -> serveert statische bestanden uit /public (met
-//                          SPA-fallback naar index.html voor /maakindustrie etc.)
+//                          SPA-fallback naar index.html voor /erp-scan-maakindustrie etc.)
 //
 // 🔒 Het ontvangende e-mailadres staat NERGENS in code/frontend/repo, maar
 //    uitsluitend als SECRET (LEAD_FORWARD_EMAIL) in het Cloudflare-dashboard.
@@ -21,6 +21,10 @@
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+
+    // ── 301-redirects: oude scan-URL's -> nieuwe keyword-slugs ─────────────
+    const redirectTo = REDIRECTS[url.pathname];
+    if (redirectTo) return Response.redirect(SITE_ORIGIN + redirectTo, 301);
 
     // ── Lead-API ──────────────────────────────────────────────────────────
     if (url.pathname === "/api/lead") {
@@ -80,18 +84,32 @@ function injectSEO(html, m, canonical) {
 // Vaste canonieke origin (zo wijzen canonical/og:url altijd naar het hoofddomein).
 const SITE_ORIGIN = "https://erp-scan.net";
 
+// Oude scan-paden -> nieuwe keyword-slugs (301).
+const REDIRECTS = {
+  "/algemeen": "/erp-systeem-scan",
+  "/maakindustrie": "/erp-scan-maakindustrie",
+  "/retail": "/erp-scan-retail",
+  "/groothandel": "/erp-scan-groothandel",
+  "/food": "/erp-scan-food",
+  "/finance": "/erp-scan-finance",
+  "/logistiek": "/erp-scan-logistiek",
+  "/bouw": "/erp-scan-bouw",
+  "/utilities": "/erp-scan-energie",
+  "/dienstverlening": "/erp-scan-dienstverlening",
+};
+
 const SEO = {
   "/": { t: "ERP-systeem scan: hoe futureproof is jouw ERP?", d: "Doe de gratis ERP-scan en ontdek in 3 minuten hoe futureproof je ERP-systeem is, met concreet advies per as. Voor SAP ERP, S/4HANA en andere systemen." },
-  "/algemeen": { t: "ERP Futureproof Scan: test je ERP-systeem gratis", d: "Hoe futureproof is jouw ERP-systeem? Doe de gratis ERP-scan en krijg een diagnose met verbeterpunten op strategie, AI, clean core, data en schaalbaarheid." },
-  "/maakindustrie": { t: "ERP-scan maakindustrie: van SAP ECC naar S/4HANA", d: "Hoe klaar is je ERP-systeem voor S/4HANA? Gratis ERP-scan voor de maakindustrie op SAP ERP (ECC), met advies richting de 2027-deadline." },
-  "/retail": { t: "ERP-scan retail & e-commerce: futureproof ERP-systeem?", d: "Hoe futureproof is je ERP-systeem voor omnichannel retail? Doe de gratis ERP-scan en zie waar voorraad, data of marges je remmen." },
-  "/groothandel": { t: "ERP-scan groothandel & distributie", d: "Hoe sterk staat je ERP-systeem in de groothandel? Gratis ERP-scan met advies over marge, voorraad, EDI en schaalbaarheid." },
-  "/food": { t: "ERP-scan food & beverage: traceability & compliance", d: "Hoe food-proof is je ERP-systeem? Gratis ERP-scan over batchtracering, kwaliteit, data en schaalbaarheid in de voedingsindustrie." },
-  "/finance": { t: "ERP-scan finance & control voor de CFO", d: "Hoe futureproof is je financiële ERP-systeem? Gratis ERP-scan over afsluiting, data, AI en S/4HANA Finance." },
-  "/logistiek": { t: "ERP-scan transport & logistiek / supply chain", d: "Hoe sterk is je ERP-systeem in de logistiek? Gratis ERP-scan over planning, WMS/TMS-integratie, data en schaalbaarheid." },
-  "/bouw": { t: "ERP-scan bouw & installatietechniek", d: "Grip op je projecten? Gratis ERP-scan voor de bouw over onderhanden werk, marge en de schaalbaarheid van je ERP-systeem." },
-  "/utilities": { t: "ERP-scan energie & nutsbedrijven", d: "Is je ERP-systeem klaar voor de energietransitie? Gratis ERP-scan over asset management, meter-to-cash, data en schaalbaarheid." },
-  "/dienstverlening": { t: "ERP-scan zakelijke dienstverlening", d: "Declarabel en schaalbaar? Gratis ERP-scan voor projectorganisaties over bezetting, marge en je ERP-systeem." },
+  "/erp-systeem-scan": { t: "ERP Futureproof Scan: test je ERP-systeem gratis", d: "Hoe futureproof is jouw ERP-systeem? Doe de gratis ERP-scan en krijg een diagnose met verbeterpunten op strategie, AI, clean core, data en schaalbaarheid." },
+  "/erp-scan-maakindustrie": { t: "ERP-scan maakindustrie: van SAP ECC naar S/4HANA", d: "Hoe klaar is je ERP-systeem voor S/4HANA? Gratis ERP-scan voor de maakindustrie op SAP ERP (ECC), met advies richting de 2027-deadline." },
+  "/erp-scan-retail": { t: "ERP-scan retail & e-commerce: futureproof ERP-systeem?", d: "Hoe futureproof is je ERP-systeem voor omnichannel retail? Doe de gratis ERP-scan en zie waar voorraad, data of marges je remmen." },
+  "/erp-scan-groothandel": { t: "ERP-scan groothandel & distributie", d: "Hoe sterk staat je ERP-systeem in de groothandel? Gratis ERP-scan met advies over marge, voorraad, EDI en schaalbaarheid." },
+  "/erp-scan-food": { t: "ERP-scan food & beverage: traceability & compliance", d: "Hoe food-proof is je ERP-systeem? Gratis ERP-scan over batchtracering, kwaliteit, data en schaalbaarheid in de voedingsindustrie." },
+  "/erp-scan-finance": { t: "ERP-scan finance & control voor de CFO", d: "Hoe futureproof is je financiële ERP-systeem? Gratis ERP-scan over afsluiting, data, AI en S/4HANA Finance." },
+  "/erp-scan-logistiek": { t: "ERP-scan transport & logistiek / supply chain", d: "Hoe sterk is je ERP-systeem in de logistiek? Gratis ERP-scan over planning, WMS/TMS-integratie, data en schaalbaarheid." },
+  "/erp-scan-bouw": { t: "ERP-scan bouw & installatietechniek", d: "Grip op je projecten? Gratis ERP-scan voor de bouw over onderhanden werk, marge en de schaalbaarheid van je ERP-systeem." },
+  "/erp-scan-energie": { t: "ERP-scan energie & nutsbedrijven", d: "Is je ERP-systeem klaar voor de energietransitie? Gratis ERP-scan over asset management, meter-to-cash, data en schaalbaarheid." },
+  "/erp-scan-dienstverlening": { t: "ERP-scan zakelijke dienstverlening", d: "Declarabel en schaalbaar? Gratis ERP-scan voor projectorganisaties over bezetting, marge en je ERP-systeem." },
   "/info": { t: "ERP kennisbank: wat is ERP & je ERP-systeem optimaliseren", d: "Wat is ERP en hoe optimaliseer je je ERP-systeem? Korte, scherpe artikelen over ERP, SAP ERP, S/4HANA en AI." },
   "/info/wat-is-erp": {
     t: "Wat is ERP? Betekenis van een ERP-systeem uitgelegd",

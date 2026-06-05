@@ -13,7 +13,7 @@
 // ══════════════════════════════════════════════════════════════════════════
 
 export default {
-  scan_id: "algemeen",
+  scan_id: "erp-systeem-scan",
   title: "Hoe futureproof is jouw ERP-landschap?",
   eyebrow: "ERP Futureproof Scan",
   audience: "Voor CIO's & IT-managers",

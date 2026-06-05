@@ -49,7 +49,7 @@ export default {
     heading: "Hoe S/4HANA-ready ben jij?",
     body: "De maakindustrie-scan meet in tien vragen je gereedheid — van migratiestrategie tot clean core, data en productieprocessen.",
     label: "Doe de S/4HANA-scan",
-    href: "/maakindustrie",
+    href: "/erp-scan-maakindustrie",
   },
 
   sources: [

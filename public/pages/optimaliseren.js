@@ -36,7 +36,7 @@ export default {
     heading: "Welke hefboom levert jóu het meeste op?",
     body: "De scan brengt per as in kaart waar jouw grootste winst zit — met een concreet verbeterpunt op jouw niveau.",
     label: "Doe de ERP-scan",
-    href: "/algemeen",
+    href: "/erp-systeem-scan",
   },
 
   sources: [

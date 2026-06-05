@@ -475,7 +475,7 @@ async function renderLanding() {
       <h1 class="hero-title">Je ERP bepaalt je toekomst.<br>Hoe futureproof is die van jou?</h1>
       <p class="lede hero-lede">AI, S/4HANA, clean core en realtime data: het ERP-landschap verandert sneller dan ooit. Doe de gratis scan en weet binnen 3 minuten waar jij staat — én waar je grootste winst ligt.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="/algemeen">Start de gratis scan <span class="arrow">→</span></a>
+        <a class="btn btn-primary" href="/erp-systeem-scan">Start de gratis scan <span class="arrow">→</span></a>
         <a class="btn btn-ghost" href="#scans">Of kies je branche ↓</a>
       </div>
       <div class="hero-stats">

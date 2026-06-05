@@ -4,7 +4,7 @@
 // ══════════════════════════════════════════════════════════════════════════
 
 export default {
-  scan_id: "bouw",
+  scan_id: "erp-scan-bouw",
   title: "Grip op je projecten? Scan je ERP-landschap",
   eyebrow: "Bouw & installatietechniek",
   audience: "Voor IT-, project- & finance-leiders in bouw/installatie",

@@ -4,7 +4,7 @@
 // ══════════════════════════════════════════════════════════════════════════
 
 export default {
-  scan_id: "groothandel",
+  scan_id: "erp-scan-groothandel",
   title: "Groothandel futureproof? Scan je ERP-landschap",
   eyebrow: "Groothandel & distributie",
   audience: "Voor IT- & operations-leiders in groothandel",

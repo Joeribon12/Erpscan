@@ -52,7 +52,7 @@ export default {
   cta: {
     heading: "Hoeveel automatiseringswinst laat jij liggen?",
     body: "De gratis ERP-scan laat zien waar handwerk en uitzonderingen je remmen — en waar de snelste winst zit.",
-    label: "Doe de ERP-scan", href: "/algemeen",
+    label: "Doe de ERP-scan", href: "/erp-systeem-scan",
   },
   sources: ["Algemene uitleg; vul aan met eigen voorbeelden."],
 };

@@ -47,7 +47,7 @@ export default {
   cta: {
     heading: "Hoe AI-ready is jouw ERP-landschap?",
     body: "De gratis ERP-scan meet je AI-readiness als aparte as — naast strategie, clean core, data en schaalbaarheid.",
-    label: "Doe de ERP-scan", href: "/algemeen",
+    label: "Doe de ERP-scan", href: "/erp-systeem-scan",
   },
   sources: ["Cijfers zijn indicatief en illustratief; vul aan met eigen praktijkvoorbeelden vóór publicatie."],
 };
