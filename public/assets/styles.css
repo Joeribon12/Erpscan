@@ -1,28 +1,28 @@
 /* ════════════════════════════════════════════════════════════════════════
    ERP Growth Hack Scan — design system
-   Donker, zakelijk, één warm-gouden accent. Geen paarse gradients, geen Inter.
+   Licht & zakelijk: wit canvas met één betrouwbaar blauw accent. Geen Inter.
    ════════════════════════════════════════════════════════════════════════ */
 
 :root {
-  /* Kleur — near-black canvas, koele grijstinten, één warm accent */
-  --bg:        #0b0e13;
-  --bg-soft:   #11151c;
-  --surface:   #161b24;
-  --surface-2: #1d2430;
-  --line:      #28303d;
-  --line-soft: #1f2733;
+  /* Kleur — licht/wit canvas, koel grijs, één betrouwbaar blauw accent */
+  --bg:        #ffffff;
+  --bg-soft:   #f4f7fb;
+  --surface:   #ffffff;
+  --surface-2: #eaeff7;
+  --line:      #e1e7f0;
+  --line-soft: #eef2f7;
 
-  --text:      #e8ecf2;
-  --text-soft: #aab4c4;
-  --muted:     #6f7c90;
+  --text:      #0f1b2e;
+  --text-soft: #46566b;
+  --muted:     #8593a6;
 
-  --accent:    #f4b740;   /* signaal-goud */
-  --accent-dim:#caa23f;
-  --accent-ink:#1a1407;   /* tekst óp het accent */
+  --accent:    #2563eb;   /* vertrouwd blauw */
+  --accent-dim:#1d4ed8;
+  --accent-ink:#ffffff;   /* tekst óp het accent */
 
-  --ok:        #4ad6a8;
-  --warn:      #f4b740;
-  --bad:       #f1683c;
+  --ok:        #16a34a;
+  --warn:      #d97706;
+  --bad:       #dc2626;
 
   /* Typografie */
   --font-display: "Space Grotesk", system-ui, sans-serif;
@@ -33,7 +33,7 @@
   --wrap: 880px;
   --radius: 14px;
   --radius-sm: 9px;
-  --shadow: 0 18px 50px -20px rgba(0,0,0,.7);
+  --shadow: 0 16px 40px -18px rgba(15,27,46,.16);
   --ease: cubic-bezier(.2,.7,.2,1);
 }
 
@@ -44,7 +44,7 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   background:
-    radial-gradient(1200px 600px at 80% -10%, rgba(244,183,64,.06), transparent 60%),
+    radial-gradient(1100px 600px at 85% -8%, rgba(37,99,235,.07), transparent 60%),
     var(--bg);
   color: var(--text);
   font-family: var(--font-body);
@@ -79,7 +79,7 @@ a:hover { text-decoration: underline; }
 .brand { display: flex; align-items: baseline; gap: 10px; color: var(--text); }
 .brand:hover { text-decoration: none; }
 .brand-mark { width: 12px; height: 12px; border-radius: 3px; background: var(--accent);
-  box-shadow: 0 0 0 4px rgba(244,183,64,.14); transform: translateY(1px); }
+  box-shadow: 0 0 0 4px rgba(37,99,235,.14); transform: translateY(1px); }
 .brand-name { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; letter-spacing: .02em; }
 .brand-sub { color: var(--muted); font-size: .82rem; font-family: var(--font-mono); }
 .header-meta { color: var(--muted); font-size: .8rem; font-family: var(--font-mono); }
@@ -103,7 +103,7 @@ a:hover { text-decoration: underline; }
   font-size: 1rem; border: 0; border-radius: 10px; padding: 14px 22px; cursor: pointer; transition: transform .12s var(--ease), background .2s; }
 .btn:disabled { opacity: .4; cursor: not-allowed; }
 .btn-primary { background: var(--accent); color: var(--accent-ink); }
-.btn-primary:not(:disabled):hover { transform: translateY(-2px); background: #ffc756; }
+.btn-primary:not(:disabled):hover { transform: translateY(-2px); background: #1d4ed8; }
 .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
 .btn-ghost:hover { border-color: var(--accent); }
 .btn .arrow { transition: transform .15s var(--ease); }
@@ -412,7 +412,7 @@ table.cmp td:first-child { color: var(--text); font-weight: 500; }
   cursor: pointer; transition: transform .1s var(--ease);
 }
 .profile-field input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.12); }
-.profile-field input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgba(244,183,64,.3); }
+.profile-field input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgba(37,99,235,.3); }
 .profile-field input[type=range]::-moz-range-thumb {
   width: 22px; height: 22px; border-radius: 50%; background: var(--accent);
   border: 3px solid var(--bg); box-shadow: 0 0 0 1px var(--accent); cursor: pointer;
