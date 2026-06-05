@@ -49,7 +49,7 @@ async function servePage(env, url, matched) {
     html = await idx.text();
   }
   const m = SEO[url.pathname] || SEO["/"];
-  return new Response(injectSEO(html, m, url.origin + url.pathname), {
+  return new Response(injectSEO(html, m, SITE_ORIGIN + url.pathname), {
     status: 200,
     headers: { "content-type": "text/html; charset=utf-8" },
   });
@@ -76,6 +76,9 @@ function injectSEO(html, m, canonical) {
   }
   return html.replace("</head>", head + "</head>");
 }
+
+// Vaste canonieke origin (zo wijzen canonical/og:url altijd naar het hoofddomein).
+const SITE_ORIGIN = "https://erp-scan.net";
 
 const SEO = {
   "/": { t: "ERP-systeem scan: hoe futureproof is jouw ERP?", d: "Doe de gratis ERP-scan en ontdek in 3 minuten hoe futureproof je ERP-systeem is, met concreet advies per as. Voor SAP ERP, S/4HANA en andere systemen." },
