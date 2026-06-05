@@ -488,22 +488,26 @@ function renderSoftLead(root, result) {
   fb.classList.remove("feedback");
   fb.innerHTML = `
     <div class="fb-done">✓ Bedankt voor je feedback!</div>
-    <h3 style="margin-top:14px">Wil je het volledige advies in je inbox? <span class="opt">(optioneel)</span></h3>
-    <p class="lede">We sturen je je diagnose en concrete next steps per as. Geen verplichting, geen spam.</p>
+    <h3 style="margin-top:14px">Wil je het volledige advies in je inbox? <span class="optional">(optioneel)</span></h3>
+    <p class="lede">We sturen je je diagnose en concrete next steps per as toe. Geen verplichting, geen spam — alleen je e-mailadres is nodig.</p>
     <form id="lead-form" novalidate>
       <div class="form-grid">
         <div class="field span-2" data-error="false">
-          <label for="lf-email">Zakelijk e-mailadres</label>
+          <label for="lf-email">Zakelijk e-mailadres <span class="req">*</span></label>
           <input id="lf-email" name="email" type="email" autocomplete="email" placeholder="naam@bedrijf.nl" />
           <span class="err" data-for="email"></span>
         </div>
-        <div class="field span-2" data-error="false">
-          <label for="lf-name">Naam <span class="opt">(optioneel)</span></label>
+        <div class="field" data-error="false">
+          <label for="lf-name">Naam <span class="optional">(optioneel)</span></label>
           <input id="lf-name" name="name" type="text" autocomplete="name" placeholder="Voor- en achternaam" />
+        </div>
+        <div class="field" data-error="false">
+          <label for="lf-org">Organisatie <span class="optional">(optioneel)</span></label>
+          <input id="lf-org" name="organisation" type="text" autocomplete="organization" placeholder="Bedrijfsnaam" />
         </div>
         <div class="consent" data-error="false">
           <input id="lf-consent" name="consent" type="checkbox" />
-          <label for="lf-consent">Ik ga akkoord dat mijn e-mailadres wordt gebruikt om mij dit advies te sturen, conform het <a href="${esc(privacy)}" target="_blank" rel="noopener">privacybeleid</a>.</label>
+          <label for="lf-consent">Ik ga akkoord dat mijn gegevens worden gebruikt om mij dit advies te sturen, conform het <a href="${esc(privacy)}" target="_blank" rel="noopener">privacybeleid</a>. <span class="req">*</span></label>
         </div>
       </div>
       <div class="form-foot">
@@ -520,6 +524,7 @@ function onSoftLeadSubmit(e, result) {
   const status = $("#lead-status");
   const data = {
     name: ($("#lf-name", form)?.value || "").trim(),
+    organisation: ($("#lf-org", form)?.value || "").trim(),
     email: ($("#lf-email", form)?.value || "").trim(),
     consent: $("#lf-consent", form)?.checked || false,
   };
@@ -546,7 +551,7 @@ function onSoftLeadSubmit(e, result) {
     scan_id: CFG.scan_id, scan_title: CFG.title, audience: CFG.audience || null,
     total_score: result.total, verdict_label: result.verdict.label,
     dimensions: result.dimensions, answers: result.detail,
-    lead: { name: data.name || "", organisation: "", email: data.email, phone: "", consent: true },
+    lead: { name: data.name || "", organisation: data.organisation || "", email: data.email, phone: "", consent: true },
     meta: { url: location.href, referrer: document.referrer || null, user_agent: navigator.userAgent, submitted_at_client: new Date().toISOString() },
   };
   const btn = $("#lead-submit"); btn.disabled = true;

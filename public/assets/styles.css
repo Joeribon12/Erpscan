@@ -248,7 +248,7 @@ a:hover { text-decoration: underline; }
   font-size: 1rem; resize: vertical; min-height: 52px; }
 .feedback textarea:focus { outline: none; border-color: var(--accent); }
 .fb-done { color: var(--ok); font-family: var(--font-mono); font-weight: 600; }
-.opt { color: var(--muted); font-weight: 400; font-size: .85em; }
+.optional { color: var(--muted); font-weight: 400; font-size: .85em; }
 
 /* ── Bedankt ───────────────────────────────────────────────────────────── */
 .thanks { text-align: center; padding: clamp(30px,6vw,60px) 0; animation: rise .5s var(--ease) both; }
