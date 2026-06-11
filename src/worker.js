@@ -43,6 +43,12 @@ export default {
     // ── Statische assets (js/css/img/xml/...): direct serveren ─────────────
     const res = await env.ASSETS.fetch(request);
     const ct = res.headers.get("content-type") || "";
+    // 304 Not Modified: de browser revalideert een gecachete asset (engine.js,
+    // config.js, styles.css, scan-modules ...). Dit MOET rechtstreeks terug —
+    // anders valt het door naar servePage en krijgt de browser index.html (HTML)
+    // terug op een verzoek om JavaScript, faalt de module en blijft de pagina
+    // blanco (zichtbaar als "soms meerdere keren refreshen vóór de pagina laadt").
+    if (res.status === 304) return res;
     if (res.status === 200 && !ct.includes("text/html")) return res;
 
     // ── HTML-paginaroute: index.html met per-route SEO-meta (titel,

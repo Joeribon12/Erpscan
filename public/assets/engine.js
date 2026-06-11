@@ -18,6 +18,21 @@ const esc = (s) =>
 // Bouw een element uit een HTML-string.
 const el = (html) => { const t = document.createElement("template"); t.innerHTML = html.trim(); return t.content.firstElementChild; };
 
+// Dynamische import met herkansing: een enkele netwerk-/cache-hapering bij het
+// laden van een module mag de pagina niet blanco laten. We proberen het een
+// paar keer met korte pauze; pas daarna geven we de fout door.
+async function importWithRetry(path, tries = 3) {
+  let lastErr;
+  for (let i = 0; i < tries; i++) {
+    try { return await import(path); }
+    catch (e) {
+      lastErr = e;
+      if (i < tries - 1) await new Promise((r) => setTimeout(r, 250 * (i + 1)));
+    }
+  }
+  throw lastErr;
+}
+
 // ── 1. Welke route? ─────────────────────────────────────────────────────────
 // Bepaalt wat we renderen op basis van pad of queryparam.
 //   ""                -> landing (scan-keuze)
@@ -577,7 +592,7 @@ function renderThanks(result) {
 async function renderLanding() {
   setHeaderMeta("");
   let registry = [];
-  try { registry = (await import("../scans/registry.js")).SCANS; } catch { /* registry optioneel */ }
+  try { registry = (await importWithRetry("../scans/registry.js")).SCANS; } catch { /* registry optioneel */ }
   // De algemene scan staat centraal; de branchescans blijven vindbaar (uitklapbaar).
   const niches = registry.filter((s) => s.id !== "erp-systeem-scan");
   const nicheLinks = niches.map((s) => `<a href="${esc(s.path || "/?scan=" + s.id)}">${esc(s.title)}</a>`).join("");
@@ -616,7 +631,7 @@ async function renderInfoIndex() {
   setHeaderMeta("");
   document.title = "Kennisbank — ERP Scan";
   let registry = [];
-  try { registry = (await import("../pages/registry.js")).PAGES; } catch { /* registry optioneel */ }
+  try { registry = (await importWithRetry("../pages/registry.js")).PAGES; } catch { /* registry optioneel */ }
   const tiles = registry.map((p) => `
     <a class="scan-tile" href="${esc(p.path || "/info/" + p.id)}">
       <h3>${esc(p.title)}</h3>
@@ -723,7 +738,7 @@ function renderFatal(id, errs, kind = "scan") {
 // ── 7. Loaders per type ──────────────────────────────────────────────────────
 async function loadScan(scanId) {
   let mod;
-  try { mod = await import(`../scans/${scanId}.js`); }
+  try { mod = await importWithRetry(`../scans/${scanId}.js`); }
   catch (e) { console.error(e); return renderFatal(scanId); }
   const cfg = mod.default || mod.config;
   const errs = validateConfig(cfg);
@@ -737,7 +752,7 @@ async function loadScan(scanId) {
 
 async function loadArticle(id) {
   let mod;
-  try { mod = await import(`../pages/${id}.js`); }
+  try { mod = await importWithRetry(`../pages/${id}.js`); }
   catch (e) { console.error(e); return renderFatal(id, null, "info"); }
   const cfg = mod.default || mod.config;
   if (!cfg || !cfg.title) return renderFatal(id, ["title ontbreekt in de pagina-config"], "info");
@@ -757,4 +772,16 @@ async function boot() {
   return loadScan(route.id);
 }
 
-boot();
+// Markeer een geslaagde start zodat het vangnet in index.html weet dat de app
+// daadwerkelijk iets heeft gerenderd (en dus niet hoeft te herladen).
+boot()
+  .then(() => { window.__APP_OK__ = true; })
+  .catch((err) => {
+    console.error("Boot mislukte:", err);
+    window.__APP_OK__ = true; // laat het vangnet niet eindeloos herladen
+    app.replaceChildren(el(`<section class="fatal" style="text-align:center">
+      <h1>De pagina kon niet laden</h1>
+      <p>Er ging iets mis bij het opstarten. Ververs de pagina om het opnieuw te proberen.</p>
+      <p><button class="btn btn-primary" onclick="location.reload()">Opnieuw laden <span class="arrow">→</span></button></p>
+    </section>`));
+  });
