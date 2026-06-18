@@ -18,6 +18,8 @@
 //   GOOGLE_*             optioneel, voor schrijven naar Google Sheets
 // ══════════════════════════════════════════════════════════════════════════
 
+import { renderRouteContent } from "./seo-content.js";
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -66,7 +68,15 @@ async function servePage(env, url, matched) {
     html = await idx.text();
   }
   const m = SEO[url.pathname] || SEO["/"];
-  return new Response(injectSEO(html, m, SITE_ORIGIN + url.pathname), {
+  let out = injectSEO(html, m, SITE_ORIGIN + url.pathname);
+
+  // Server-side body-content: echte, unieke tekst per route binnen <main id="app">,
+  // zodat zoekmachines elke pagina als "vol" en uniek zien (ook zonder JS).
+  // De engine vervangt #app bij het laden, dus bezoekers krijgen de echte app.
+  const content = renderRouteContent(url.pathname);
+  if (content) out = out.replace("</main>", `<div id="ssr-content">${content}</div></main>`);
+
+  return new Response(out, {
     status: 200,
     headers: { "content-type": "text/html; charset=utf-8" },
   });
