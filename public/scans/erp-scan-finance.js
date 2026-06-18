@@ -5,16 +5,16 @@
 
 export default {
   scan_id: "erp-scan-finance",
-  title: "Future-finance? Scan je financiële ERP-landschap",
+  title: "ERP voor finance? Scan je financiële ERP-landschap",
   eyebrow: "Finance & control",
   audience: "Voor CFO's, finance managers & controllers",
 
   intro: {
-    sub: "Snellere afsluitingen, betrouwbare cijfers en grip op compliance: finance staat onder druk om méér te leveren met dezelfde data. Deze scan meet in tien vragen hoe futureproof jouw financiële landschap is — van finance-strategie tot één bron van waarheid, AI en afsluitprocessen. Je krijgt direct een diagnose met prioriteiten.",
+    sub: "Snellere afsluitingen, betrouwbare cijfers en grip op compliance: een ERP voor finance staat onder druk om méér te leveren met dezelfde data. Deze scan meet in tien vragen hoe futureproof jouw financiële landschap is — van finance-strategie en S/4HANA Finance tot één bron van waarheid, AI en afsluitprocessen. Je krijgt direct een diagnose met prioriteiten.",
     bullets: [
-      "Nulmeting van je finance-volwassenheid",
-      "Zie waar je afsluiting, data of compliance je remmen",
-      "Concreet verbeterpunt per as, toegespitst op finance",
+      "Nulmeting van je finance-volwassenheid — ook richting S/4HANA Finance",
+      "Zie waar afsluiting, financiële consolidatie of compliance je remmen",
+      "Concreet verbeterpunt per as, toegespitst op de CFO en finance",
     ],
   },
 
@@ -158,7 +158,7 @@ export default {
   },
 
   verdicts: [
-    { min: 0,  label: "Finance loopt achter de feiten aan", summary: "Versnipperde data en handmatige afsluitingen kosten tijd en vertrouwen. Juist hier zit de snelste winst: één bron van waarheid en een snellere close. Een gerichte nulmeting helpt prioriteren." },
+    { min: 0,  label: "Finance loopt achter de feiten aan", summary: "Versnipperde data en handmatige afsluitingen kosten tijd en vertrouwen. Juist hier zit de snelste winst: één bron van waarheid, vlotte financiële consolidatie en een snellere close. Een ERP voor de CFO begint met een gerichte nulmeting die helpt prioriteren." },
     { min: 40, label: "Op de goede weg",                    summary: "De basis staat, maar het potentieel is nog niet benut. Gerichte stappen op je zwakste assen maken finance merkbaar sneller en betrouwbaarder." },
     { min: 70, label: "Volwassen & sturend",               summary: "Je financiële landschap is goed op orde. De winst zit nu in verfijning en in het verzilveren van AI- en datawaarde bovenop een sterk fundament." },
     { min: 85, label: "Finance-koploper",                  summary: "Je behoort tot de voorhoede. Data en afsluiting zijn op orde; finance stuurt realtime mee op de koers van de organisatie." },

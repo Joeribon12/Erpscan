@@ -5,13 +5,13 @@ export default {
   title: "Bedrijfsprocessen automatiseren: waar begin je?",
   eyebrow: "Kennisbank · Automatisering",
   backHref: "/info", backLabel: "← Kennisbank",
-  intro: "Automatiseren bespaart tijd, verlaagt fouten en maakt je schaalbaar. Maar niet elk proces is even geschikt. Dit is hoe je de juiste processen kiest en automatiseert — met je ERP-systeem als motor.",
+  intro: "Bedrijfsprocessen automatiseren bespaart tijd, verlaagt fouten en maakt je schaalbaar. Maar niet elk proces is even geschikt. Dit is hoe je de juiste processen kiest en automatiseert — met je ERP-systeem als motor.",
 
   sections: [
     {
       type: "prose",
       heading: "Wat is procesautomatisering?",
-      body: "Procesautomatisering betekent dat repetitieve, regelgebaseerde taken door software worden uitgevoerd in plaats van handmatig. Denk aan facturen inboeken, orders verwerken of voorraad bijbestellen. Een goed ingericht ERP-systeem automatiseert veel van deze stromen al van nature.",
+      body: "Procesautomatisering betekent dat repetitieve, regelgebaseerde taken door software worden uitgevoerd in plaats van handmatig. Denk aan facturen inboeken, orders verwerken of voorraad bijbestellen. Deze workflow-automatisering is precies waar een goed ingericht ERP-systeem al van nature in uitblinkt.",
     },
     {
       type: "checklist",
@@ -36,7 +36,7 @@ export default {
     {
       type: "callout",
       title: "Eerst standaardiseren, dan automatiseren",
-      body: "Een rommelig proces automatiseren levert een snel rommelig resultaat op. Breng het proces eerst op orde; automatiseer daarna wat overblijft.",
+      body: "Een rommelig proces automatiseren levert een snel rommelig resultaat op. Breng het proces eerst op orde; automatiseer daarna wat overblijft. Juist bij processen automatiseren in het mkb is die volgorde het verschil tussen winst en frustratie.",
     },
     {
       type: "related",

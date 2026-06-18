@@ -5,13 +5,13 @@ export default {
   title: "Systemen koppelen: slim integreren met API's",
   eyebrow: "Kennisbank · Integratie",
   backHref: "/info", backLabel: "← Kennisbank",
-  intro: "De meeste waarde lekt niet weg ín je systemen, maar ertússen. Goede systeemintegratie zorgt dat data automatisch en betrouwbaar doorstroomt — de ruggengraat van een modern ERP-landschap.",
+  intro: "De meeste waarde lekt niet weg ín je systemen, maar ertússen. Het slim koppelen van systemen zorgt dat data automatisch en betrouwbaar doorstroomt — goede systeemintegratie is de ruggengraat van een modern ERP-landschap.",
 
   sections: [
     {
       type: "prose",
       heading: "Waarom integratie zo bepalend is",
-      body: "Een ERP-systeem staat zelden alleen: er hangen webshops, MES, WMS, CRM en tools van leveranciers en klanten aan. Hoe die koppelingen geregeld zijn, bepaalt of je organisatie soepel draait of vastloopt op handwerk en fouten.",
+      body: "Een ERP-systeem staat zelden alleen: er hangen webshops, MES, WMS, CRM en tools van leveranciers en klanten aan. Hoe je deze systemen koppelt, bepaalt of je organisatie soepel draait of vastloopt op handwerk en fouten. Je ERP koppelen met je webshop is bijvoorbeeld een klassieker waar veel waarde — of juist frustratie — zit.",
     },
     {
       type: "table",
@@ -26,7 +26,7 @@ export default {
     {
       type: "callout",
       title: "Van fragiel naar robuust",
-      body: "Veel point-to-point koppelingen worden samen een onontwarbare kluwen. Een integratielaag met herbruikbare API's en monitoring maakt je landschap onderhoudbaar én uitbreidbaar.",
+      body: "Veel point-to-point koppelingen worden samen een onontwarbare kluwen. ERP-integratie met API's via een integratielaag — herbruikbaar en gemonitord — maakt je landschap onderhoudbaar én uitbreidbaar.",
     },
     {
       type: "facts",

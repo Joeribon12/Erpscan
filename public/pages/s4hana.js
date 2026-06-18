@@ -8,7 +8,7 @@ export default {
   page_id: "s4hana",
   title: "SAP ECC → S/4HANA: alles wat je moet weten",
   eyebrow: "Kennisbank · S/4HANA",
-  intro: "De overstap van SAP ECC naar S/4HANA is voor veel organisaties de grootste ERP-beslissing van het decennium. Hier de feiten, de routes en hoe je je voorbereidt — zonder de hype.",
+  intro: "De SAP ECC naar S/4HANA migratie is voor veel organisaties de grootste ERP-beslissing van het decennium. Met de S/4HANA 2027-deadline in zicht is de SAP S/4HANA overstap geen vraag van óf, maar van wanneer. Hier de feiten, de routes en hoe je je voorbereidt — zonder de hype.",
 
   sections: [
     {
@@ -22,9 +22,9 @@ export default {
     },
     {
       type: "facts",
-      heading: "Greenfield, brownfield of bluefield?",
+      heading: "Greenfield vs. brownfield (of bluefield)?",
       items: [
-        { title: "Greenfield — opnieuw inrichten", body: "Je bouwt S/4HANA fris op volgens best practices. Maximale procesvernieuwing en een schone start, maar een grotere verandering voor de organisatie. Ideaal als je huidige inrichting zwaar vervuild is." },
+        { title: "Greenfield — opnieuw inrichten", body: "Je bouwt S/4HANA fris op volgens best practices. In de afweging greenfield vs. brownfield staat dit voor maximale procesvernieuwing en een schone start, maar een grotere verandering voor de organisatie. Ideaal als je huidige inrichting zwaar vervuild is." },
         { title: "Brownfield — technische conversie", body: "Je zet je bestaande ECC-systeem technisch om naar S/4HANA. Sneller en goedkoper, met behoud van historie en processen — maar je neemt ook bestaande ballast mee. Ideaal als je inrichting nog gezond is." },
         { title: "Bluefield — selectieve aanpak", body: "Een hybride: je migreert selectief data en processen en herontwerpt waar het loont. Combineert het beste van beide, maar vraagt meer regie en partnerexpertise." },
       ],

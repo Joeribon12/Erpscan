@@ -9,16 +9,16 @@
 
 export default {
   scan_id: "erp-scan-maakindustrie",
-  title: "Klaar voor S/4HANA? Scan je ECC-landschap",
+  title: "Klaar voor de stap van SAP ECC naar S/4HANA?",
   eyebrow: "Maakindustrie · SAP ECC → S/4HANA",
   audience: "Voor IT- & operations-leiders in de maakindustrie",
 
   intro: {
-    sub: "SAP's mainstream maintenance op ECC eindigt in 2027. Deze scan meet in tien vragen hoe klaar jouw maakbedrijf is voor S/4HANA — van migratiestrategie tot clean core, data en productieprocessen. Je krijgt direct een diagnose met prioriteiten.",
+    sub: "SAP's mainstream maintenance op ECC eindigt in 2027. Deze scan voor het ERP-systeem in de maakindustrie meet in tien vragen hoe klaar jouw productiebedrijf is voor de overstap van SAP ECC naar S/4HANA — van migratiestrategie tot clean core, data en productieprocessen. Je krijgt direct een diagnose met prioriteiten.",
     bullets: [
       "Concrete nulmeting van je S/4HANA-gereedheid",
       "Zicht op je grootste migratierisico's — vóórdat het 2027 is",
-      "Verbeterpunt per as, toegespitst op de maakindustrie",
+      "Toegespitst op ERP-software voor de maakindustrie, met een verbeterpunt per as",
     ],
   },
 
@@ -174,7 +174,7 @@ export default {
     { min: 0,  label: "Migratierisico: hoog",      summary: "De klok tikt richting 2027 en op meerdere assen ontbreekt nog een fundament. Juist hier zit de snelste winst: begin met koers, custom code en stamdata. Een gerichte readiness-sessie helpt prioriteren." },
     { min: 40, label: "Op weg, maar maak tempo",   summary: "De basis komt op gang, maar het migratiepotentieel is nog niet benut. Gerichte stappen op je zwakste assen verlagen het risico en maken de overstap naar S/4HANA beheersbaar." },
     { min: 70, label: "Goed op koers voor S/4HANA", summary: "Je staat er sterk voor. De winst zit nu in verfijning — clean core borgen, data realtime maken en AI-use-cases verzilveren bovenop een solide fundament." },
-    { min: 85, label: "S/4HANA-ready koploper",    summary: "Je behoort tot de voorhoede van de maakindustrie. Je fundament is schoon en schaalbaar; de focus verschuift naar transformatie en het uitnutten van data en AI op de werkvloer." },
+    { min: 85, label: "S/4HANA-ready koploper",    summary: "Je behoort tot de voorhoede van de maakindustrie en hebt ERP voor productiebedrijven echt op orde. Je fundament is schoon en schaalbaar; de focus verschuift naar transformatie en het uitnutten van data en AI op de werkvloer." },
   ],
 
   lead: {

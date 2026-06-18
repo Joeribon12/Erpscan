@@ -5,7 +5,7 @@ export default {
   title: "Datakwaliteit verbeteren: het fundament onder groei en AI",
   eyebrow: "Kennisbank · Data",
   backHref: "/info", backLabel: "← Kennisbank",
-  intro: "Rapportages die niet kloppen, discussies over 'welk cijfer waar is', AI-projecten die stranden: vaak ligt de oorzaak bij datakwaliteit. Goede data is het stille fundament onder elke verbetering in je ERP-systeem.",
+  intro: "Rapportages die niet kloppen, discussies over 'welk cijfer waar is', AI-projecten die stranden: vaak ligt de oorzaak bij datakwaliteit. Je datakwaliteit verbeteren is het stille fundament onder elke verbetering in je ERP-systeem — en de basis om je data op orde te krijgen voor AI.",
 
   sections: [
     {
@@ -20,11 +20,11 @@ export default {
     {
       type: "prose",
       heading: "Wat is master data management?",
-      body: "Master data management (MDM) gaat over het centraal en consistent beheren van je kerngegevens: klanten, artikelen, leveranciers, grootboek. Met heldere definities en duidelijk eigenaarschap voorkom je dubbele en tegenstrijdige data — de basis voor betrouwbare informatie.",
+      body: "Master data management (MDM) gaat over het centraal en consistent beheren van je kerngegevens: klanten, artikelen, leveranciers, grootboek. Met heldere definities en duidelijk eigenaarschap voorkom je dubbele en tegenstrijdige data — de basis voor betrouwbare informatie en voor data die op orde is voor AI.",
     },
     {
       type: "checklist",
-      heading: "Zo verbeter je je datakwaliteit",
+      heading: "Zo ga je je datakwaliteit verbeteren",
       items: [
         "Bepaal per kerndomein één centrale definitie en eigenaar",
         "Ruim dubbele en verouderde records op",

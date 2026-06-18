@@ -5,16 +5,16 @@
 
 export default {
   scan_id: "erp-scan-bouw",
-  title: "Grip op je projecten? Scan je ERP-landschap",
+  title: "Grip op je projecten? Scan je ERP-systeem voor de bouw",
   eyebrow: "Bouw & installatietechniek",
   audience: "Voor IT-, project- & finance-leiders in bouw/installatie",
 
   intro: {
-    sub: "Krappe marges, stijgende materiaalkosten en complexe projecten: in de bouw bepaalt grip op je projectadministratie het resultaat. Deze scan meet in tien vragen hoe sterk jouw ERP-landschap projecten ondersteunt — van strategie tot onderhanden werk, data en projectschaalbaarheid. Je krijgt direct een diagnose met prioriteiten.",
+    sub: "Krappe marges, stijgende materiaalkosten en complexe projecten: in de bouw bepaalt grip op je projectadministratie het resultaat. Deze scan meet in tien vragen hoe sterk jouw ERP-software voor bouw en installatie projecten ondersteunt — van strategie tot onderhanden werk, data en projectschaalbaarheid. Je krijgt direct een diagnose met prioriteiten.",
     bullets: [
       "Nulmeting van je projectvolwassenheid",
-      "Zie waar marge, nacalculatie of handwerk je raken",
-      "Concreet verbeterpunt per as, toegespitst op bouw & installatie",
+      "Zie waar marge, onderhanden werk of nacalculatie je raken",
+      "Concreet verbeterpunt per as, toegespitst op de projectadministratie in de bouw",
     ],
   },
 
@@ -158,7 +158,7 @@ export default {
   },
 
   verdicts: [
-    { min: 0,  label: "Grip op projecten ontbreekt", summary: "Sturen op nacalculatie betekent te laat sturen. Juist hier zit de snelste winst: realtime zicht op onderhanden werk en marge. Een gerichte nulmeting helpt prioriteren." },
+    { min: 0,  label: "Grip op projecten ontbreekt", summary: "Sturen op nacalculatie betekent te laat sturen. Juist hier zit de snelste winst: realtime zicht op onderhanden werk en marge. Een ERP-systeem voor bouw begint met een gerichte nulmeting die helpt prioriteren." },
     { min: 40, label: "Op de goede weg",             summary: "De basis komt op gang, maar het margepotentieel is nog niet benut. Gerichte stappen op je zwakste assen geven je merkbaar meer grip op projecten." },
     { min: 70, label: "Volwassen & in control",      summary: "Je projectlandschap is goed op orde. De winst zit nu in verfijning en in het verzilveren van AI- en datawaarde bovenop een sterk fundament." },
     { min: 85, label: "Project-koploper",            summary: "Je behoort tot de voorhoede. Projecten en finance zijn realtime verbonden; de focus verschuift naar innovatie en margeoptimalisatie." },

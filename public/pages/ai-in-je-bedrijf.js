@@ -2,10 +2,10 @@
 // Layout: stats → steps → callout → related → cta
 export default {
   page_id: "ai-in-je-bedrijf",
-  title: "Hoe pas ik AI toe in mijn bedrijf? Een praktisch stappenplan",
+  title: "AI toepassen in je bedrijf? Een praktisch AI-stappenplan",
   eyebrow: "Kennisbank · AI & groei",
   backHref: "/info", backLabel: "← Kennisbank",
-  intro: "AI is geen toekomstmuziek meer, maar waar begin je? Niet bij een groot platform, maar bij één concrete use-case met meetbare waarde. Dit is hoe je AI praktisch toepast in je bedrijf — bovenop een gezond ERP-systeem.",
+  intro: "AI is geen toekomstmuziek meer, maar waar begin je? Niet bij een groot platform, maar bij één concrete use-case met meetbare waarde. Dit is hoe je AI praktisch toepast in je bedrijf — bovenop een gezond ERP-systeem — met een AI-stappenplan dat ook werkt als je AI wilt implementeren in het mkb.",
 
   sections: [
     {
@@ -19,7 +19,7 @@ export default {
     },
     {
       type: "steps",
-      heading: "In 5 stappen van idee naar waarde",
+      heading: "AI implementeren in het mkb: in 5 stappen van idee naar waarde",
       items: [
         { title: "Kies één concreet probleem", body: "Begin bij een proces met veel handwerk of voorspelbaarheid: factuurherkenning, vraagvoorspelling of klantvragen. Klein en meetbaar." },
         { title: "Check je data", body: "AI is zo goed als de data eronder. Zorg dat de benodigde data compleet, schoon en bereikbaar is — vaak ligt hier het echte werk." },
@@ -31,7 +31,7 @@ export default {
     {
       type: "callout",
       title: "Let op: begin niet bij de techniek",
-      body: "De meeste AI-trajecten stranden niet op het algoritme, maar op data, eigenaarschap en adoptie. Een eerlijke nulmeting van je AI-readiness voorkomt dure omwegen.",
+      body: "De meeste AI-trajecten stranden niet op het algoritme, maar op data, eigenaarschap en adoptie. Een eerlijke nulmeting van je AI-readiness voorkomt dure omwegen — en is de eerste stap van elk realistisch AI-stappenplan.",
     },
     {
       type: "related",

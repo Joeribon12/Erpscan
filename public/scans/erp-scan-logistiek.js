@@ -5,16 +5,16 @@
 
 export default {
   scan_id: "erp-scan-logistiek",
-  title: "Supply chain op koers? Scan je ERP-landschap",
+  title: "Supply chain op koers? Scan je ERP-systeem voor logistiek",
   eyebrow: "Transport & logistiek",
   audience: "Voor IT-, supply chain- & operations-leiders",
 
   intro: {
-    sub: "Krappe marges, hoge servicedruk en een keten die realtime moet draaien: in logistiek telt elke schakel. Deze scan meet in tien vragen hoe sterk jouw ERP-landschap de keten ondersteunt — van strategie tot WMS/TMS-integratie, data en volumeschaalbaarheid. Je krijgt direct een diagnose met prioriteiten.",
+    sub: "Krappe marges, hoge servicedruk en een keten die realtime moet draaien: in logistiek telt elke schakel. Deze scan meet in tien vragen hoe sterk jouw ERP-systeem voor logistiek de keten ondersteunt — van strategie tot WMS/TMS-integratie, data en volumeschaalbaarheid. Je krijgt direct een diagnose met prioriteiten.",
     bullets: [
-      "Nulmeting van je supply-chain-volwassenheid",
-      "Zie waar planning, visibility of koppelingen je remmen",
-      "Concreet verbeterpunt per as, toegespitst op logistiek",
+      "Nulmeting van je supply chain ERP-volwassenheid",
+      "Zie waar planning, visibility of WMS/TMS-integratie je remmen",
+      "Concreet verbeterpunt per as, voor transport en logistiek",
     ],
   },
 
@@ -158,7 +158,7 @@ export default {
   },
 
   verdicts: [
-    { min: 0,  label: "Keten nog onvoorspelbaar",  summary: "Gebrek aan visibility en handwerk maken de keten kwetsbaar. Juist hier zit de snelste winst: realtime koppelingen en gestandaardiseerde processen. Een gerichte nulmeting helpt prioriteren." },
+    { min: 0,  label: "Keten nog onvoorspelbaar",  summary: "Gebrek aan visibility en handwerk maken de keten kwetsbaar. Juist hier zit de snelste winst: realtime koppelingen en gestandaardiseerde processen. Een ERP voor transport en logistiek begint met een gerichte nulmeting die helpt prioriteren." },
     { min: 40, label: "Op de goede weg",           summary: "De basis komt op gang, maar het potentieel is nog niet benut. Gerichte stappen op je zwakste assen maken je keten merkbaar betrouwbaarder." },
     { min: 70, label: "Volwassen & wendbaar",      summary: "Je supply chain is goed op orde. De winst zit nu in verfijning en in het verzilveren van AI- en datawaarde bovenop een sterk fundament." },
     { min: 85, label: "Supply-chain-koploper",     summary: "Je behoort tot de voorhoede. Keten en data zijn realtime verbonden; de focus verschuift naar innovatie en kosten- en CO2-optimalisatie." },

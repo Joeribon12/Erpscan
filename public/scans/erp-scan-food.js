@@ -5,16 +5,16 @@
 
 export default {
   scan_id: "erp-scan-food",
-  title: "Food-proof? Scan je ERP-landschap",
+  title: "Food-proof? Scan je ERP-systeem voor food",
   eyebrow: "Food & beverage · procesindustrie",
   audience: "Voor IT-, productie- & kwaliteitsleiders in food",
 
   intro: {
-    sub: "Houdbaarheid, traceerbaarheid en strenge kwaliteitseisen laten geen ruimte voor losse systemen. Deze scan meet in tien vragen hoe goed jouw ERP-landschap de foodketen ondersteunt — van strategie tot batchtracering, data en productieschaalbaarheid. Je krijgt direct een diagnose met prioriteiten.",
+    sub: "Houdbaarheid, traceerbaarheid en strenge kwaliteitseisen laten geen ruimte voor losse systemen. Deze scan meet in tien vragen hoe goed jouw ERP voor de voedingsindustrie de foodketen ondersteunt — van strategie tot batchtracering, data en productieschaalbaarheid. Je krijgt direct een diagnose met prioriteiten.",
     bullets: [
       "Nulmeting van je food-volwassenheid (traceability, compliance)",
       "Zie waar derving, recalls of handwerk je raken",
-      "Concreet verbeterpunt per as, toegespitst op food",
+      "Concreet verbeterpunt per as, voor ERP food & beverage",
     ],
   },
 
@@ -160,7 +160,7 @@ export default {
   verdicts: [
     { min: 0,  label: "Compliancerisico: hoog",  summary: "Trage tracering en handwerk maken je kwetsbaar bij audits en recalls. Juist hier zit de snelste winst: traceability en stamdata op orde. Een gerichte nulmeting helpt prioriteren." },
     { min: 40, label: "Op de goede weg",         summary: "De basis komt op gang, maar het potentieel is nog niet benut. Gerichte stappen op je zwakste assen maken je keten merkbaar robuuster." },
-    { min: 70, label: "Volwassen & auditklaar",  summary: "Je foodlandschap is goed op orde. De winst zit nu in verfijning en in het verzilveren van AI- en datawaarde bovenop een sterk fundament." },
+    { min: 70, label: "Volwassen & auditklaar",  summary: "Je foodlandschap is goed op orde, met batchtracering en traceability op niveau. De winst zit nu in verfijning en in het verzilveren van AI- en datawaarde bovenop een sterk fundament." },
     { min: 85, label: "Food-koploper",           summary: "Je behoort tot de voorhoede. Tracering, kwaliteit en data zijn op orde; de focus verschuift naar innovatie en het terugdringen van derving." },
   ],
 

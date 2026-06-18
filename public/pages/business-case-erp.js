@@ -5,7 +5,7 @@ export default {
   title: "De business case voor een nieuw ERP-systeem",
   eyebrow: "Kennisbank · Strategie",
   backHref: "/info", backLabel: "← Kennisbank",
-  intro: "Een nieuw ERP-systeem is een forse investering. Een sterke business case maakt het verschil tussen een gedragen besluit en een eindeloze discussie. Zo bouw je 'm op — met baten die verder gaan dan kostenbesparing.",
+  intro: "Een nieuw ERP-systeem is een forse investering. Een sterke business case voor ERP maakt het verschil tussen een gedragen besluit en een eindeloze discussie. Zo bouw je 'm op — met baten die verder gaan dan kostenbesparing.",
 
   sections: [
     {
@@ -22,8 +22,8 @@ export default {
       type: "facts",
       heading: "Kosten én baten in beeld",
       items: [
-        { title: "Kijk verder dan licentiekosten", body: "Reken implementatie, migratie, training en beheer mee — én de kosten van níéts doen (verouderd systeem, end-of-maintenance)." },
-        { title: "Kwantificeer de baten", body: "Vertaal tijdwinst, foutreductie en betere sturing naar euro's. Ook zachte baten (wendbaarheid) horen erbij." },
+        { title: "Kijk verder dan licentiekosten", body: "De kosten van een nieuw ERP-systeem zijn meer dan licenties: reken implementatie, migratie, training en beheer mee — én de kosten van níéts doen (verouderd systeem, end-of-maintenance)." },
+        { title: "Kwantificeer de baten", body: "Vertaal tijdwinst, foutreductie en betere sturing naar euro's; zo maak je de ROI van ERP concreet. Ook zachte baten (wendbaarheid) horen erbij." },
         { title: "Denk in scenario's", body: "Vergelijk vernieuwen met de standaard volgen versus blijven en het risico dragen." },
       ],
     },

@@ -5,16 +5,16 @@
 
 export default {
   scan_id: "erp-scan-groothandel",
-  title: "Groothandel futureproof? Scan je ERP-landschap",
+  title: "Groothandel futureproof? Scan je ERP-systeem",
   eyebrow: "Groothandel & distributie",
   audience: "Voor IT- & operations-leiders in groothandel",
 
   intro: {
-    sub: "Krappe marges, grote assortimenten en veeleisende klanten: in de groothandel maakt je ERP het verschil tussen winst en weglek. Deze scan meet in tien vragen hoe sterk jouw landschap staat — van inkoopstrategie tot EDI, voorraad, data en orderschaalbaarheid. Je krijgt direct een diagnose met prioriteiten.",
+    sub: "Krappe marges, grote assortimenten en veeleisende klanten: in de groothandel maakt je ERP-systeem het verschil tussen winst en weglek. Deze scan meet in tien vragen hoe sterk je ERP-software voor groothandel en distributie staat — van inkoopstrategie tot EDI, voorraad, data en orderschaalbaarheid. Je krijgt direct een diagnose met prioriteiten.",
     bullets: [
       "Nulmeting van je distributie-volwassenheid",
       "Zie waar marges, voorraad of koppelingen weglekken",
-      "Concreet verbeterpunt per as, toegespitst op groothandel",
+      "Concreet verbeterpunt per as, voor distributiebedrijven",
     ],
   },
 

@@ -44,7 +44,7 @@ export default {
       type: "prose",
       heading: "Wat is SAP ERP?",
       body: [
-        "SAP ERP is het ERP-systeem van SAP, wereldwijd marktleider in deze software. De bekendste versies zijn SAP ECC (het klassieke systeem) en het modernere SAP S/4HANA.",
+        "SAP ERP is het ERP-systeem van SAP, wereldwijd marktleider in deze software. Het is een van de bekendste ERP-systeem voorbeelden, naast oplossingen als Oracle, Microsoft Dynamics en Infor. De bekendste versies zijn SAP ECC (het klassieke systeem) en het modernere SAP S/4HANA.",
         "Veel organisaties draaien nog op SAP ECC en staan voor de overstap naar S/4HANA — een belangrijke stap, omdat het mainstream-onderhoud op SAP ECC in 2027 afloopt.",
       ],
     },

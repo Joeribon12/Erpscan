@@ -7,12 +7,12 @@ export default {
   page_id: "ai-erp",
   title: "AI in je ERP: van hype naar waarde",
   eyebrow: "Kennisbank · AI",
-  intro: "AI in je ERP klinkt groots, maar de waarde zit in concrete use-cases — niet in een platform. Dit zijn de toepassingen die zich nú terugverdienen, en wat je nodig hebt om ze te laten slagen.",
+  intro: "AI in ERP klinkt groots, maar de waarde zit in concrete use-cases — niet in een platform. Dit zijn de AI-voorbeelden in je ERP-systeem die zich nú terugverdienen, en wat je nodig hebt om ze te laten slagen.",
 
   sections: [
     {
       type: "facts",
-      heading: "Use-cases die zich terugverdienen",
+      heading: "AI use-cases voor ERP die zich terugverdienen",
       items: [
         { title: "Document- en factuurherkenning", body: "AI leest inkoopfacturen, orders en documenten en boekt ze (deels) automatisch. Snel te realiseren en direct tijdwinst — vaak een ideale eerste use-case." },
         { title: "Vraag- en verkoopvoorspelling", body: "Betere forecasts verlagen voorraadkosten en nee-verkoop. Voor retail, groothandel en food vaak de use-case met de snelste, meetbaarste impact." },

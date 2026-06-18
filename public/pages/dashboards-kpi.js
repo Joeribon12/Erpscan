@@ -5,7 +5,7 @@ export default {
   title: "Realtime inzicht: dashboards en KPI's die echt sturen",
   eyebrow: "Kennisbank · Inzicht & sturing",
   backHref: "/info", backLabel: "← Kennisbank",
-  intro: "Je kunt niet verbeteren wat je niet ziet. Toch sturen veel organisaties nog op rapportages van vorige maand. Met realtime dashboards en de juiste KPI's stuur je vooruit in plaats van achteruit.",
+  intro: "Je kunt niet verbeteren wat je niet ziet. Toch sturen veel organisaties nog op rapportages van vorige maand. Met realtime dashboards en de juiste KPI's stuur je vooruit in plaats van achteruit — en met process mining zie je bovendien hoe je processen écht lopen.",
 
   sections: [
     {
@@ -19,7 +19,7 @@ export default {
     },
     {
       type: "facts",
-      heading: "Wat maakt een KPI bruikbaar?",
+      heading: "Wat maakt een KPI-dashboard bruikbaar?",
       items: [
         { title: "Gekoppeld aan een doel", body: "Een KPI zonder doel is een getal zonder richting. Verbind elke KPI aan een concreet bedrijfsdoel." },
         { title: "Beïnvloedbaar", body: "Meet iets waar je daadwerkelijk op kunt sturen, niet alleen iets dat leuk is om te weten." },
@@ -29,7 +29,7 @@ export default {
     {
       type: "prose",
       heading: "De rol van process mining",
-      body: "Waar dashboards laten zien wát er gebeurt, laat process mining zien hóé je processen echt verlopen — inclusief de omwegen en knelpunten die niemand had bedacht. Samen geven ze een datagedreven basis om continu te verbeteren.",
+      body: "Waar realtime dashboards laten zien wát er gebeurt, laat process mining zien hóé je processen echt verlopen — inclusief de omwegen en knelpunten die niemand had bedacht. Samen geven een KPI-dashboard en process mining een datagedreven basis om continu te verbeteren.",
     },
     {
       type: "checklist",

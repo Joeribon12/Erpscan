@@ -5,13 +5,13 @@ export default {
   title: "ERP in de cloud of on-premise: wat kies je?",
   eyebrow: "Kennisbank · Cloud",
   backHref: "/info", backLabel: "← Kennisbank",
-  intro: "Cloud-ERP of toch on-premise? Het is een van de belangrijkste keuzes bij een nieuw of vernieuwd ERP-systeem. We zetten de verschillen op een rij, zodat je een onderbouwde keuze maakt.",
+  intro: "Cloud-ERP of on-premise? Het is een van de belangrijkste keuzes bij een nieuw of vernieuwd ERP-systeem. We zetten de cloud-ERP voordelen en nadelen tegenover die van on-premise ERP, zodat je een onderbouwde keuze maakt.",
 
   sections: [
     {
       type: "prose",
       heading: "Het korte antwoord",
-      body: "De markt beweegt richting cloud-ERP, vanwege lagere beheerlast, continue updates en betere schaalbaarheid. On-premise blijft relevant voor organisaties met zeer specifieke eisen rond maatwerk, data of regelgeving. De juiste keuze hangt af van jouw situatie.",
+      body: "De markt beweegt richting cloud-ERP, vanwege lagere beheerlast, continue updates en betere schaalbaarheid. On-premise ERP blijft relevant voor organisaties met zeer specifieke eisen rond maatwerk, data of regelgeving. De afweging cloud-ERP of on-premise hangt uiteindelijk af van jouw situatie.",
     },
     {
       type: "table",
@@ -28,7 +28,7 @@ export default {
     },
     {
       type: "facts",
-      heading: "Waar let je op bij de keuze?",
+      heading: "Cloud-ERP voordelen en nadelen afwegen",
       items: [
         { title: "Je maatwerkbehoefte", body: "Veel onmisbaar maatwerk? Dan vraagt cloud om een heroverweging richting clean core en side-by-side extensies." },
         { title: "Regelgeving & datalocatie", body: "Strenge eisen rond waar data staat, kunnen de keuze beïnvloeden — al biedt cloud hier steeds meer opties." },

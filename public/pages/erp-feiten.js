@@ -17,12 +17,12 @@ export default {
   page_id: "erp-feiten",
   title: "ERP in cijfers: 10 feiten die je moet kennen",
   eyebrow: "Kennisbank · ERP-feiten",
-  intro: "Je ERP is het kloppend hart van je organisatie — maar hoe staat het er eigenlijk voor in de markt? Een paar cijfers en feiten die laten zien waar de kansen (en risico's) liggen.",
+  intro: "Je ERP is het kloppend hart van je organisatie — maar hoe staat het er eigenlijk voor in de markt? We zetten de belangrijkste ERP feiten en cijfers op een rij: statistieken die laten zien waar de kansen (en risico's) liggen.",
 
   sections: [
     {
       type: "stats",
-      heading: "De stand van zaken",
+      heading: "ERP-statistieken: de stand van zaken",
       items: [
         { value: "2027", label: "Einde mainstream-onderhoud SAP ECC", note: "Extended maintenance mogelijk tot 2030" },
         { value: "~70%", label: "van organisaties draait op of migreert naar cloud-ERP", note: "Indicatief — verifieer de bron" },
@@ -32,7 +32,7 @@ export default {
     },
     {
       type: "facts",
-      heading: "Wat dit betekent",
+      heading: "Wat deze feiten over ERP-systemen betekenen",
       items: [
         { title: "Maatwerk is de stille kostenpost", body: "Hoe meer maatwerk in de kern, hoe duurder en risicovoller elke upgrade. 'Clean core' — de kern standaard houden en uitbreidingen loskoppelen — is daarom dé trend om wendbaar te blijven." },
         { title: "Data bepaalt je AI-snelheid", body: "AI-projecten stranden zelden op het model en bijna altijd op de data. Eén betrouwbare, gegovernde databron is de voorwaarde om AI-waarde te verzilveren." },

@@ -6,16 +6,16 @@
 
 export default {
   scan_id: "erp-scan-retail",
-  title: "Retail-ready? Scan je omnichannel ERP-landschap",
+  title: "Retail-ready? Scan je omnichannel ERP-systeem",
   eyebrow: "Retail & e-commerce",
   audience: "Voor IT- & e-commerce-verantwoordelijken in retail",
 
   intro: {
-    sub: "Klanten verwachten één naadloze ervaring over winkel, webshop en app. Deze scan meet in tien vragen hoe goed jouw ERP-landschap die belofte waarmaakt — van omnichannel-strategie tot realtime voorraad, data en seizoensschaalbaarheid. Je krijgt direct een diagnose met prioriteiten.",
+    sub: "Klanten verwachten één naadloze ervaring over winkel, webshop en app. Deze scan meet in tien vragen hoe goed jouw ERP-systeem voor retail die belofte waarmaakt — van omnichannel-strategie tot realtime voorraad, data en seizoensschaalbaarheid. Of je nu inzet op een omnichannel ERP of op ERP voor e-commerce, je krijgt direct een diagnose met prioriteiten.",
     bullets: [
       "Nulmeting van je omnichannel-volwassenheid",
       "Zie waar voorraad, marges of klantdata je afremmen",
-      "Concreet verbeterpunt per as, toegespitst op retail",
+      "Concreet verbeterpunt per as, voor webshop en winkel",
     ],
   },
 

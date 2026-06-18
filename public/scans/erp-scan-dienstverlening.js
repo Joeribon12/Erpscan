@@ -5,16 +5,16 @@
 
 export default {
   scan_id: "erp-scan-dienstverlening",
-  title: "Declarabel & schaalbaar? Scan je ERP-landschap",
+  title: "Declarabel & schaalbaar? Scan je ERP voor zakelijke dienstverlening",
   eyebrow: "Zakelijke dienstverlening",
   audience: "Voor IT-, finance- & operations-leiders in dienstverlening",
 
   intro: {
-    sub: "Je mensen zijn je product: bezetting, declarabiliteit en projectmarge bepalen je resultaat. Deze scan meet in tien vragen hoe goed jouw ERP-landschap projectorganisaties ondersteunt — van strategie tot resource planning, data en schaalbaarheid. Je krijgt direct een diagnose met prioriteiten.",
+    sub: "Je mensen zijn je product: bezetting, declarabiliteit en projectmarge bepalen je resultaat. Deze scan meet in tien vragen hoe goed jouw ERP voor projectorganisaties de professional services automation (PSA) ondersteunt — van strategie tot resource planning, data en schaalbaarheid. Je krijgt direct een diagnose met prioriteiten.",
     bullets: [
       "Nulmeting van je professional-services-volwassenheid",
-      "Zie waar bezetting, marge of urenregistratie je remmen",
-      "Concreet verbeterpunt per as, toegespitst op dienstverlening",
+      "Zie waar declarabiliteit en bezetting of urenregistratie je remmen",
+      "Concreet verbeterpunt per as, toegespitst op zakelijke dienstverlening",
     ],
   },
 

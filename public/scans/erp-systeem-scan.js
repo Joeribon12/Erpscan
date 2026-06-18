@@ -14,12 +14,12 @@
 
 export default {
   scan_id: "erp-systeem-scan",
-  title: "Hoe futureproof is jouw ERP-landschap?",
+  title: "Hoe futureproof is mijn ERP-systeem?",
   eyebrow: "ERP Futureproof Scan",
   audience: "Voor CIO's & IT-managers",
 
   intro: {
-    sub: "Tien gerichte vragen over strategie, AI, clean core, data en schaalbaarheid. Je krijgt direct een diagnose met een concreet verbeterpunt per as — geen verkooppraatje, wel inzicht.",
+    sub: "Deze gratis ERP-scan stelt tien gerichte vragen over strategie, AI, clean core, data en schaalbaarheid. Je krijgt direct een ERP-assessment met een concreet verbeterpunt per as — geen verkooppraatje, wel inzicht in hoe futureproof je ERP-systeem werkelijk is.",
     bullets: [
       "Onafhankelijke nulmeting van je ERP-volwassenheid",
       "Score per as: zie meteen waar de winst zit",
@@ -182,7 +182,7 @@ export default {
   verdicts: [
     { min: 0,  label: "Fundament in opbouw",  summary: "Er liggen flinke kansen. Op meerdere assen ontbreekt nog een stevig fundament — juist daar zit de snelste winst. Een gerichte nulmeting helpt prioriteren." },
     { min: 40, label: "Op de goede weg",      summary: "De basis staat, maar het potentieel is nog niet benut. Met gerichte stappen op je zwakste assen maak je je ERP-landschap merkbaar wendbaarder." },
-    { min: 70, label: "Volwassen & wendbaar", summary: "Je ERP-landschap is goed op orde. De winst zit nu in verfijning en in het verzilveren van AI- en datawaarde bovenop een sterk fundament." },
+    { min: 70, label: "Volwassen & wendbaar", summary: "Je ERP-systeem is futureproof en goed op orde. De winst zit nu in verfijning en in het verzilveren van AI- en datawaarde bovenop een sterk fundament." },
     { min: 85, label: "Koploper",             summary: "Je behoort tot de voorhoede. Je fundament is schaalbaar en clean; de focus verschuift naar innovatie en het structureel uitnutten van data en AI." },
   ],
 

@@ -5,14 +5,14 @@ export default {
   title: "Wat is clean core (en waarom telt het voor je ERP-systeem)?",
   eyebrow: "Kennisbank · Techniek",
   backHref: "/info", backLabel: "← Kennisbank",
-  intro: "Clean core is misschien wel de belangrijkste term in het moderne ERP-landschap. Het bepaalt of je ERP-systeem wendbaar blijft of juist vastloopt bij elke upgrade. We leggen het uit.",
+  intro: "Wat is clean core? Het is misschien wel de belangrijkste term in het moderne ERP-landschap. Het bepaalt of je ERP-systeem wendbaar blijft of juist vastloopt bij elke upgrade. We leggen het uit.",
 
   sections: [
     {
       type: "prose",
       heading: "De kern van clean core",
       body: [
-        "Clean core betekent: houd de kern van je ERP-systeem zo standaard mogelijk, en bouw uitbreidingen los daarvan (side-by-side), in plaats van diep in de kern. Zo blijft je systeem upgradebaar en wendbaar.",
+        "Clean core betekent: houd de kern van je ERP-systeem zo standaard mogelijk, en bouw uitbreidingen los daarvan (side-by-side), in plaats van diep in de kern. Zo blijft je systeem upgradebaar en wendbaar. Wie clean core in SAP toepast, voegt maatwerk dus bewust buiten de standaard toe.",
         "Het tegenovergestelde — zwaar maatwerk in de kern — maakt elke upgrade duur, traag en risicovol. Veel organisaties zitten daardoor vast op een verouderde versie.",
       ],
     },
@@ -31,7 +31,7 @@ export default {
     },
     {
       type: "checklist",
-      heading: "Op weg naar clean core",
+      heading: "Op weg naar het clean core-principe in S/4HANA",
       items: [
         "Breng je huidige maatwerk volledig in kaart",
         "Bepaal wat écht onderscheidend is — en wat niet",

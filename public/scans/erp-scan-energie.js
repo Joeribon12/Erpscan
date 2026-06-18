@@ -10,11 +10,11 @@ export default {
   audience: "Voor IT-, asset- & klantprocesleiders in utilities",
 
   intro: {
-    sub: "Energietransitie, strenge regulering en explosief groeiende verbruiksdata zetten je systemen onder druk. Deze scan meet in tien vragen hoe futureproof jouw ERP-landschap is — van strategie tot asset management, meter-to-cash, data en schaalbaarheid. Je krijgt direct een diagnose met prioriteiten.",
+    sub: "Energietransitie, strenge regulering en explosief groeiende verbruiksdata zetten je systemen onder druk. Deze scan meet in tien vragen hoe futureproof jouw ERP voor energie en nutsbedrijven is — van strategie tot asset management, meter-to-cash, data en schaalbaarheid. Je krijgt direct een diagnose met prioriteiten.",
     bullets: [
       "Nulmeting van je utilities-volwassenheid",
-      "Zie waar assets, meterdata of klantprocessen je remmen",
-      "Concreet verbeterpunt per as, toegespitst op energie & nuts",
+      "Zie waar asset management, meterdata of klantprocessen je remmen",
+      "Concreet verbeterpunt per as, van energie & nuts tot meter-to-cash",
     ],
   },
 

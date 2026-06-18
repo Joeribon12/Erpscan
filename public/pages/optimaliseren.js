@@ -7,7 +7,7 @@ export default {
   page_id: "optimaliseren",
   title: "7 hefbomen om je ERP te optimaliseren",
   eyebrow: "Kennisbank · Optimalisatie",
-  intro: "Een ERP-traject hoeft geen big bang te zijn. Vaak zit de grootste winst in gerichte verbeteringen op de juiste plek. Dit zijn de zeven knoppen waaraan je echt kunt draaien — ongeveer in volgorde van impact.",
+  intro: "Je ERP optimaliseren hoeft geen big bang te zijn. Vaak zit de grootste winst in gerichte verbeteringen op de juiste plek. Dit zijn de zeven knoppen waaraan je echt kunt draaien om meer uit je ERP te halen — ongeveer in volgorde van impact.",
 
   sections: [
     {
@@ -27,7 +27,7 @@ export default {
       heading: "Waar begin je?",
       body: [
         "De volgorde is geen wet: begin waar jouw pijn het grootst is. Vaak is dat het datafundament of het maatwerk, omdat die twee de winst op alle andere assen bepalen.",
-        "Een nulmeting helpt om te bepalen welke hefboom voor jou het meeste oplevert — zodat je niet alles tegelijk hoeft aan te pakken.",
+        "Een nulmeting helpt om te bepalen welke hefboom voor jou het meeste oplevert om je ERP-systeem te verbeteren — zodat je niet alles tegelijk hoeft aan te pakken.",
       ],
     },
   ],

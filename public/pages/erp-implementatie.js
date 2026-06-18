@@ -5,7 +5,7 @@ export default {
   title: "ERP-implementatie: 6 succesfactoren (en de valkuilen)",
   eyebrow: "Kennisbank · Implementatie",
   backHref: "/info", backLabel: "← Kennisbank",
-  intro: "Een ERP-implementatie is een van de grootste IT-trajecten die een organisatie aangaat. De techniek is zelden de bottleneck — proces, data en mensen wel. Dit zijn de factoren die het verschil maken.",
+  intro: "Een ERP-implementatie is een van de grootste IT-trajecten die een organisatie aangaat. De techniek is zelden de bottleneck — proces, data en mensen wel. Dit zijn de factoren die het verschil maken tussen een moeizaam project en een succesvolle ERP-implementatie.",
 
   sections: [
     {
@@ -23,7 +23,7 @@ export default {
     {
       type: "callout",
       title: "De grootste valkuil",
-      body: "De meeste ERP-trajecten lopen niet vast op techniek, maar op verandering: processen en mensen die niet meebewegen. Onderschat de menselijke kant nooit.",
+      body: "Een van de grootste valkuilen bij ERP-implementatie is dat trajecten niet vastlopen op techniek, maar op verandering: processen en mensen die niet meebewegen. Onderschat de menselijke kant nooit.",
     },
     {
       type: "checklist",
@@ -53,7 +53,7 @@ export default {
 
   cta: {
     heading: "Staat je fundament klaar voor een nieuw systeem?",
-    body: "De gratis ERP-scan brengt strategie, data, processen en techniek in kaart — een goede nulmeting vóór elk traject.",
+    body: "De gratis ERP-scan brengt strategie, data, processen en techniek in kaart — een goede nulmeting vóór elke ERP-implementatie.",
     label: "Doe de ERP-scan", href: "/erp-systeem-scan",
   },
   sources: ["Gebaseerd op algemeen geaccepteerde implementatie-best-practices."],

@@ -5,19 +5,19 @@ export default {
   title: "Hoe schaal ik mijn bedrijf makkelijker (zonder chaos)?",
   eyebrow: "Kennisbank · Groei & schaalbaarheid",
   backHref: "/info", backLabel: "← Kennisbank",
-  intro: "Groei is leuk tot je systemen en processen het niet meer bijbenen. Schaalbaar worden gaat niet over harder werken, maar over standaardiseren en automatiseren vóórdat het volume toeneemt. Zo doe je dat.",
+  intro: "Groei is leuk tot je systemen en processen het niet meer bijbenen. Je bedrijf opschalen zonder chaos gaat niet over harder werken, maar over processen standaardiseren en automatiseren vóórdat het volume toeneemt. Zo groei je schaalbaar.",
 
   sections: [
     {
       type: "callout",
       title: "De kern",
-      body: "Werkarounds buiten je systeem schalen niet mee. Wat je nu handmatig oplost, wordt bij dubbel volume dubbel zo pijnlijk. Standaardiseer eerst, automatiseer daarna, en pas dan schaal je zonder chaos.",
+      body: "Werkarounds buiten je systeem schalen niet mee. Wat je nu handmatig oplost, wordt bij dubbel volume dubbel zo pijnlijk. Door processen te standaardiseren, daarna te automatiseren en pas dan op te schalen, kun je je bedrijf opschalen zonder chaos.",
     },
     {
       type: "facts",
-      heading: "De 4 hefbomen voor schaalbaarheid",
+      heading: "De 4 hefbomen om schaalbaar te groeien",
       items: [
-        { title: "Standaardiseer je kernprocessen", body: "Eén manier van werken die voor iedereen geldt. Uitzonderingen zijn de stille killer van groei." },
+        { title: "Standaardiseer je kernprocessen", body: "Processen standaardiseren betekent één manier van werken die voor iedereen geldt. Uitzonderingen zijn de stille killer van groei." },
         { title: "Automatiseer het herhaalbare", body: "Alles wat voorspelbaar en repetitief is, hoort geautomatiseerd. Dat haalt de firefighting eruit." },
         { title: "Maak processen meetbaar", body: "Je kunt niet schalen wat je niet ziet. Realtime inzicht laat knelpunten zien vóór ze ontsporen." },
         { title: "Houd je systeem wendbaar", body: "Een ERP-systeem met te veel maatwerk remt groei. Clean core houdt je flexibel bij elke volgende stap." },
