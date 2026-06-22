@@ -293,7 +293,10 @@ function renderResult(result) {
       </div>
     </div>
 
-    <h2 style="margin-top:36px">Per as: waar zit je winst?</h2>
+    <div class="plan-head" style="margin-top:36px">
+      <h2 id="plan-title"></h2>
+      <p class="lede" id="plan-intro"></p>
+    </div>
     <div class="dims" id="dims"></div>
 
     <section class="feedback card" id="fb">
@@ -310,13 +313,28 @@ function renderResult(result) {
     </section>
   </section>`);
 
-  // Dimensies + meebewegend advies
+  // Dimensies als geprioriteerd actieplan: laagste score eerst, want daar zit
+  // de meeste winst. Het niveau is monotoon met de score (zelfde drempels),
+  // dus oplopend sorteren zet vanzelf low → mid → high op volgorde.
   const dimsWrap = $("#dims", node);
-  result.dimensions.forEach((d) => {
+  const ranked = [...result.dimensions].sort((a, b) => a.pct - b.pct);
+  const allStrong = ranked.every((d) => d.level === "high");
+
+  $("#plan-title", node).textContent = allStrong
+    ? "Je actieplan — verfijnen en verzilveren"
+    : "Je actieplan — op volgorde van impact";
+  $("#plan-intro", node).textContent = allStrong
+    ? "Je staat er sterk voor. Hieronder je assen op volgorde; bovenaan zit de meeste resterende winst."
+    : "We hebben je assen gesorteerd op waar de meeste winst zit. Begin bovenaan — dat is je grootste hefboom.";
+
+  ranked.forEach((d, i) => {
     const adv = CFG.advice[d.id][d.level];
     const lvlText = { low: "Prioriteit", mid: "Aandacht", high: "Sterk" }[d.level];
-    const row = el(`<div class="dim lvl-${d.level}">
+    const isPriority = i === 0 && !allStrong;
+    const row = el(`<div class="dim lvl-${d.level}${isPriority ? " priority" : ""}">
+      ${isPriority ? `<span class="begin-here">↓ Begin hier · je grootste kans</span>` : ""}
       <div class="dim-head">
+        <span class="dim-rank">${i + 1}</span>
         <span class="dim-name">${esc(d.label)}</span>
         <span class="dim-bar"><i style="width:0"></i></span>
         <span class="dim-pct">${d.pct}%</span>
@@ -496,15 +514,30 @@ async function sendFeedback(root, result, helpful, comment) {
   renderSoftLead(root, result);
 }
 
-// Na de feedback: vrijblijvende, slanke vraag om het advies te mailen.
+// Na de feedback: vrijblijvend aanbod. Copy is config-driven via CFG.lead.soft_*
+// (met fallback naar de generieke tekst, zodat scans zonder die velden ongemoeid
+// blijven). De zwakste as wordt automatisch als gespreksaanleiding benoemd.
 function renderSoftLead(root, result) {
   const privacy = CFG.lead?.privacy_url || DEFAULT_PRIVACY_URL;
+  const L = CFG.lead || {};
+  const heading = L.soft_heading || "Wil je het volledige advies in je inbox?";
+  const sub = L.soft_sub || "We sturen je je diagnose en concrete next steps per as toe. Geen verplichting, geen spam — alleen je e-mailadres is nodig.";
+  const button = L.soft_button || "Stuur me het advies";
+  const tag = L.soft_tag || "(optioneel)";
+
+  // Personaliseer: benoem de zwakste as als concrete aanleiding voor het gesprek.
+  const weakest = [...result.dimensions].sort((a, b) => a.pct - b.pct)[0];
+  const focusLine = weakest && weakest.level !== "high"
+    ? `<p class="soft-focus">Je grootste kans zit nu in <b>${esc(weakest.label.toLowerCase())}</b> — een logisch startpunt voor het gesprek.</p>`
+    : "";
+
   const fb = $("#fb", root);
   fb.classList.remove("feedback");
   fb.innerHTML = `
     <div class="fb-done">✓ Bedankt voor je feedback!</div>
-    <h3 style="margin-top:14px">Wil je het volledige advies in je inbox? <span class="optional">(optioneel)</span></h3>
-    <p class="lede">We sturen je je diagnose en concrete next steps per as toe. Geen verplichting, geen spam — alleen je e-mailadres is nodig.</p>
+    <h3 style="margin-top:14px">${esc(heading)} <span class="optional">${esc(tag)}</span></h3>
+    <p class="lede">${esc(sub)}</p>
+    ${focusLine}
     <form id="lead-form" novalidate>
       <div class="form-grid">
         <div class="field span-2" data-error="false">
@@ -526,7 +559,7 @@ function renderSoftLead(root, result) {
         </div>
       </div>
       <div class="form-foot">
-        <button class="btn btn-primary" type="submit" id="lead-submit">Stuur me het advies <span class="arrow">→</span></button>
+        <button class="btn btn-primary" type="submit" id="lead-submit">${esc(button)} <span class="arrow">→</span></button>
         <span class="form-status" id="lead-status"></span>
       </div>
     </form>`;

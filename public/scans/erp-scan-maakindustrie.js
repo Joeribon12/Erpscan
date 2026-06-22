@@ -182,7 +182,16 @@ export default {
     heading: "Ontvang je S/4HANA-gereedheidsrapport",
     sub: "We sturen je je diagnose plus concrete prioriteiten richting 2027. Een adviseur met maakindustrie-ervaring kijkt vrijblijvend mee.",
     privacy_url: "/info/privacy", // placeholder — vervang door de echte privacy-URL
-    thanks_heading: "Bedankt — je gereedheidsrapport is onderweg",
-    thanks_sub: "Een adviseur neemt binnen één werkdag contact op met je persoonlijke route naar S/4HANA.",
+
+    // ── Zachte lead na de feedback: vrijblijvend sparringsgesprek ──────────────
+    // De engine toont dit aanbod (CFG.lead.soft_*) en benoemt automatisch de
+    // zwakste as als gespreksaanleiding.
+    soft_tag: "(vrijblijvend · 30 min)",
+    soft_heading: "Spar 30 minuten met een S/4HANA-specialist uit de maakindustrie",
+    soft_sub: "Geen verkooppraatje — een onafhankelijke blik op je grootste migratierisico richting 2027 en de eerste concrete stap die je kunt zetten. Laat je e-mail achter, dan plannen we een moment dat jou uitkomt.",
+    soft_button: "Plan mijn sparringsgesprek",
+
+    thanks_heading: "Bedankt — we nemen contact op om te plannen",
+    thanks_sub: "Een specialist met maakindustrie-ervaring neemt binnen één werkdag contact op om je sparringsgesprek in te plannen.",
   },
 };

@@ -185,8 +185,17 @@ a:hover { text-decoration: underline; }
 .verdict-summary { color: var(--text-soft); max-width: 52ch; }
 
 /* Dimensie-uitsplitsing */
-.dims { display: grid; gap: 14px; margin-top: 30px; }
+.plan-head { margin-bottom: 4px; }
+.plan-head h2 { margin-bottom: 8px; }
+.dims { display: grid; gap: 14px; margin-top: 18px; }
 .dim { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.dim-rank { flex: none; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 8px;
+  background: var(--surface-2); color: var(--text-soft); font-family: var(--font-mono); font-size: .82rem; font-weight: 600; }
+.dim.priority { border-color: color-mix(in srgb, var(--accent) 50%, var(--line));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent); }
+.dim.priority .dim-rank { background: var(--accent); color: var(--accent-ink); }
+.begin-here { display: block; font-family: var(--font-mono); font-size: .7rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--accent-dim); padding: 12px 18px 0; }
 .dim-head { display: flex; align-items: center; gap: 14px; padding: 16px 18px; }
 .dim-name { font-family: var(--font-display); font-weight: 600; }
 .dim-bar { flex: 1; height: 6px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
@@ -249,6 +258,8 @@ a:hover { text-decoration: underline; }
 .feedback textarea:focus { outline: none; border-color: var(--accent); }
 .fb-done { color: var(--ok); font-family: var(--font-mono); font-weight: 600; }
 .optional { color: var(--muted); font-weight: 400; font-size: .85em; }
+.soft-focus { margin: 0 0 14px; padding: 10px 14px; border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 7%, transparent); border-radius: 0 8px 8px 0; color: var(--text); }
 
 /* ── Bedankt ───────────────────────────────────────────────────────────── */
 .thanks { text-align: center; padding: clamp(30px,6vw,60px) 0; animation: rise .5s var(--ease) both; }
