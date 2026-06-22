@@ -212,6 +212,16 @@ a:hover { text-decoration: underline; }
 .tag.mid { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 45%, var(--line)); }
 .tag.high { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); }
 .dim-advice p { margin: 0; }
+.ns-label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--muted); margin: 16px 0 8px; }
+.next-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.next-steps li { background: var(--bg-soft); border: 1px solid var(--line-soft); border-radius: 10px;
+  padding: 12px 14px; display: grid; gap: 5px; }
+.ns-q { font-family: var(--font-display); font-weight: 600; font-size: .95rem; color: var(--text); }
+.ns-now { font-size: .9rem; color: var(--text-soft); }
+.ns-next { font-size: .92rem; color: var(--text); }
+.ns-next b { color: var(--accent-dim); font-family: var(--font-mono); font-size: .82rem; letter-spacing: .04em; }
+.ns-done { font-size: .92rem; color: var(--ok); font-weight: 500; }
 
 .result-cta { margin-top: 30px; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
 

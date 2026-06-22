@@ -319,6 +319,8 @@ function renderResult(result) {
   const dimsWrap = $("#dims", node);
   const ranked = [...result.dimensions].sort((a, b) => a.pct - b.pct);
   const allStrong = ranked.every((d) => d.level === "high");
+  // Per vraag: het gekozen antwoord en de trede erboven (= concrete volgende stap).
+  const detailById = Object.fromEntries((result.detail || []).map((x) => [x.question_id, x]));
 
   $("#plan-title", node).textContent = allStrong
     ? "Je actieplan — verfijnen en verzilveren"
@@ -331,6 +333,31 @@ function renderResult(result) {
     const adv = CFG.advice[d.id][d.level];
     const lvlText = { low: "Prioriteit", mid: "Aandacht", high: "Sterk" }[d.level];
     const isPriority = i === 0 && !allStrong;
+
+    // Concrete vervolgstappen per vraag op deze as: toon wat je koos en de
+    // eerstvolgende, hoger scorende trede als doel. Bij een topantwoord: bevestig.
+    const steps = CFG.questions.filter((q) => q.dimension === d.id).map((q) => {
+      const det = detailById[q.id];
+      if (!det || det.chosen_index == null) return null;
+      const chosen = q.options[det.chosen_index];
+      if (!chosen) return null;
+      const next = q.options
+        .filter((o) => o.score > chosen.score)
+        .sort((a, b) => a.score - b.score)[0];
+      return { topic: q.text, now: chosen.label, next: next ? next.label : null };
+    }).filter(Boolean);
+
+    const stepsHtml = steps.length ? `
+      <p class="ns-label">Concrete vervolgstappen</p>
+      <ul class="next-steps">${steps.map((s) => `
+        <li>
+          <span class="ns-q">${esc(s.topic)}</span>
+          ${s.next
+            ? `<span class="ns-now">Nu: ${esc(s.now)}</span>
+               <span class="ns-next"><b>Volgende stap →</b> ${esc(s.next)}</span>`
+            : `<span class="ns-done">✓ Al op best-practice niveau — ${esc(s.now)}</span>`}
+        </li>`).join("")}</ul>` : "";
+
     const row = el(`<div class="dim lvl-${d.level}${isPriority ? " priority" : ""}">
       ${isPriority ? `<span class="begin-here">↓ Begin hier · je grootste kans</span>` : ""}
       <div class="dim-head">
@@ -342,6 +369,7 @@ function renderResult(result) {
       <div class="dim-advice">
         <h4><span class="tag ${d.level}">${lvlText}</span> &nbsp; ${esc(adv.title)}</h4>
         <p>${esc(adv.body)}</p>
+        ${stepsHtml}
       </div>
     </div>`);
     dimsWrap.appendChild(row);
