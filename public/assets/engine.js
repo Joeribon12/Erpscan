@@ -626,33 +626,34 @@ async function renderLanding() {
   setHeaderMeta("");
   let registry = [];
   try { registry = (await importWithRetry("../scans/registry.js")).SCANS; } catch { /* registry optioneel */ }
-  // De algemene scan staat centraal; de branchescans blijven vindbaar (uitklapbaar).
-  const niches = registry.filter((s) => s.id !== "erp-systeem-scan");
-  const nicheLinks = niches.map((s) => `<a href="${esc(s.path || "/?scan=" + s.id)}">${esc(s.title)}</a>`).join("");
+  // De maakindustrie-scan staat centraal; de overige scans blijven vindbaar
+  // (uitklapbaar) als SEO-longtail.
+  const others = registry.filter((s) => s.id !== "erp-scan-maakindustrie");
+  const otherLinks = others.map((s) => `<a href="${esc(s.path || "/?scan=" + s.id)}">${esc(s.title)}</a>`).join("");
 
   app.replaceChildren(el(`<div class="landing">
     <section class="hero">
-      <span class="eyebrow">Gratis ERP-systeem scan</span>
-      <h1 class="hero-title">Je ERP bepaalt je toekomst.<br>Hoe futureproof is die van jou?</h1>
-      <p class="lede hero-lede">AI, S/4HANA, clean core en realtime data: het ERP-landschap verandert sneller dan ooit. Doe de gratis ERP-scan en weet binnen 3 minuten waar jij staat — én waar je grootste winst ligt.</p>
+      <span class="eyebrow">Gratis ERP-scan · Maakindustrie</span>
+      <h1 class="hero-title">SAP ECC loopt af in 2027.<br>Hoe klaar is jouw productiebedrijf voor S/4HANA?</h1>
+      <p class="lede hero-lede">Veel productiebedrijven draaien nog op SAP ECC, met jaren aan opgebouwd maatwerk. Doe de gratis ERP-scan voor de maakindustrie en weet binnen 3 minuten waar je grootste migratierisico's liggen — én waar je winst zit richting 2027.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="/erp-systeem-scan">Start de gratis scan <span class="arrow">→</span></a>
+        <a class="btn btn-primary" href="/erp-scan-maakindustrie">Start de gratis scan <span class="arrow">→</span></a>
       </div>
       <div class="hero-stats">
-        <div><b>5</b><span>assen: strategie, AI, clean core, data &amp; schaalbaarheid</span></div>
-        <div><b>~3 min</b><span>tot je persoonlijke diagnose</span></div>
+        <div><b>2027</b><span>einde mainstream maintenance op SAP ECC</span></div>
+        <div><b>~3 min</b><span>tot je persoonlijke S/4HANA-diagnose</span></div>
         <div><b>gratis</b><span>direct inzicht, geen verkooppraatje</span></div>
       </div>
     </section>
 
     <section class="home-explainer">
-      <h2>Wat is een ERP-systeem?</h2>
-      <p class="lede">Een ERP-systeem (Enterprise Resource Planning) is het centrale systeem waarin je financiën, inkoop, voorraad, productie en meer beheert. Benieuwd naar de ERP-betekenis, voorbeelden zoals SAP ERP en waarom een futureproof ERP-systeem telt? <a href="/info/wat-is-erp">Lees: wat is een ERP-systeem? →</a></p>
+      <h2>Van SAP ECC naar S/4HANA</h2>
+      <p class="lede">SAP's mainstream maintenance op ECC eindigt in 2027. Voor productiebedrijven betekent dat keuzes over maatwerk, stamdata en productieprocessen. Benieuwd wat de overstap inhoudt? <a href="/info/s4hana">Lees: SAP ECC → S/4HANA, alles wat je moet weten →</a> of bekijk de <a href="/info/wat-is-erp">betekenis van een ERP-systeem</a>.</p>
     </section>
 
-    ${niches.length ? `<details class="sectors">
-      <summary>Werk je in een specifieke sector? Bekijk de branchescans</summary>
-      <div class="sector-links">${nicheLinks}</div>
+    ${others.length ? `<details class="sectors">
+      <summary>Werk je in een andere sector? Bekijk de overige ERP-scans</summary>
+      <div class="sector-links">${otherLinks}</div>
     </details>` : ""}
 
     <p class="kennis-cta">Liever eerst inlezen? Bekijk de <a href="/info">kennisbank met feiten &amp; inzichten over ERP →</a></p>

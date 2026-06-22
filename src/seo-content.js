@@ -168,21 +168,21 @@ function renderArticle(cfg) {
 }
 
 function renderLanding() {
-  const scanLinks = SCANS.map((s) =>
+  const scanLinks = SCANS.filter((s) => s.id !== "erp-scan-maakindustrie").map((s) =>
     `<li><a href="${esc(s.path)}">${esc(s.title)}</a> — ${esc(s.audience)}</li>`).join("");
   return `<div class="landing">
     <section class="hero">
-      <span class="eyebrow">Gratis ERP-systeem scan</span>
-      <h1>Je ERP bepaalt je toekomst. Hoe futureproof is die van jou?</h1>
-      <p class="lede">AI, S/4HANA, clean core en realtime data: het ERP-landschap verandert sneller dan ooit. Doe de gratis ERP-scan en weet binnen 3 minuten waar jij staat — én waar je grootste winst ligt.</p>
-      <p><a href="/erp-systeem-scan">Start de gratis ERP-scan →</a></p>
+      <span class="eyebrow">Gratis ERP-scan · Maakindustrie</span>
+      <h1>SAP ECC loopt af in 2027. Hoe klaar is jouw productiebedrijf voor S/4HANA?</h1>
+      <p class="lede">Veel productiebedrijven draaien nog op SAP ECC, met jaren aan opgebouwd maatwerk. Doe de gratis ERP-scan voor de maakindustrie en weet binnen 3 minuten waar je grootste migratierisico's liggen — én waar je winst zit richting 2027.</p>
+      <p><a href="/erp-scan-maakindustrie">Start de gratis ERP-scan voor de maakindustrie →</a></p>
     </section>
     <section>
-      <h2>Wat is een ERP-systeem?</h2>
-      <p>Een ERP-systeem (Enterprise Resource Planning) is het centrale systeem waarin je financiën, inkoop, voorraad, productie en meer beheert. Lees meer over de <a href="/info/wat-is-erp">betekenis van ERP en voorbeelden zoals SAP ERP</a>.</p>
+      <h2>Van SAP ECC naar S/4HANA</h2>
+      <p>SAP's mainstream maintenance op ECC eindigt in 2027. Voor productiebedrijven betekent dat keuzes over maatwerk, stamdata en productieprocessen. Lees meer over de <a href="/info/s4hana">migratie van SAP ECC naar S/4HANA</a> en de <a href="/info/wat-is-erp">betekenis van een ERP-systeem</a>.</p>
     </section>
     <section>
-      <h2>ERP-scans per branche</h2>
+      <h2>ERP-scans voor andere sectoren</h2>
       <ul>${scanLinks}</ul>
     </section>
     <p>Liever eerst inlezen? Bekijk de <a href="/info">kennisbank met feiten &amp; inzichten over ERP</a>.</p>

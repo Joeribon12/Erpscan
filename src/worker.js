@@ -122,7 +122,7 @@ const REDIRECTS = {
 };
 
 const SEO = {
-  "/": { t: "Gratis ERP-scan: hoe futureproof is jouw ERP-systeem?", d: "Doe de gratis ERP-scan en ontdek in 3 minuten hoe futureproof je ERP-systeem is. Concreet advies per as voor SAP ERP, S/4HANA en andere systemen." },
+  "/": { t: "Gratis ERP-scan maakindustrie: klaar voor SAP S/4HANA?", d: "SAP ECC loopt af in 2027. Doe de gratis ERP-scan voor de maakindustrie en ontdek in 3 minuten hoe klaar je productiebedrijf is voor de overstap naar S/4HANA." },
   "/erp-systeem-scan": { t: "Gratis ERP-scan: test of je ERP-systeem futureproof is", d: "Hoe futureproof is jouw ERP-systeem? Doe de gratis ERP-scan: een erp-assessment in 3 minuten met diagnose op strategie, AI, clean core, data en schaalbaarheid." },
   "/erp-scan-maakindustrie": { t: "ERP-scan maakindustrie: SAP ECC naar S/4HANA testen", d: "Hoe klaar is je ERP-systeem voor de maakindustrie en S/4HANA? Gratis ERP-scan voor productiebedrijven op SAP ECC, met advies richting de 2027-deadline." },
   "/erp-scan-retail": { t: "ERP-scan retail: futureproof ERP-systeem voor e-commerce", d: "Hoe futureproof is je ERP-systeem voor omnichannel retail en e-commerce? Doe de gratis ERP-scan en zie waar voorraad, data of marges je remmen." },
