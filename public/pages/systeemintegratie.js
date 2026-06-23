@@ -43,7 +43,7 @@ export default {
       items: [
         { label: "Bedrijfsprocessen automatiseren", href: "/info/processen-automatiseren" },
         { label: "Datakwaliteit verbeteren", href: "/info/datakwaliteit" },
-        { label: "ERP-scan transport & logistiek", href: "/erp-scan-logistiek" },
+        { label: "ERP-scan groothandel & distributie", href: "/erp-scan-groothandel" },
       ],
     },
   ],
@@ -51,7 +51,7 @@ export default {
   cta: {
     heading: "Hoe goed zijn jouw systemen gekoppeld?",
     body: "Data & integratie is een kern-as in de gratis ERP-scan. Ontdek waar koppelingen je nu remmen.",
-    label: "Doe de ERP-scan", href: "/erp-systeem-scan",
+    label: "Doe de ERP-scan", href: "/",
   },
   sources: ["Algemene uitleg van integratiepatronen."],
 };

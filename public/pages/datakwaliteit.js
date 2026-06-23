@@ -52,7 +52,7 @@ export default {
   cta: {
     heading: "Hoe sterk is jouw datafundament?",
     body: "Data & integratie is een kern-as in de gratis ERP-scan. Ontdek waar je data je nu remt.",
-    label: "Doe de ERP-scan", href: "/erp-systeem-scan",
+    label: "Doe de ERP-scan", href: "/",
   },
   sources: ["Algemene uitleg; richtcijfers zijn indicatief."],
 };

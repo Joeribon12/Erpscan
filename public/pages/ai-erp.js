@@ -40,7 +40,7 @@ export default {
     heading: "Hoe AI-ready is jouw ERP-landschap?",
     body: "De scan meet je AI-readiness als aparte as — naast strategie, clean core, data en schaalbaarheid.",
     label: "Doe de ERP-scan",
-    href: "/erp-systeem-scan",
+    href: "/",
   },
 
   sources: [

@@ -17,16 +17,9 @@ import { SCANS } from "../public/scans/registry.js";
 import { PAGES } from "../public/pages/registry.js";
 
 // ── Scan-configs ────────────────────────────────────────────────────────────
-import scanAlgemeen      from "../public/scans/erp-systeem-scan.js";
 import scanMaakindustrie from "../public/scans/erp-scan-maakindustrie.js";
 import scanRetail        from "../public/scans/erp-scan-retail.js";
 import scanGroothandel   from "../public/scans/erp-scan-groothandel.js";
-import scanFood          from "../public/scans/erp-scan-food.js";
-import scanFinance       from "../public/scans/erp-scan-finance.js";
-import scanLogistiek     from "../public/scans/erp-scan-logistiek.js";
-import scanBouw          from "../public/scans/erp-scan-bouw.js";
-import scanEnergie       from "../public/scans/erp-scan-energie.js";
-import scanDienst        from "../public/scans/erp-scan-dienstverlening.js";
 
 // ── Artikel-configs ─────────────────────────────────────────────────────────
 import artWatIsErp     from "../public/pages/wat-is-erp.js";
@@ -47,16 +40,9 @@ import artBusinessCase from "../public/pages/business-case-erp.js";
 import artPrivacy      from "../public/pages/privacy.js";
 
 const SCAN_CFG = {
-  "/erp-systeem-scan": scanAlgemeen,
   "/erp-scan-maakindustrie": scanMaakindustrie,
   "/erp-scan-retail": scanRetail,
   "/erp-scan-groothandel": scanGroothandel,
-  "/erp-scan-food": scanFood,
-  "/erp-scan-finance": scanFinance,
-  "/erp-scan-logistiek": scanLogistiek,
-  "/erp-scan-bouw": scanBouw,
-  "/erp-scan-energie": scanEnergie,
-  "/erp-scan-dienstverlening": scanDienst,
 };
 
 const ART_CFG = {
@@ -163,7 +149,7 @@ function renderArticle(cfg) {
     ${cfg.intro ? `<p class="lede">${esc(cfg.intro)}</p>` : ""}
     ${sections}
     ${cta}
-    <p><a href="/info">← Terug naar de kennisbank</a> · <a href="/erp-systeem-scan">Doe de gratis ERP-scan</a></p>
+    <p><a href="/info">← Terug naar de kennisbank</a> · <a href="/">Doe de gratis ERP-scan</a></p>
   </article>`;
 }
 

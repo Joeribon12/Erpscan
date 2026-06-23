@@ -3,7 +3,7 @@
 // Doelgroep: IT- & operations-leiders in de maakindustrie die nog op SAP ECC
 // draaien en voor de end-of-maintenance / S/4HANA-migratie staan.
 //
-// Zelfde schema en engine als /scans/erp-systeem-scan.js — alleen de INHOUD verschilt.
+// Zelfde schema en engine als de andere scans — alleen de INHOUD verschilt.
 // Dit is precies de kernbelofte: nieuwe doelgroep = nieuwe config, geen code.
 // ══════════════════════════════════════════════════════════════════════════
 
@@ -159,7 +159,7 @@ export default {
       high: { title: "Borg de clean core in S/4", body: "Je kern is al schoon. Houd dit vast met architectuurgovernance en een vast updateritme, zodat je na go-live wendbaar blijft en innovaties snel kunt adopteren." },
     },
     data: {
-      low:  { title: "Begin nu met datamigratie-hygiëne", body: "Fragiele shopfloor-koppelingen en vervuilde stamdata maken een migratie duur en risicovol. Start met opschonen van materialen, stuklijsten en routings, en standaardiseer je integraties richting MES/erp-scan-logistiek. Schone data is de stilste, maar grootste succesfactor van je S/4-project." },
+      low:  { title: "Begin nu met datamigratie-hygiëne", body: "Fragiele shopfloor-koppelingen en vervuilde stamdata maken een migratie duur en risicovol. Start met opschonen van materialen, stuklijsten en routings, en standaardiseer je integraties richting MES/WMS. Schone data is de stilste, maar grootste succesfactor van je S/4-project." },
       mid:  { title: "Standaardiseer koppelingen en ownership", body: "De richting klopt. Versterk de integratielaag richting de productievloer en leg eigenaarschap op stamdata vast, zodat data betrouwbaar de migratie in gaat en daarna herbruikbaar blijft." },
       high: { title: "Maak data realtime en betrouwbaar", body: "Je datafundament is sterk. Zet de stap naar event-driven, gemonitorde integratie tussen shopfloor en ERP, zodat productie en planning realtime op dezelfde waarheid sturen." },
     },
