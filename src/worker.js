@@ -135,7 +135,7 @@ const REDIRECTS = {
 };
 
 const SEO = {
-  "/": { t: "Gratis ERP-scan maakindustrie: klaar voor SAP S/4HANA?", d: "SAP ECC loopt af in 2027. Doe de gratis ERP-scan voor de maakindustrie en ontdek in 3 minuten hoe klaar je productiebedrijf is voor de overstap naar S/4HANA." },
+  "/": { t: "Gratis ERP-scan: hoe futureproof is jouw ERP-systeem?", d: "Doe de gratis ERP-scan en ontdek in 3 minuten hoe futureproof je ERP-systeem is — van processen, integratie en data tot de overstap naar S/4HANA." },
   "/erp-scan-maakindustrie": { t: "ERP-scan maakindustrie: SAP ECC naar S/4HANA testen", d: "Hoe klaar is je ERP-systeem voor de maakindustrie en S/4HANA? Gratis ERP-scan voor productiebedrijven op SAP ECC, met advies richting de 2027-deadline." },
   "/erp-scan-retail": { t: "ERP-scan retail: futureproof ERP-systeem voor e-commerce", d: "Hoe futureproof is je ERP-systeem voor omnichannel retail en e-commerce? Doe de gratis ERP-scan en zie waar voorraad, data of marges je remmen." },
   "/erp-scan-groothandel": { t: "ERP-scan groothandel & distributie: test je ERP-systeem", d: "Hoe sterk staat je ERP-systeem in de groothandel en distributie? Gratis ERP-scan met advies over marge, voorraad, EDI en schaalbaarheid." },
