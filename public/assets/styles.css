@@ -242,9 +242,13 @@ a:hover { text-decoration: underline; }
 .field input[type=text], .field input[type=email], .field input[type=tel] {
   background: var(--bg-soft); border: 1px solid var(--line); border-radius: var(--radius-sm);
   padding: 12px 14px; color: var(--text); font-family: var(--font-body); font-size: 1rem; transition: border-color .15s; }
-.field input:focus { outline: none; border-color: var(--accent); }
-.field input::placeholder { color: var(--muted); }
-.field[data-error="true"] input { border-color: var(--bad); }
+.field textarea {
+  background: var(--bg-soft); border: 1px solid var(--line); border-radius: var(--radius-sm);
+  padding: 12px 14px; color: var(--text); font-family: var(--font-body); font-size: 1rem;
+  resize: vertical; min-height: 76px; transition: border-color .15s; }
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); }
+.field input::placeholder, .field textarea::placeholder { color: var(--muted); }
+.field[data-error="true"] input, .field[data-error="true"] textarea { border-color: var(--bad); }
 .field .err { color: var(--bad); font-size: .8rem; min-height: 1em; }
 
 .consent { display: flex; gap: 12px; align-items: flex-start; grid-column: 1 / -1;

@@ -548,10 +548,12 @@ async function sendFeedback(root, result, helpful, comment) {
 function renderSoftLead(root, result) {
   const privacy = CFG.lead?.privacy_url || DEFAULT_PRIVACY_URL;
   const L = CFG.lead || {};
-  const heading = L.soft_heading || "Wil je het volledige advies in je inbox?";
-  const sub = L.soft_sub || "We sturen je je diagnose en concrete next steps per as toe. Geen verplichting, geen spam — alleen je e-mailadres is nodig.";
-  const button = L.soft_button || "Stuur me het advies";
-  const tag = L.soft_tag || "(optioneel)";
+  const heading = L.soft_heading || "Wil je je uitslag een keer bespreken?";
+  const sub = L.soft_sub || "Wil je hier eens over in gesprek om je situatie duidelijker uit te leggen en scherper in beeld te krijgen? Laat je gegevens achter met je vraag, dan neemt een adviseur vrijblijvend contact op.";
+  const button = L.soft_button || "Verstuur mijn vraag";
+  const tag = L.soft_tag || "(vrijblijvend)";
+  const qLabel = L.soft_question_label || "Je vraag of situatie";
+  const qPlaceholder = L.soft_question_placeholder || "Waar wil je het over hebben? Bijv. waar je tegenaan loopt of wat je wilt bereiken.";
 
   // Personaliseer: benoem de zwakste as als concrete aanleiding voor het gesprek.
   const weakest = [...result.dimensions].sort((a, b) => a.pct - b.pct)[0];
@@ -581,9 +583,13 @@ function renderSoftLead(root, result) {
           <label for="lf-org">Organisatie <span class="optional">(optioneel)</span></label>
           <input id="lf-org" name="organisation" type="text" autocomplete="organization" placeholder="Bedrijfsnaam" />
         </div>
+        <div class="field span-2" data-error="false">
+          <label for="lf-question">${esc(qLabel)} <span class="optional">(optioneel)</span></label>
+          <textarea id="lf-question" name="question" rows="3" placeholder="${esc(qPlaceholder)}"></textarea>
+        </div>
         <div class="consent" data-error="false">
           <input id="lf-consent" name="consent" type="checkbox" />
-          <label for="lf-consent">Ik ga akkoord dat mijn gegevens worden gebruikt om mij dit advies te sturen, conform het <a href="${esc(privacy)}" target="_blank" rel="noopener">privacybeleid</a>. <span class="req">*</span></label>
+          <label for="lf-consent">Ik ga akkoord dat mijn gegevens worden gebruikt om over mijn vraag contact met me op te nemen, conform het <a href="${esc(privacy)}" target="_blank" rel="noopener">privacybeleid</a>. <span class="req">*</span></label>
         </div>
       </div>
       <div class="form-foot">
@@ -602,6 +608,7 @@ function onSoftLeadSubmit(e, result) {
     name: ($("#lf-name", form)?.value || "").trim(),
     organisation: ($("#lf-org", form)?.value || "").trim(),
     email: ($("#lf-email", form)?.value || "").trim(),
+    question: ($("#lf-question", form)?.value || "").trim(),
     consent: $("#lf-consent", form)?.checked || false,
   };
 
@@ -627,7 +634,7 @@ function onSoftLeadSubmit(e, result) {
     scan_id: CFG.scan_id, scan_title: CFG.title, audience: CFG.audience || null,
     total_score: result.total, verdict_label: result.verdict.label,
     dimensions: result.dimensions, answers: result.detail,
-    lead: { name: data.name || "", organisation: data.organisation || "", email: data.email, phone: "", consent: true },
+    lead: { name: data.name || "", organisation: data.organisation || "", email: data.email, phone: "", question: data.question || "", consent: true },
     meta: { url: location.href, referrer: document.referrer || null, user_agent: navigator.userAgent, submitted_at_client: new Date().toISOString() },
   };
   const btn = $("#lead-submit"); btn.disabled = true;

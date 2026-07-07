@@ -186,12 +186,14 @@ export default {
     // ── Zachte lead na de feedback: vrijblijvend sparringsgesprek ──────────────
     // De engine toont dit aanbod (CFG.lead.soft_*) en benoemt automatisch de
     // zwakste as als gespreksaanleiding.
-    soft_tag: "(vrijblijvend · 30 min)",
-    soft_heading: "Spar 30 minuten met een S/4HANA-specialist uit de maakindustrie",
-    soft_sub: "Geen verkooppraatje — een onafhankelijke blik op je grootste migratierisico richting 2027 en de eerste concrete stap die je kunt zetten. Laat je e-mail achter, dan plannen we een moment dat jou uitkomt.",
-    soft_button: "Plan mijn sparringsgesprek",
+    soft_tag: "(vrijblijvend)",
+    soft_heading: "Wil je je uitslag een keer bespreken?",
+    soft_sub: "Wil je hier eens over in gesprek om je situatie duidelijker uit te leggen en scherper in beeld te krijgen? Laat je gegevens achter met je vraag — een specialist met maakindustrie-ervaring neemt vrijblijvend contact op om je grootste kans richting 2027 met je door te nemen.",
+    soft_button: "Verstuur mijn vraag",
+    soft_question_label: "Je vraag of situatie",
+    soft_question_placeholder: "Bijv. waar je nu tegenaan loopt met SAP ECC, of wat je wilt bereiken richting S/4HANA.",
 
-    thanks_heading: "Bedankt — we nemen contact op om te plannen",
-    thanks_sub: "Een specialist met maakindustrie-ervaring neemt binnen één werkdag contact op om je sparringsgesprek in te plannen.",
+    thanks_heading: "Bedankt — we nemen contact op",
+    thanks_sub: "Een specialist met maakindustrie-ervaring neemt binnen één werkdag contact op om je vraag en situatie met je door te nemen.",
   },
 };

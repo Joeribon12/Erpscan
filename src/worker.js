@@ -291,6 +291,7 @@ function buildEmailHtml(b) {
       <tr><td style="padding:3px 10px;color:#666">E-mail</td><td style="padding:3px 10px"><a href="mailto:${e(lead.email)}">${e(lead.email)}</a></td></tr>
       <tr><td style="padding:3px 10px;color:#666">Telefoon</td><td style="padding:3px 10px">${e(lead.phone || "—")}</td></tr>
     </table>
+    ${lead.question ? `<h3 style="margin:20px 0 6px">Vraag / situatie</h3><p style="margin:0;padding:12px 14px;background:#f5f7fb;border-left:3px solid #1d4ed8;border-radius:0 8px 8px 0;white-space:pre-wrap;color:#1a1a1a">${e(lead.question)}</p>` : ""}
     ${profileRows ? `<h3 style="margin:20px 0 6px">Profiel</h3><table style="border-collapse:collapse;font-size:14px">${profileRows}</table>` : ""}
     <h3 style="margin:20px 0 6px">Score per as</h3>
     <table style="border-collapse:collapse;font-size:14px;width:100%">${dimRows}</table>
@@ -311,7 +312,7 @@ function toRow(b) {
     String(b.total_score ?? ""), b.verdict_label || "",
     lead.name || "", lead.organisation || "", lead.email || "", lead.phone || "",
     b.profile?.erp?.value || "", b.profile?.omzet?.value || "", b.profile?.fte?.value || "",
-    dimStr, answers, b.meta?.url || "", b.meta?.referrer || "",
+    dimStr, answers, b.meta?.url || "", b.meta?.referrer || "", lead.question || "",
   ];
 }
 
