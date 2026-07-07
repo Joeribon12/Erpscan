@@ -4,21 +4,24 @@
    ════════════════════════════════════════════════════════════════════════ */
 
 :root {
-  /* Kleur — licht/wit canvas, koel grijs, één betrouwbaar blauw accent */
+  /* Kleur — helder canvas, koel grijs, een diep blauw met cyaan-metgezel.
+     "Precisie / blueprint": zakelijk en modern voor de maakindustrie. */
   --bg:        #ffffff;
-  --bg-soft:   #f4f7fb;
+  --bg-soft:   #f1f5fb;
   --surface:   #ffffff;
-  --surface-2: #eaeff7;
-  --line:      #e1e7f0;
-  --line-soft: #eef2f7;
+  --surface-2: #e6edf8;
+  --line:      #dbe3f0;
+  --line-soft: #eaf0f8;
 
-  --text:      #0f1b2e;
-  --text-soft: #46566b;
-  --muted:     #8593a6;
+  --text:      #0b1524;
+  --text-soft: #41526a;
+  --muted:     #7a8aa1;
 
-  --accent:    #2563eb;   /* vertrouwd blauw */
-  --accent-dim:#1d4ed8;
+  --accent:    #1d4ed8;   /* diep, betrouwbaar blauw */
+  --accent-dim:#1e40af;
+  --accent-2:  #0ea5e9;   /* cyaan-metgezel voor gradients/accenten */
   --accent-ink:#ffffff;   /* tekst óp het accent */
+  --grad-accent: linear-gradient(135deg, #1d4ed8 0%, #2f6bed 55%, #0ea5e9 130%);
 
   --ok:        #16a34a;
   --warn:      #d97706;
@@ -30,10 +33,12 @@
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
   /* Maatvoering */
-  --wrap: 880px;
-  --radius: 14px;
-  --radius-sm: 9px;
-  --shadow: 0 16px 40px -18px rgba(15,27,46,.16);
+  --wrap: 900px;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 18px 44px -20px rgba(11,21,36,.22);
+  --shadow-sm: 0 6px 18px -10px rgba(11,21,36,.20);
+  --shadow-accent: 0 14px 30px -12px rgba(29,78,216,.45);
   --ease: cubic-bezier(.2,.7,.2,1);
 }
 
@@ -44,7 +49,8 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   background:
-    radial-gradient(1100px 600px at 85% -8%, rgba(37,99,235,.07), transparent 60%),
+    radial-gradient(1200px 640px at 88% -10%, rgba(14,165,233,.10), transparent 60%),
+    radial-gradient(900px 520px at 8% 4%, rgba(29,78,216,.06), transparent 62%),
     var(--bg);
   color: var(--text);
   font-family: var(--font-body);
@@ -78,8 +84,8 @@ a:hover { text-decoration: underline; }
 .header-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
 .brand { display: flex; align-items: baseline; gap: 10px; color: var(--text); }
 .brand:hover { text-decoration: none; }
-.brand-mark { width: 12px; height: 12px; border-radius: 3px; background: var(--accent);
-  box-shadow: 0 0 0 4px rgba(37,99,235,.14); transform: translateY(1px); }
+.brand-mark { width: 13px; height: 13px; border-radius: 4px; background: var(--grad-accent);
+  box-shadow: 0 0 0 4px rgba(29,78,216,.14); transform: translateY(1px); }
 .brand-name { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; letter-spacing: .02em; }
 .brand-sub { color: var(--muted); font-size: .82rem; font-family: var(--font-mono); }
 .header-meta { color: var(--muted); font-size: .8rem; font-family: var(--font-mono); }
@@ -102,10 +108,10 @@ a:hover { text-decoration: underline; }
 .btn { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 600;
   font-size: 1rem; border: 0; border-radius: 10px; padding: 14px 22px; cursor: pointer; transition: transform .12s var(--ease), background .2s; }
 .btn:disabled { opacity: .4; cursor: not-allowed; }
-.btn-primary { background: var(--accent); color: var(--accent-ink); }
-.btn-primary:not(:disabled):hover { transform: translateY(-2px); background: #1d4ed8; }
-.btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
-.btn-ghost:hover { border-color: var(--accent); }
+.btn-primary { background: var(--grad-accent); background-size: 140% 140%; color: var(--accent-ink); box-shadow: var(--shadow-accent); }
+.btn-primary:not(:disabled):hover { transform: translateY(-2px); background-position: 100% 0; box-shadow: 0 18px 36px -12px rgba(29,78,216,.55); }
+.btn-ghost { background: var(--surface); color: var(--text); border: 1px solid var(--line); box-shadow: var(--shadow-sm); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent-dim); transform: translateY(-2px); text-decoration: none; }
 .btn .arrow { transition: transform .15s var(--ease); }
 .btn:not(:disabled):hover .arrow { transform: translateX(3px); }
 
@@ -281,16 +287,61 @@ a:hover { text-decoration: underline; }
 .fatal code { font-family: var(--font-mono); background: var(--surface-2); padding: 2px 7px; border-radius: 5px; color: var(--accent); }
 
 /* ── Landing: hero + scan-keuze ────────────────────────────────────────── */
-.hero { padding: clamp(8px, 3vw, 30px) 0 6px; }
-.hero-title { font-size: clamp(2rem, 5.4vw, 3.4rem); letter-spacing: -.02em; max-width: 18ch; }
-.hero-lede { font-size: clamp(1.05rem, 2vw, 1.2rem); max-width: 58ch; margin-top: 4px; }
-.hero-cta { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 28px; }
-.hero-stats { display: flex; gap: clamp(22px, 4vw, 44px); flex-wrap: wrap; margin-top: 42px;
-  padding-top: 28px; border-top: 1px solid var(--line-soft); }
+.hero { position: relative; overflow: hidden; margin-top: clamp(8px, 2.5vw, 22px);
+  padding: clamp(30px, 5vw, 58px) clamp(22px, 4vw, 52px);
+  border: 1px solid var(--line); border-radius: 24px;
+  background: linear-gradient(180deg, #ffffff, var(--bg-soft));
+  box-shadow: var(--shadow); }
+/* Blueprint-raster dat van rechtsboven invloeit */
+.hero::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(29,78,216,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(29,78,216,.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+  -webkit-mask: radial-gradient(120% 95% at 88% -5%, #000, transparent 68%);
+          mask: radial-gradient(120% 95% at 88% -5%, #000, transparent 68%); }
+/* Zachte cyaan-gloed */
+.hero::after { content: ""; position: absolute; right: -90px; top: -110px; width: 360px; height: 360px;
+  border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, rgba(14,165,233,.20), transparent 66%); }
+.hero-inner { position: relative; z-index: 1; }
+.hero-title { font-size: clamp(2.05rem, 5.2vw, 3.35rem); letter-spacing: -.025em; max-width: 20ch; margin-bottom: .35em; }
+.hero-lede { font-size: clamp(1.05rem, 2vw, 1.2rem); max-width: 60ch; margin-top: 4px; }
+.hero-cta { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 30px; }
+.hero-stats { display: flex; gap: clamp(22px, 4vw, 44px); flex-wrap: wrap; margin-top: 40px;
+  padding-top: 28px; border-top: 1px solid var(--line); }
 .hero-stats > div { max-width: 24ch; }
-.hero-stats b { display: block; font-family: var(--font-mono); font-weight: 600; font-size: 1.9rem;
-  color: var(--accent); line-height: 1; }
+.hero-stats b { display: block; font-family: var(--font-mono); font-weight: 600; font-size: 1.95rem;
+  color: var(--accent-dim); line-height: 1; }
 .hero-stats span { display: block; color: var(--muted); font-size: .9rem; margin-top: 8px; line-height: 1.4; }
+
+/* ── Homepage: "Zo werkt de scan" (stapkaarten) ────────────────────────── */
+.home-steps { margin-top: clamp(40px, 7vw, 60px); }
+.step-cards { list-style: none; margin: 22px 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; counter-reset: sc; }
+@media (max-width: 680px){ .step-cards { grid-template-columns: 1fr; } }
+.step-card { position: relative; background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 24px 22px; box-shadow: var(--shadow-sm);
+  transition: border-color .18s, transform .12s var(--ease); }
+.step-card:hover { border-color: color-mix(in srgb, var(--accent) 38%, var(--line)); transform: translateY(-3px); }
+.step-card .sc-n { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px;
+  background: var(--grad-accent); color: #fff; font-family: var(--font-mono); font-weight: 600; font-size: 1.05rem;
+  box-shadow: var(--shadow-accent); }
+.step-card h3 { margin: 16px 0 6px; font-family: var(--font-display); font-size: 1.08rem; color: var(--text); }
+.step-card p { margin: 0; font-size: .94rem; }
+
+/* ── Homepage: gids-callout (naar "Welke ERP past bij productie") ───────── */
+.guide-callout { display: flex; align-items: center; justify-content: space-between; gap: 26px; flex-wrap: wrap;
+  margin-top: clamp(38px, 6vw, 54px); padding: clamp(24px, 3.4vw, 34px);
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--line)); border-radius: var(--radius);
+  background:
+    radial-gradient(600px 300px at 100% 0%, rgba(14,165,233,.10), transparent 60%),
+    linear-gradient(180deg, var(--surface), var(--bg-soft));
+  box-shadow: var(--shadow); }
+.guide-callout .gc-body { flex: 1 1 320px; }
+.guide-callout h2 { margin: 4px 0 8px; }
+.guide-callout p { margin: 0; max-width: 60ch; }
+.guide-callout .btn { flex: 0 0 auto; }
 
 .scan-choose { margin-top: clamp(40px, 7vw, 64px); scroll-margin-top: 80px; }
 .home-explainer { margin-top: clamp(40px, 7vw, 60px); }
@@ -357,7 +408,11 @@ a:hover { text-decoration: underline; }
 .prose-block p { max-width: 66ch; }
 
 .article-cta { display: flex; align-items: center; justify-content: space-between; gap: 24px;
-  margin: 38px 0 8px; flex-wrap: wrap; }
+  margin: 44px 0 8px; flex-wrap: wrap;
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--line));
+  background:
+    radial-gradient(600px 300px at 100% 0%, rgba(14,165,233,.10), transparent 60%),
+    linear-gradient(180deg, var(--surface), var(--bg-soft)); }
 .article-cta h2 { margin: 0 0 6px; }
 .article-cta p { margin: 0; max-width: 48ch; }
 .article-cta .btn { flex: 0 0 auto; }

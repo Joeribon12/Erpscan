@@ -22,6 +22,7 @@ import scanRetail        from "../public/scans/erp-scan-retail.js";
 import scanGroothandel   from "../public/scans/erp-scan-groothandel.js";
 
 // ── Artikel-configs ─────────────────────────────────────────────────────────
+import artWelkeErp     from "../public/pages/welke-erp-past-bij-productie.js";
 import artWatIsErp     from "../public/pages/wat-is-erp.js";
 import artErpFeiten    from "../public/pages/erp-feiten.js";
 import artOptimaliseren from "../public/pages/optimaliseren.js";
@@ -46,6 +47,7 @@ const SCAN_CFG = {
 };
 
 const ART_CFG = {
+  "/info/welke-erp-past-bij-productie": artWelkeErp,
   "/info/wat-is-erp": artWatIsErp,
   "/info/erp-feiten": artErpFeiten,
   "/info/optimaliseren": artOptimaliseren,
@@ -134,7 +136,7 @@ function renderScan(cfg) {
     <p>${esc(cfg.audience || "")}</p>
     <h2>Andere ERP-scans</h2>
     <ul>${others}</ul>
-    <p>Liever eerst inlezen? Bekijk de <a href="/info">kennisbank over ERP</a>.</p>
+    <p>Twijfel je nog over je systeemkeuze? Lees eerst de gids <a href="/info/welke-erp-past-bij-productie">welke ERP past bij productie</a>, of bekijk de hele <a href="/info">kennisbank over ERP</a>.</p>
   </section>`;
 }
 
@@ -159,9 +161,21 @@ function renderLanding() {
   return `<div class="landing">
     <section class="hero">
       <span class="eyebrow">Gratis ERP-scan · Maakindustrie</span>
-      <h1>SAP ECC loopt af in 2027. Hoe klaar is jouw productiebedrijf voor S/4HANA?</h1>
-      <p class="lede">Veel productiebedrijven draaien nog op SAP ECC, met jaren aan opgebouwd maatwerk. Doe de gratis ERP-scan voor de maakindustrie en weet binnen 3 minuten waar je grootste migratierisico's liggen — én waar je winst zit richting 2027.</p>
-      <p><a href="/erp-scan-maakindustrie">Start de gratis ERP-scan voor de maakindustrie →</a></p>
+      <h1>Hoe futureproof is het ERP van jouw productiebedrijf?</h1>
+      <p class="lede">Van de juiste ERP-keuze tot de overstap van SAP ECC naar S/4HANA: productiebedrijven staan voor grote systeemkeuzes richting 2027. Doe de gratis ERP-scan voor de maakindustrie en weet binnen 3 minuten waar je staat — en waar je grootste keuze of risico ligt.</p>
+      <p><a href="/erp-scan-maakindustrie">Start de gratis ERP-scan voor de maakindustrie →</a> · <a href="/info/welke-erp-past-bij-productie">Welke ERP past bij productie?</a></p>
+    </section>
+    <section>
+      <h2>Zo werkt de ERP-scan</h2>
+      <ol>
+        <li><strong>Beantwoord 10 vragen</strong> over je strategie, techniek, data en productieprocessen — in zo'n 3 minuten.</li>
+        <li><strong>Krijg direct je diagnose</strong> met een score per as en een totaalbeeld van je ERP-gereedheid.</li>
+        <li><strong>Werk je actieplan af</strong> met concrete vervolgstappen op volgorde van impact.</li>
+      </ol>
+    </section>
+    <section>
+      <h2>Welke ERP past bij productie?</h2>
+      <p>Twijfel je over je systeemkeuze? Lees de complete gids met keuzecriteria, een besliskader in vijf stappen en een eerlijke vergelijking van <a href="/info/welke-erp-past-bij-productie">ERP-systemen voor de maakindustrie</a>.</p>
     </section>
     <section>
       <h2>Van SAP ECC naar S/4HANA</h2>

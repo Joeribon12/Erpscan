@@ -8,6 +8,12 @@
 
 export const PAGES = [
   {
+    id: "welke-erp-past-bij-productie",
+    title: "Welke ERP past bij productie?",
+    teaser: "Keuzecriteria, een besliskader in 5 stappen en een eerlijke vergelijking van ERP-systemen voor de maakindustrie.",
+    path: "/info/welke-erp-past-bij-productie",
+  },
+  {
     id: "wat-is-erp",
     title: "Wat is een ERP-systeem?",
     teaser: "ERP-betekenis, uitleg en voorbeelden zoals SAP ERP — in heldere taal.",

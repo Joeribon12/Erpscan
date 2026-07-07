@@ -135,11 +135,21 @@ const REDIRECTS = {
 };
 
 const SEO = {
-  "/": { t: "Gratis ERP-scan: hoe futureproof is jouw ERP-systeem?", d: "Doe de gratis ERP-scan en ontdek in 3 minuten hoe futureproof je ERP-systeem is — van processen, integratie en data tot de overstap naar S/4HANA." },
+  "/": { t: "ERP-scan voor productie: is jouw ERP-systeem futureproof?", d: "Welke ERP past bij jouw productiebedrijf en ben je klaar voor S/4HANA? Doe de gratis ERP-scan voor de maakindustrie en zie in 3 minuten waar je staat — van processen en data tot de overstap van SAP ECC." },
   "/erp-scan-maakindustrie": { t: "ERP-scan maakindustrie: SAP ECC naar S/4HANA testen", d: "Hoe klaar is je ERP-systeem voor de maakindustrie en S/4HANA? Gratis ERP-scan voor productiebedrijven op SAP ECC, met advies richting de 2027-deadline." },
   "/erp-scan-retail": { t: "ERP-scan retail: futureproof ERP-systeem voor e-commerce", d: "Hoe futureproof is je ERP-systeem voor omnichannel retail en e-commerce? Doe de gratis ERP-scan en zie waar voorraad, data of marges je remmen." },
   "/erp-scan-groothandel": { t: "ERP-scan groothandel & distributie: test je ERP-systeem", d: "Hoe sterk staat je ERP-systeem in de groothandel en distributie? Gratis ERP-scan met advies over marge, voorraad, EDI en schaalbaarheid." },
   "/info": { t: "ERP kennisbank: wat is ERP & je ERP-systeem optimaliseren", d: "Wat is ERP en hoe optimaliseer je je ERP-systeem? Korte, scherpe artikelen over ERP, SAP ERP, S/4HANA, AI en ERP-implementatie." },
+  "/info/welke-erp-past-bij-productie": {
+    t: "Welke ERP past bij productie? ERP-systemen voor de maakindustrie vergeleken",
+    d: "Welke ERP past bij productie? Keuzecriteria, een besliskader in 5 stappen en een eerlijke vergelijking van ERP-systemen voor productiebedrijven en de maakindustrie.",
+    faq: [
+      { q: "Welke ERP past bij productie?", a: "Dat hangt af van je productietype (discreet of proces), je ordervorm (make-to-stock tot engineer-to-order), je omvang en je groeiambitie. Begin bij je eigen processen en must-haves — zoals MRP-planning, stuklijsten, MES-koppeling en traceerbaarheid — en kies het systeem dat daar het beste standaard bij past." },
+      { q: "Wat is de beste ERP voor de maakindustrie?", a: "Er is geen universeel beste ERP. Voor middelgrote en grote, internationale productiebedrijven is SAP S/4HANA marktleider; Microsoft Dynamics 365 en Oracle NetSuite passen vaak goed bij het mkb en scale-ups; Infor CloudSuite Industrial is sterk in specifieke discrete productie; Exact, AFAS en Ridder zijn populair in het Nederlandse mkb." },
+      { q: "Waar moet je op letten bij het kiezen van een ERP voor productie?", a: "Op sterke MRP- en capaciteitsplanning, meerlaagse stuklijsten en routings, een betrouwbare koppeling met de werkvloer (MES), batch- en serienummer-traceerbaarheid, realtime kostprijs per order, schaalbaarheid en zo min mogelijk maatwerk. En minstens zo belangrijk: een implementatiepartner met ervaring in jouw sector." },
+      { q: "Welk ERP-systeem gebruiken de meeste productiebedrijven?", a: "In de grotere maakindustrie is SAP het meest gebruikt, met de overgang van SAP ECC naar SAP S/4HANA als grote thema richting het einde van het mainstream-onderhoud in 2027. In het mkb zie je vaker Microsoft Dynamics 365, Exact, AFAS en Infor." },
+    ],
+  },
   "/info/wat-is-erp": {
     t: "Wat is ERP? Betekenis van een ERP-systeem uitgelegd",
     d: "Wat is ERP en wat is een ERP-systeem? Heldere uitleg van de ERP-betekenis, voorbeelden zoals SAP ERP, en wat een ERP-systeem doet.",

@@ -14,11 +14,11 @@ export default {
   audience: "Voor IT- & operations-leiders in de maakindustrie",
 
   intro: {
-    sub: "SAP's mainstream maintenance op ECC eindigt in 2027. Deze scan voor het ERP-systeem in de maakindustrie meet in tien vragen hoe klaar jouw productiebedrijf is voor de overstap van SAP ECC naar S/4HANA — van migratiestrategie tot clean core, data en productieprocessen. Je krijgt direct een diagnose met prioriteiten.",
+    sub: "Vraag je je af welke ERP bij jouw productie past? Deze gratis ERP-scan voor de maakindustrie meet in tien vragen hoe klaar je productiebedrijf is — van migratiestrategie en clean core tot data en productieprocessen. Zeker als je nog op SAP ECC draait en richting de S/4HANA-deadline van 2027 gaat, zie je direct waar je grootste keuze en risico ligt. Je krijgt meteen een diagnose met prioriteiten.",
     bullets: [
-      "Concrete nulmeting van je S/4HANA-gereedheid",
-      "Zicht op je grootste migratierisico's — vóórdat het 2027 is",
-      "Toegespitst op ERP-software voor de maakindustrie, met een verbeterpunt per as",
+      "Concrete nulmeting van je ERP- en S/4HANA-gereedheid",
+      "Zicht op je grootste keuze- en migratierisico's — vóórdat het 2027 is",
+      "Toegespitst op ERP-software voor productiebedrijven, met een verbeterpunt per as",
     ],
   },
 

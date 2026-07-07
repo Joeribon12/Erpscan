@@ -661,17 +661,38 @@ async function renderLanding() {
 
   app.replaceChildren(el(`<div class="landing">
     <section class="hero">
-      <span class="eyebrow">Gratis ERP-scan · Maakindustrie</span>
-      <h1 class="hero-title">SAP ECC loopt af in 2027.<br>Hoe klaar is jouw productiebedrijf voor S/4HANA?</h1>
-      <p class="lede hero-lede">Veel productiebedrijven draaien nog op SAP ECC, met jaren aan opgebouwd maatwerk. Doe de gratis ERP-scan voor de maakindustrie en weet binnen 3 minuten waar je grootste migratierisico's liggen — én waar je winst zit richting 2027.</p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="/erp-scan-maakindustrie">Start de gratis scan <span class="arrow">→</span></a>
+      <div class="hero-inner">
+        <span class="eyebrow">Gratis ERP-scan · Maakindustrie</span>
+        <h1 class="hero-title">Hoe futureproof is het ERP van jouw productiebedrijf?</h1>
+        <p class="lede hero-lede">Van de juiste ERP-keuze tot de overstap van SAP ECC naar S/4HANA: productiebedrijven staan voor grote systeemkeuzes richting 2027. Doe de gratis ERP-scan voor de maakindustrie en weet binnen 3 minuten waar je staat — en waar je grootste keuze of risico ligt.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="/erp-scan-maakindustrie">Start de gratis scan <span class="arrow">→</span></a>
+          <a class="btn btn-ghost" href="/info/welke-erp-past-bij-productie">Welke ERP past bij productie?</a>
+        </div>
+        <div class="hero-stats">
+          <div><b>2027</b><span>einde mainstream maintenance op SAP ECC</span></div>
+          <div><b>~3 min</b><span>tot je persoonlijke ERP-diagnose</span></div>
+          <div><b>gratis</b><span>direct inzicht, geen verkooppraatje</span></div>
+        </div>
       </div>
-      <div class="hero-stats">
-        <div><b>2027</b><span>einde mainstream maintenance op SAP ECC</span></div>
-        <div><b>~3 min</b><span>tot je persoonlijke S/4HANA-diagnose</span></div>
-        <div><b>gratis</b><span>direct inzicht, geen verkooppraatje</span></div>
+    </section>
+
+    <section class="home-steps">
+      <h2>Zo werkt de ERP-scan</h2>
+      <ol class="step-cards">
+        <li class="step-card"><span class="sc-n">1</span><h3>Beantwoord 10 vragen</h3><p>Over je strategie, techniek, data en productieprocessen — in zo'n 3 minuten, zonder inloggen.</p></li>
+        <li class="step-card"><span class="sc-n">2</span><h3>Krijg direct je diagnose</h3><p>Een score per as en een helder totaalbeeld van hoe futureproof je ERP-systeem is.</p></li>
+        <li class="step-card"><span class="sc-n">3</span><h3>Werk je actieplan af</h3><p>Concrete vervolgstappen op volgorde van impact — je begint bij je grootste kans.</p></li>
+      </ol>
+    </section>
+
+    <section class="guide-callout">
+      <div class="gc-body">
+        <span class="eyebrow">Gids · ERP kiezen</span>
+        <h2>Welke ERP past bij productie?</h2>
+        <p>Twijfel je over je systeemkeuze? Lees de complete gids met keuzecriteria, een besliskader in 5 stappen en een eerlijke vergelijking van ERP-systemen voor de maakindustrie.</p>
       </div>
+      <a class="btn btn-primary" href="/info/welke-erp-past-bij-productie">Lees de gids <span class="arrow">→</span></a>
     </section>
 
     <section class="home-explainer">
