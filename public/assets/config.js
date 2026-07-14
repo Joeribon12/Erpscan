@@ -12,6 +12,11 @@ export const RUNTIME = {
   // Endpoint voor de "Was deze scan behulpzaam?"-feedback (geen persoonsgegevens).
   FEEDBACK_ENDPOINT: "/api/feedback",
 
+  // Endpoint voor de LLM-diagnose (fit-to-standard). Zit IN de site-Worker
+  // (src/worker.js → src/diagnose.js). Additief: valt de call weg, dan blijft
+  // het sjabloon-actieplan gewoon staan.
+  DIAGNOSE_ENDPOINT: "/api/diagnose",
+
   // Standaardscan als er geen pad/queryparam is opgegeven (de root "/").
   DEFAULT_SCAN: "algemeen",
 

@@ -293,6 +293,16 @@ function renderResult(result) {
       </div>
     </div>
 
+    <section class="diagnosis card" id="diagnosis">
+      <span class="eyebrow">Fit-to-standard diagnose</span>
+      <div class="diag-body" id="diag-body">
+        <div class="diag-loading">
+          <span class="diag-spinner" aria-hidden="true"></span>
+          <p>Een onafhankelijk adviseur stelt je fit-to-standard diagnose op…<br><small>Dit duurt een paar seconden.</small></p>
+        </div>
+      </div>
+    </section>
+
     <div class="plan-head" style="margin-top:36px">
       <h2 id="plan-title"></h2>
       <p class="lede" id="plan-intro"></p>
@@ -383,8 +393,66 @@ function renderResult(result) {
   animateReveal(result.total, C);
 
   wireFeedback(node, result);
+  runDiagnosis(node, result);
   // Bewaar voor de submit-payload
   LAST_RESULT = result;
+}
+
+// ── LLM fit-to-standard diagnose ─────────────────────────────────────────────
+// Additief: haalt een scherpe, sectorspecifieke diagnose op bij de Worker.
+// Faalt de call (of is de service niet geconfigureerd), dan verdwijnt de kaart
+// geruisloos — het sjabloon-actieplan eronder blijft de volwaardige uitkomst.
+async function runDiagnosis(node, result) {
+  const card = $("#diagnosis", node);
+  const bodyEl = $("#diag-body", node);
+  if (!card || !bodyEl) return;
+
+  const payload = {
+    scan_id: CFG.scan_id,
+    total_score: result.total,
+    verdict_label: result.verdict.label,
+    dimensions: result.dimensions,
+    answers: result.detail,
+  };
+
+  try {
+    const res = await fetch(RUNTIME.DIAGNOSE_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    if (!data.diagnosis) throw new Error("lege diagnose");
+    bodyEl.innerHTML = renderMarkdown(data.diagnosis);
+    bodyEl.classList.add("diag-ready");
+  } catch (err) {
+    console.warn("Diagnose niet beschikbaar:", err);
+    card.remove(); // stil degraderen naar het sjabloon-advies
+  }
+}
+
+// Kleine, veilige Markdown→HTML voor de diagnosetekst: escapet alles en laat
+// alleen kopjes (## ), opsommingen (- ) en **vet** door. Geen ruwe HTML.
+function renderMarkdown(md) {
+  const inline = (s) => esc(s).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  const lines = String(md).replace(/\r\n/g, "\n").split("\n");
+  const out = [];
+  let list = null, para = [];
+  const flushList = () => { if (list) { out.push(`<ul>${list.join("")}</ul>`); list = null; } };
+  const flushPara = () => { if (para.length) { out.push(`<p>${inline(para.join(" "))}</p>`); para = []; } };
+
+  for (const raw of lines) {
+    const line = raw.trim();
+    if (!line) { flushList(); flushPara(); continue; }
+    const h = line.match(/^#{1,4}\s+(.*)$/);
+    if (h) { flushList(); flushPara(); out.push(`<h3>${inline(h[1])}</h3>`); continue; }
+    const li = line.match(/^[-*]\s+(.*)$/);
+    if (li) { flushPara(); (list = list || []).push(`<li>${inline(li[1])}</li>`); continue; }
+    flushList(); para.push(line);
+  }
+  flushList(); flushPara();
+  return out.join("");
 }
 
 function animateReveal(total, circ) {

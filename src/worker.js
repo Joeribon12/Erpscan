@@ -19,6 +19,7 @@
 // ══════════════════════════════════════════════════════════════════════════
 
 import { renderRouteContent } from "./seo-content.js";
+import { buildDiagnoseRequest } from "./diagnose.js";
 
 export default {
   async fetch(request, env) {
@@ -40,6 +41,13 @@ export default {
       if (request.method === "OPTIONS") return new Response(null, { status: 204 });
       if (request.method !== "POST") return json({ error: "Method not allowed" }, 405);
       return handleFeedback(request, env);
+    }
+
+    // ── Diagnose-API (LLM fit-to-standard) ─────────────────────────────────
+    if (url.pathname === "/api/diagnose") {
+      if (request.method === "OPTIONS") return new Response(null, { status: 204 });
+      if (request.method !== "POST") return json({ error: "Method not allowed" }, 405);
+      return handleDiagnose(request, env);
     }
 
     // ── Statische assets (js/css/img/xml/...): direct serveren ─────────────
@@ -246,6 +254,64 @@ async function handleFeedback(request, env) {
     } catch (err) { console.error("Feedback-mail error:", err && err.stack ? err.stack : err); }
   }
   return json({ ok: true }, 200);
+}
+
+// ── Diagnose-afhandeling (LLM fit-to-standard) ───────────────────────────────
+// Roept de Anthropic Messages-API aan met de persona uit src/diagnose.js.
+// De API-key staat uitsluitend als SECRET (ANTHROPIC_API_KEY) in Cloudflare.
+// Faalt de call of ontbreekt de key, dan degradeert de frontend naar het
+// bestaande sjabloon-advies (deze diagnose is additief, geen kritiek pad).
+async function handleDiagnose(request, env) {
+  if (!env.ANTHROPIC_API_KEY) return json({ error: "Diagnose niet geconfigureerd" }, 503);
+
+  let body;
+  try { body = await request.json(); }
+  catch { return json({ error: "Ongeldige JSON" }, 400); }
+
+  // Lichte payload-validatie (tevens misbruik-drempel): scan_id + minimaal
+  // enkele antwoorden. Zonder echte scan-uitkomst geen (betaalde) LLM-call.
+  if (!body || !body.scan_id) return json({ error: "scan_id ontbreekt" }, 400);
+  if (!Array.isArray(body.answers) || body.answers.length < 3) {
+    return json({ error: "Onvoldoende antwoorden" }, 422);
+  }
+
+  const built = buildDiagnoseRequest(body);
+  if (!built) return json({ error: "Onbekende sector" }, 422);
+
+  const model = env.DIAGNOSE_MODEL || "claude-sonnet-5";
+  let res;
+  try {
+    res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "x-api-key": env.ANTHROPIC_API_KEY,
+        "anthropic-version": "2023-06-01",
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        model,
+        max_tokens: 1200,
+        system: built.system,
+        messages: built.messages,
+      }),
+    });
+  } catch (err) {
+    console.error("Diagnose fetch error:", err && err.stack ? err.stack : err);
+    return json({ error: "Diagnose-service onbereikbaar" }, 502);
+  }
+
+  if (!res.ok) {
+    console.error("Anthropic API", res.status, await res.text());
+    return json({ error: "Diagnose mislukte" }, 502);
+  }
+
+  const data = await res.json();
+  const text = Array.isArray(data.content)
+    ? data.content.filter((b) => b.type === "text").map((b) => b.text).join("").trim()
+    : "";
+  if (!text) return json({ error: "Lege diagnose" }, 502);
+
+  return json({ diagnosis: text }, 200);
 }
 
 // ── E-mail doorsturen (Resend) ───────────────────────────────────────────────

@@ -499,6 +499,29 @@ table.cmp td:first-child { color: var(--text); font-weight: 500; }
 }
 .profile-field input[type=range]::-moz-range-track { height: 6px; border-radius: 99px; background: var(--surface-2); }
 
+/* ── Fit-to-standard diagnose (LLM) ──────────────────────────────────────── */
+.diagnosis { margin-top: 22px; position: relative; overflow: hidden;
+  border-color: color-mix(in srgb, var(--accent) 32%, var(--line));
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 4%, var(--surface)), var(--bg-soft)); }
+.diagnosis::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--grad-accent); }
+
+.diag-loading { display: flex; align-items: center; gap: 14px; color: var(--muted); padding: 6px 0; }
+.diag-loading p { margin: 0; font-size: .95rem; }
+.diag-loading small { color: var(--muted); opacity: .8; }
+.diag-spinner { flex: none; width: 26px; height: 26px; border-radius: 50%;
+  border: 3px solid var(--surface-2); border-top-color: var(--accent);
+  animation: diag-spin .8s linear infinite; }
+@keyframes diag-spin { to { transform: rotate(360deg); } }
+
+.diag-ready { animation: diag-fade .4s ease both; }
+@keyframes diag-fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.diag-ready h3 { font-size: 1.05rem; margin: 20px 0 8px; color: var(--accent-dim); }
+.diag-ready h3:first-child { margin-top: 0; }
+.diag-ready p { margin: 0 0 12px; line-height: 1.6; }
+.diag-ready ul { margin: 0 0 14px; padding-left: 20px; }
+.diag-ready li { margin: 0 0 7px; line-height: 1.55; }
+.diag-ready strong { color: var(--text); }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
 }
