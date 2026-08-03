@@ -616,10 +616,10 @@ async function sendFeedback(root, result, helpful, comment) {
 function renderSoftLead(root, result) {
   const privacy = CFG.lead?.privacy_url || DEFAULT_PRIVACY_URL;
   const L = CFG.lead || {};
-  const heading = L.soft_heading || "Wil je je uitslag een keer bespreken?";
-  const sub = L.soft_sub || "Wil je hier eens over in gesprek om je situatie duidelijker uit te leggen en scherper in beeld te krijgen? Laat je gegevens achter met je vraag, dan neemt een adviseur vrijblijvend contact op.";
-  const button = L.soft_button || "Verstuur mijn vraag";
-  const tag = L.soft_tag || "(vrijblijvend)";
+  const heading = L.soft_heading || "Je uitslag samen doornemen met een ERP-specialist?";
+  const sub = L.soft_sub || "Laat je e-mail achter en ontvang je diagnose met concrete verbeterpunten. Een onafhankelijke ERP-specialist neemt binnen één werkdag vrijblijvend contact op om te bespreken waar voor jou de meeste winst zit — geen verkooppraatje, geen verplichting.";
+  const button = L.soft_button || "Ja, neem vrijblijvend contact op";
+  const tag = L.soft_tag || "(gratis · vrijblijvend)";
   const qLabel = L.soft_question_label || "Je vraag of situatie";
   const qPlaceholder = L.soft_question_placeholder || "Waar wil je het over hebben? Bijv. waar je tegenaan loopt of wat je wilt bereiken.";
 
@@ -729,56 +729,63 @@ async function renderLanding() {
   setHeaderMeta("");
   let registry = [];
   try { registry = (await importWithRetry("../scans/registry.js")).SCANS; } catch { /* registry optioneel */ }
-  // De maakindustrie-scan staat centraal; de overige scans blijven vindbaar
-  // (uitklapbaar) als SEO-longtail.
-  const others = registry.filter((s) => s.id !== "erp-scan-maakindustrie");
-  const otherLinks = others.map((s) => `<a href="${esc(s.path || "/?scan=" + s.id)}">${esc(s.title)}</a>`).join("");
+
+  // Demand-led volgorde: de sectoren waar de organische vraag zit (groothandel,
+  // retail) staan vooraan; maakindustrie blijft volwaardig aanwezig als scan.
+  const order = ["erp-scan-groothandel", "erp-scan-retail", "erp-scan-maakindustrie"];
+  const scans = [...registry].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+  const sectorCards = scans.map((s) => `
+    <a class="scan-tile" href="${esc(s.path || "/?scan=" + s.id)}">
+      <h3>${esc(s.title)}</h3>
+      <p>${esc(s.audience || "")}</p>
+      <span class="go">Start de scan →</span>
+    </a>`).join("");
 
   app.replaceChildren(el(`<div class="landing">
     <section class="hero">
       <div class="hero-inner">
-        <span class="eyebrow">Gratis ERP-scan · Maakindustrie</span>
-        <h1 class="hero-title">Hoe futureproof is het ERP van jouw productiebedrijf?</h1>
-        <p class="lede hero-lede">Van de juiste ERP-keuze tot de overstap van SAP ECC naar S/4HANA: productiebedrijven staan voor grote systeemkeuzes richting 2027. Doe de gratis ERP-scan voor de maakindustrie en weet binnen 3 minuten waar je staat — en waar je grootste keuze of risico ligt.</p>
+        <span class="eyebrow">Gratis ERP-scan</span>
+        <h1 class="hero-title">Hoe futureproof is jouw ERP-systeem?</h1>
+        <p class="lede hero-lede">Groothandel, retail of maakindustrie: je ERP-systeem bepaalt hoeveel marge, tijd en groei je laat liggen. Doe de gratis ERP-scan en zie binnen 3 minuten waar je systeem je remt, welke processen je kunt automatiseren en waar de snelste winst zit.</p>
         <div class="hero-cta">
-          <a class="btn btn-primary" href="/erp-scan-maakindustrie">Start de gratis scan <span class="arrow">→</span></a>
-          <a class="btn btn-ghost" href="/info/welke-erp-past-bij-productie">Welke ERP past bij productie?</a>
+          <a class="btn btn-primary" href="#kies-scan">Start je ERP-scan <span class="arrow">↓</span></a>
+          <a class="btn btn-ghost" href="/info/processen-automatiseren">Processen automatiseren?</a>
         </div>
         <div class="hero-stats">
-          <div><b>2027</b><span>einde mainstream maintenance op SAP ECC</span></div>
           <div><b>~3 min</b><span>tot je persoonlijke ERP-diagnose</span></div>
           <div><b>gratis</b><span>direct inzicht, geen verkooppraatje</span></div>
+          <div><b>0 drempel</b><span>geen inloggen — meteen starten</span></div>
         </div>
       </div>
+    </section>
+
+    <section class="home-steps" id="kies-scan">
+      <h2>Doe de scan voor jouw sector</h2>
+      <p class="lede">Elke scan is toegespitst op de processen, marges en systemen van jouw sector. Kies je sector en start direct — je krijgt meteen je diagnose.</p>
+      <div class="scan-list" style="margin-top:22px">${sectorCards}</div>
     </section>
 
     <section class="home-steps">
       <h2>Zo werkt de ERP-scan</h2>
       <ol class="step-cards">
-        <li class="step-card"><span class="sc-n">1</span><h3>Beantwoord 10 vragen</h3><p>Over je strategie, techniek, data en productieprocessen — in zo'n 3 minuten, zonder inloggen.</p></li>
+        <li class="step-card"><span class="sc-n">1</span><h3>Beantwoord 10 vragen</h3><p>Over je strategie, techniek, data en processen — in zo'n 3 minuten, zonder inloggen.</p></li>
         <li class="step-card"><span class="sc-n">2</span><h3>Krijg direct je diagnose</h3><p>Een score per as en een helder totaalbeeld van hoe futureproof je ERP-systeem is.</p></li>
         <li class="step-card"><span class="sc-n">3</span><h3>Werk je actieplan af</h3><p>Concrete vervolgstappen op volgorde van impact — je begint bij je grootste kans.</p></li>
       </ol>
     </section>
 
-    <section class="guide-callout">
-      <div class="gc-body">
-        <span class="eyebrow">Gids · ERP kiezen</span>
-        <h2>Welke ERP past bij productie?</h2>
-        <p>Twijfel je over je systeemkeuze? Lees de complete gids met keuzecriteria, een besliskader in 5 stappen en een eerlijke vergelijking van ERP-systemen voor de maakindustrie.</p>
-      </div>
-      <a class="btn btn-primary" href="/info/welke-erp-past-bij-productie">Lees de gids <span class="arrow">→</span></a>
-    </section>
-
     <section class="home-explainer">
-      <h2>Van SAP ECC naar S/4HANA</h2>
-      <p class="lede">SAP's mainstream maintenance op ECC eindigt in 2027. Voor productiebedrijven betekent dat keuzes over maatwerk, stamdata en productieprocessen. Benieuwd wat de overstap inhoudt? <a href="/info/s4hana">Lees: SAP ECC → S/4HANA, alles wat je moet weten →</a> of bekijk de <a href="/info/wat-is-erp">betekenis van een ERP-systeem</a>.</p>
+      <h2>Waar loopt jouw groei vast?</h2>
+      <p class="lede">Herken je een van deze knelpunten? Lees hoe je ze aanpakt — met je ERP-systeem als motor.</p>
+      <div class="related-list" style="margin-top:18px">
+        <a class="related-link" href="/info/processen-automatiseren">Bedrijfsprocessen automatiseren <span aria-hidden="true">→</span></a>
+        <a class="related-link" href="/info/systeemintegratie">ERP koppelen &amp; systemen integreren <span aria-hidden="true">→</span></a>
+        <a class="related-link" href="/info/schalen-zonder-chaos">Schalen zonder chaos <span aria-hidden="true">→</span></a>
+        <a class="related-link" href="/info/welke-erp-past-bij-productie">Welke ERP past bij productie? <span aria-hidden="true">→</span></a>
+        <a class="related-link" href="/info/s4hana">SAP ECC → S/4HANA <span aria-hidden="true">→</span></a>
+        <a class="related-link" href="/info/wat-is-erp">Wat is een ERP-systeem? <span aria-hidden="true">→</span></a>
+      </div>
     </section>
-
-    ${others.length ? `<details class="sectors">
-      <summary>Werk je in een andere sector? Bekijk de overige ERP-scans</summary>
-      <div class="sector-links">${otherLinks}</div>
-    </details>` : ""}
 
     <p class="kennis-cta">Liever eerst inlezen? Bekijk de <a href="/info">kennisbank met feiten &amp; inzichten over ERP →</a></p>
   </div>`));

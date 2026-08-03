@@ -143,10 +143,10 @@ const REDIRECTS = {
 };
 
 const SEO = {
-  "/": { t: "ERP-scan voor productie: is jouw ERP-systeem futureproof?", d: "Welke ERP past bij jouw productiebedrijf en ben je klaar voor S/4HANA? Doe de gratis ERP-scan voor de maakindustrie en zie in 3 minuten waar je staat — van processen en data tot de overstap van SAP ECC." },
+  "/": { t: "Gratis ERP-scan: hoe futureproof is jouw ERP-systeem?", d: "Doe de gratis ERP-scan voor de groothandel, retail of maakindustrie. Zie in 3 minuten waar je ERP-systeem je remt, welke processen je kunt automatiseren en waar je marge laat liggen — met een concreet actieplan op volgorde van impact." },
   "/erp-scan-maakindustrie": { t: "ERP-scan maakindustrie: SAP ECC naar S/4HANA testen", d: "Hoe klaar is je ERP-systeem voor de maakindustrie en S/4HANA? Gratis ERP-scan voor productiebedrijven op SAP ECC, met advies richting de 2027-deadline." },
   "/erp-scan-retail": { t: "ERP-scan retail: futureproof ERP-systeem voor e-commerce", d: "Hoe futureproof is je ERP-systeem voor omnichannel retail en e-commerce? Doe de gratis ERP-scan en zie waar voorraad, data of marges je remmen." },
-  "/erp-scan-groothandel": { t: "ERP-scan groothandel & distributie: test je ERP-systeem", d: "Hoe sterk staat je ERP-systeem in de groothandel en distributie? Gratis ERP-scan met advies over marge, voorraad, EDI en schaalbaarheid." },
+  "/erp-scan-groothandel": { t: "ERP-software voor de groothandel: doe de gratis ERP-scan", d: "Hoe futureproof is je ERP-software voor de groothandel en distributie? Doe de gratis ERP-scan en zie in 3 minuten waar marge, voorraad, EDI-koppelingen of schaalbaarheid je remmen." },
   "/info": { t: "ERP kennisbank: wat is ERP & je ERP-systeem optimaliseren", d: "Wat is ERP en hoe optimaliseer je je ERP-systeem? Korte, scherpe artikelen over ERP, SAP ERP, S/4HANA, AI en ERP-implementatie." },
   "/info/welke-erp-past-bij-productie": {
     t: "Welke ERP past bij productie? ERP-systemen voor de maakindustrie vergeleken",
@@ -174,13 +174,13 @@ const SEO = {
   "/info/ai-erp": { t: "AI in je ERP-systeem: use-cases en voorbeelden", d: "Welke AI-use-cases en voorbeelden in je ERP-systeem leveren echt iets op? Van factuurherkenning tot predictive maintenance, en wat je nodig hebt." },
   "/info/ai-in-je-bedrijf": { t: "AI toepassen in je bedrijf: praktisch stappenplan", d: "Hoe pas je AI toe in je bedrijf? Praktisch stappenplan om AI te implementeren: van één use-case naar structurele waarde, bovenop een gezond ERP-systeem." },
   "/info/schalen-zonder-chaos": { t: "Bedrijfsprocessen schalen zonder chaos (en zonder automatiseringsplatform)", d: "Lastig om bedrijfsprocessen te schalen zonder automatiseringsplatform? Standaardiseer en automatiseer je processen vóór het volume groeit. De hefbomen voor schaalbaar groeien zonder chaos." },
-  "/info/processen-automatiseren": { t: "Bedrijfsprocessen automatiseren: waar begin je?", d: "Welke bedrijfsprocessen kun je het best automatiseren en hoe pak je het aan? Van workflows in je ERP-systeem tot AI en integratie." },
+  "/info/processen-automatiseren": { t: "Processen automatiseren: welke processen en hoe begin je?", d: "Welke bedrijfsprocessen kun je het best automatiseren en hoe begin je? Praktisch stappenplan voor procesautomatisering — van workflows in je ERP-systeem tot document-AI en integratie." },
   "/info/cloud-of-onpremise": { t: "Cloud-ERP of on-premise: voordelen en nadelen vergeleken", d: "Cloud-ERP of on-premise ERP? De voordelen en nadelen in beheer, kosten, schaalbaarheid en innovatie vergeleken, zodat je onderbouwd kiest." },
   "/info/datakwaliteit": { t: "Datakwaliteit verbeteren: master data als fundament voor AI", d: "Hoe verbeter je datakwaliteit? Master data management is het fundament onder rapportage, AI en een betrouwbaar ERP-systeem. Zo pak je het aan." },
   "/info/clean-core": { t: "Wat is clean core? Clean core in SAP & S/4HANA uitgelegd", d: "Wat is clean core en waarom telt het voor je ERP? Uitleg van het clean core-principe in SAP en S/4HANA, en hoe je maatwerk afbouwt." },
   "/info/erp-implementatie": { t: "ERP-implementatie: succesfactoren en valkuilen", d: "Een succesvolle ERP-implementatie draait om proces, data en mensen — niet om techniek. De belangrijkste succesfactoren en valkuilen op een rij." },
   "/info/dashboards-kpi": { t: "Realtime dashboards & KPI's: sturen met process mining", d: "Stuur vooruit met realtime dashboards en de juiste KPI's. Wat maakt een KPI bruikbaar, en de rol van process mining in je ERP-systeem." },
-  "/info/systeemintegratie": { t: "Systemen koppelen met API's: slimme systeemintegratie", d: "Hoe koppel je systemen slim? Goede systeemintegratie laat data automatisch doorstromen tussen je ERP-systeem, webshop en WMS — van point-to-point naar API's." },
+  "/info/systeemintegratie": { t: "ERP koppelen: systemen slim integreren met API's", d: "Wil je je ERP koppelen of laten integreren met je webshop, WMS of andere systemen? Zo laat je met slimme systeemintegratie en API's data automatisch en betrouwbaar doorstromen — van point-to-point naar een schaalbare keten." },
   "/info/business-case-erp": { t: "Business case voor een nieuw ERP-systeem: kosten en baten", d: "Bouw een sterke business case voor een nieuw ERP-systeem: kosten, baten, ROI en de kosten van niets doen. Verder dan kostenbesparing." },
   "/info/privacy": { t: "Privacyverklaring | ERP-scan", d: "Privacyverklaring van de ERP-scan: welke gegevens we verwerken, waarom, met welke partijen en wat jouw rechten zijn." },
 };

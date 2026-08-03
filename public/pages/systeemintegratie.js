@@ -2,7 +2,7 @@
 // Layout: prose → table → callout → facts → related → cta
 export default {
   page_id: "systeemintegratie",
-  title: "Systemen koppelen: slim integreren met API's",
+  title: "ERP koppelen: systemen slim integreren met API's",
   eyebrow: "Kennisbank · Integratie",
   backHref: "/info", backLabel: "← Kennisbank",
   intro: "De meeste waarde lekt niet weg ín je systemen, maar ertússen. Het slim koppelen van systemen zorgt dat data automatisch en betrouwbaar doorstroomt — goede systeemintegratie is de ruggengraat van een modern ERP-landschap.",
@@ -49,9 +49,9 @@ export default {
   ],
 
   cta: {
-    heading: "Hoe goed zijn jouw systemen gekoppeld?",
-    body: "Data & integratie is een kern-as in de gratis ERP-scan. Ontdek waar koppelingen je nu remmen.",
-    label: "Doe de ERP-scan", href: "/",
+    heading: "Hoe goed is jouw ERP gekoppeld?",
+    body: "Data & integratie is een kern-as in de gratis ERP-scan. Ontdek in 3 minuten waar koppelingen je nu remmen — en waar de snelste winst zit.",
+    label: "Doe de gratis ERP-scan", href: "/",
   },
   sources: ["Algemene uitleg van integratiepatronen."],
 };

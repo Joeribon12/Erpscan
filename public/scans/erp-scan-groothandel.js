@@ -5,7 +5,7 @@
 
 export default {
   scan_id: "erp-scan-groothandel",
-  title: "Groothandel futureproof? Scan je ERP-systeem",
+  title: "Hoe futureproof is je ERP-software voor de groothandel?",
   eyebrow: "Groothandel & distributie",
   audience: "Voor IT- & operations-leiders in groothandel",
 
@@ -169,6 +169,13 @@ export default {
     heading: "Ontvang je distributie-verbeterplan",
     sub: "We sturen je je diagnose plus concrete next steps per as. Een adviseur met groothandel-ervaring kijkt vrijblijvend mee.",
     privacy_url: "/info/privacy",
+    // Zachte lead na de feedback — toegespitst op de groothandel.
+    soft_heading: "Je groothandel-uitslag bespreken met een specialist?",
+    soft_sub: "Laat je e-mail achter en ontvang je diagnose met concrete verbeterpunten voor marge, voorraad en koppelingen. Een adviseur met groothandel- en distributie-ervaring denkt vrijblijvend met je mee — geen verkooppraatje, geen verplichting.",
+    soft_button: "Ja, ik wil vrijblijvend advies",
+    soft_tag: "(gratis · vrijblijvend)",
+    soft_question_label: "Waar loop je tegenaan?",
+    soft_question_placeholder: "Bijv. je marges staan onder druk, je voorraad klopt niet, of je koppelingen met leveranciers kosten te veel handwerk.",
     thanks_heading: "Bedankt — je advies is onderweg",
     thanks_sub: "Een adviseur neemt binnen één werkdag contact op met je persoonlijke verbeterplan.",
   },

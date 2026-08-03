@@ -156,34 +156,41 @@ function renderArticle(cfg) {
 }
 
 function renderLanding() {
-  const scanLinks = SCANS.filter((s) => s.id !== "erp-scan-maakindustrie").map((s) =>
-    `<li><a href="${esc(s.path)}">${esc(s.title)}</a> — ${esc(s.audience)}</li>`).join("");
+  // Zelfde demand-led volgorde als de client-render: groothandel en retail eerst.
+  const order = ["erp-scan-groothandel", "erp-scan-retail", "erp-scan-maakindustrie"];
+  const scanLinks = [...SCANS]
+    .sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id))
+    .map((s) => `<li><a href="${esc(s.path)}">${esc(s.title)}</a> — ${esc(s.audience)}</li>`).join("");
   return `<div class="landing">
     <section class="hero">
-      <span class="eyebrow">Gratis ERP-scan · Maakindustrie</span>
-      <h1>Hoe futureproof is het ERP van jouw productiebedrijf?</h1>
-      <p class="lede">Van de juiste ERP-keuze tot de overstap van SAP ECC naar S/4HANA: productiebedrijven staan voor grote systeemkeuzes richting 2027. Doe de gratis ERP-scan voor de maakindustrie en weet binnen 3 minuten waar je staat — en waar je grootste keuze of risico ligt.</p>
-      <p><a href="/erp-scan-maakindustrie">Start de gratis ERP-scan voor de maakindustrie →</a> · <a href="/info/welke-erp-past-bij-productie">Welke ERP past bij productie?</a></p>
+      <span class="eyebrow">Gratis ERP-scan</span>
+      <h1>Hoe futureproof is jouw ERP-systeem?</h1>
+      <p class="lede">Groothandel, retail of maakindustrie: je ERP-systeem bepaalt hoeveel marge, tijd en groei je laat liggen. Doe de gratis ERP-scan en zie binnen 3 minuten waar je systeem je remt, welke processen je kunt automatiseren en waar de snelste winst zit.</p>
+    </section>
+    <section>
+      <h2>Doe de scan voor jouw sector</h2>
+      <p>Elke scan is toegespitst op de processen, marges en systemen van jouw sector. Kies je sector en start direct:</p>
+      <ul>${scanLinks}</ul>
     </section>
     <section>
       <h2>Zo werkt de ERP-scan</h2>
       <ol>
-        <li><strong>Beantwoord 10 vragen</strong> over je strategie, techniek, data en productieprocessen — in zo'n 3 minuten.</li>
+        <li><strong>Beantwoord 10 vragen</strong> over je strategie, techniek, data en processen — in zo'n 3 minuten.</li>
         <li><strong>Krijg direct je diagnose</strong> met een score per as en een totaalbeeld van je ERP-gereedheid.</li>
         <li><strong>Werk je actieplan af</strong> met concrete vervolgstappen op volgorde van impact.</li>
       </ol>
     </section>
     <section>
-      <h2>Welke ERP past bij productie?</h2>
-      <p>Twijfel je over je systeemkeuze? Lees de complete gids met keuzecriteria, een besliskader in vijf stappen en een eerlijke vergelijking van <a href="/info/welke-erp-past-bij-productie">ERP-systemen voor de maakindustrie</a>.</p>
-    </section>
-    <section>
-      <h2>Van SAP ECC naar S/4HANA</h2>
-      <p>SAP's mainstream maintenance op ECC eindigt in 2027. Voor productiebedrijven betekent dat keuzes over maatwerk, stamdata en productieprocessen. Lees meer over de <a href="/info/s4hana">migratie van SAP ECC naar S/4HANA</a> en de <a href="/info/wat-is-erp">betekenis van een ERP-systeem</a>.</p>
-    </section>
-    <section>
-      <h2>ERP-scans voor andere sectoren</h2>
-      <ul>${scanLinks}</ul>
+      <h2>Waar loopt jouw groei vast?</h2>
+      <p>Herken je een van deze knelpunten? Lees hoe je ze aanpakt, met je ERP-systeem als motor:</p>
+      <ul>
+        <li><a href="/info/processen-automatiseren">Bedrijfsprocessen automatiseren: waar begin je?</a></li>
+        <li><a href="/info/systeemintegratie">ERP koppelen: systemen slim integreren met API's</a></li>
+        <li><a href="/info/schalen-zonder-chaos">Bedrijfsprocessen schalen zonder chaos</a></li>
+        <li><a href="/info/welke-erp-past-bij-productie">Welke ERP past bij productie?</a></li>
+        <li><a href="/info/s4hana">Van SAP ECC naar S/4HANA</a></li>
+        <li><a href="/info/wat-is-erp">Wat is een ERP-systeem?</a></li>
+      </ul>
     </section>
     <p>Liever eerst inlezen? Bekijk de <a href="/info">kennisbank met feiten &amp; inzichten over ERP</a>.</p>
   </div>`;
