@@ -309,18 +309,7 @@ function renderResult(result) {
     </div>
     <div class="dims" id="dims"></div>
 
-    <section class="feedback card" id="fb">
-      <h2>Was deze scan behulpzaam?</h2>
-      <div class="fb-buttons">
-        <button type="button" class="fb-btn" data-v="up">👍 Ja, nuttig</button>
-        <button type="button" class="fb-btn" data-v="down">👎 Niet echt</button>
-      </div>
-      <textarea id="fb-comment" rows="2" placeholder="Wat zouden we beter kunnen doen? (optioneel)"></textarea>
-      <div class="form-foot">
-        <button class="btn btn-primary" id="fb-send" disabled>Versturen <span class="arrow">→</span></button>
-        <span class="form-status" id="fb-status"></span>
-      </div>
-    </section>
+    <section class="lead card" id="fb"></section>
   </section>`);
 
   // Dimensies als geprioriteerd actieplan: laagste score eerst, want daar zit
@@ -392,7 +381,9 @@ function renderResult(result) {
   // Animaties: ring + cijfer tellen omhoog
   animateReveal(result.total, C);
 
-  wireFeedback(node, result);
+  // Direct de leadvraag tonen (geen feedback-tussenstap meer): meteen na de
+  // diagnose vragen we om gegevens voor persoonlijk advies.
+  renderSoftLead(node, result);
   runDiagnosis(node, result);
   // Bewaar voor de submit-payload
   LAST_RESULT = result;
@@ -610,15 +601,16 @@ async function sendFeedback(root, result, helpful, comment) {
   renderSoftLead(root, result);
 }
 
-// Na de feedback: vrijblijvend aanbod. Copy is config-driven via CFG.lead.soft_*
-// (met fallback naar de generieke tekst, zodat scans zonder die velden ongemoeid
-// blijven). De zwakste as wordt automatisch als gespreksaanleiding benoemd.
+// Leadvraag direct na de diagnose (geen feedback-tussenstap meer). Copy is
+// config-driven via CFG.lead.soft_* (met fallback naar de generieke tekst,
+// zodat scans zonder die velden ongemoeid blijven). De zwakste as wordt
+// automatisch als gespreksaanleiding benoemd.
 function renderSoftLead(root, result) {
   const privacy = CFG.lead?.privacy_url || DEFAULT_PRIVACY_URL;
   const L = CFG.lead || {};
-  const heading = L.soft_heading || "Je uitslag samen doornemen met een ERP-specialist?";
-  const sub = L.soft_sub || "Laat je e-mail achter en ontvang je diagnose met concrete verbeterpunten. Een onafhankelijke ERP-specialist neemt binnen één werkdag vrijblijvend contact op om te bespreken waar voor jou de meeste winst zit — geen verkooppraatje, geen verplichting.";
-  const button = L.soft_button || "Ja, neem vrijblijvend contact op";
+  const heading = L.soft_heading || "Laat je gegevens achter voor persoonlijk advies";
+  const sub = L.soft_sub || "Ontvang je volledige diagnose met concrete verbeterpunten en bespreek vrijblijvend waar voor jou de meeste winst zit. Een onafhankelijke ERP-specialist neemt binnen één werkdag contact op — geen verkooppraatje, geen verplichting.";
+  const button = L.soft_button || "Ja, ik wil vrijblijvend advies";
   const tag = L.soft_tag || "(gratis · vrijblijvend)";
   const qLabel = L.soft_question_label || "Je vraag of situatie";
   const qPlaceholder = L.soft_question_placeholder || "Waar wil je het over hebben? Bijv. waar je tegenaan loopt of wat je wilt bereiken.";
@@ -632,8 +624,8 @@ function renderSoftLead(root, result) {
   const fb = $("#fb", root);
   fb.classList.remove("feedback");
   fb.innerHTML = `
-    <div class="fb-done">✓ Bedankt voor je feedback!</div>
-    <h3 style="margin-top:14px">${esc(heading)} <span class="optional">${esc(tag)}</span></h3>
+    <span class="eyebrow">${esc(L.soft_eyebrow || "Persoonlijk advies")}</span>
+    <h2>${esc(heading)} <span class="optional">${esc(tag)}</span></h2>
     <p class="lede">${esc(sub)}</p>
     ${focusLine}
     <form id="lead-form" novalidate>
