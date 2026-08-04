@@ -856,7 +856,7 @@ async function renderLanding() {
     <section class="home-steps">
       <h2>Zo werkt de ERP-scan</h2>
       <ol class="step-cards">
-        <li class="step-card"><span class="sc-n">1</span><h3>Beantwoord 10 vragen</h3><p>Over je strategie, techniek, data en processen — in zo'n 3 minuten, zonder inloggen.</p></li>
+        <li class="step-card"><span class="sc-n">1</span><h3>Beantwoord 11 vragen</h3><p>Over je strategie, techniek, data en processen — in zo'n 3 minuten, zonder inloggen.</p></li>
         <li class="step-card"><span class="sc-n">2</span><h3>Krijg direct je diagnose</h3><p>Een score per as en een helder totaalbeeld van hoe futureproof je ERP-systeem is.</p></li>
         <li class="step-card"><span class="sc-n">3</span><h3>Werk je actieplan af</h3><p>Concrete vervolgstappen op volgorde van impact — je begint bij je grootste kans.</p></li>
       </ol>

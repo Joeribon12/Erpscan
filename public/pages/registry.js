@@ -7,6 +7,20 @@
 // ──────────────────────────────────────────────────────────────────────────
 
 export const PAGES = [
+  // De twee pillars bovenaan: hier zit de meeste organische vraag (koppelen
+  // en automatiseren), dus krijgen ze de prominentste plek in de kennisbank.
+  {
+    id: "systeemintegratie",
+    title: "ERP koppelen: de complete gids",
+    teaser: "Vier koppelmanieren vergeleken, het juiste patroon per situatie, een stappenplan in 7 stappen en wat het realistisch kost.",
+    path: "/info/systeemintegratie",
+  },
+  {
+    id: "processen-automatiseren",
+    title: "Bedrijfsprocessen automatiseren: het stappenplan",
+    teaser: "Welke processen zich lenen voor automatisering (en welke niet), de drie niveaus, en de vijf fouten die het vaakst worden gemaakt.",
+    path: "/info/processen-automatiseren",
+  },
   {
     id: "welke-erp-past-bij-productie",
     title: "Welke ERP past bij productie?",
@@ -56,12 +70,6 @@ export const PAGES = [
     path: "/info/schalen-zonder-chaos",
   },
   {
-    id: "processen-automatiseren",
-    title: "Bedrijfsprocessen automatiseren: waar begin je?",
-    teaser: "Welke processen zijn geschikt en hoe pak je het slim aan?",
-    path: "/info/processen-automatiseren",
-  },
-  {
     id: "cloud-of-onpremise",
     title: "ERP in de cloud of on-premise?",
     teaser: "De verschillen op een rij, zodat je een onderbouwde keuze maakt.",
@@ -90,12 +98,6 @@ export const PAGES = [
     title: "Realtime inzicht: dashboards & KPI's",
     teaser: "Stuur vooruit in plaats van achteruit, met de juiste KPI's.",
     path: "/info/dashboards-kpi",
-  },
-  {
-    id: "systeemintegratie",
-    title: "Systemen koppelen met API's",
-    teaser: "Zorg dat data automatisch en betrouwbaar doorstroomt.",
-    path: "/info/systeemintegratie",
   },
   {
     id: "business-case-erp",

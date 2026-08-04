@@ -131,6 +131,25 @@ function renderScan(cfg) {
   // Interne links naar een paar andere scans + de kennisbank (helpt crawlen).
   const others = SCANS.filter((s) => "/" + s.id !== "/" + cfg.scan_id)
     .map((s) => `<li><a href="${esc(s.path)}">${esc(s.title)}</a></li>`).join("");
+
+  // Per as een korte sectorobservatie. Deze teksten staan al in de config
+  // (dimension.insight) en worden in de app tussen de vragen getoond; hier
+  // beschrijven ze waar de scan naar kijkt. Eén waarheid, geen aparte SEO-tekst.
+  const perAxis = (cfg.dimensions || [])
+    .filter((d) => d.insight && (d.insight.mid || d.insight.low))
+    .map((d) => `<h3>${esc(d.label)}</h3><p>${esc(d.insight.mid || d.insight.low)}</p>`)
+    .join("");
+  const axisBlock = perAxis
+    ? `<h2>Waar het in deze sector meestal op vastloopt</h2>${perAxis}` : "";
+
+  // De vragenlijst zelf: dit ís de inhoud van de pagina, dus hoort een
+  // bezoeker zonder JavaScript (en een zoekmachine) 'm ook te kunnen lezen.
+  const qs = (cfg.questions || []).map((q) => `<li>${esc(q.text)}</li>`).join("");
+  const qBlock = qs
+    ? `<h2>De vragen in deze scan</h2>
+       <p>De scan bestaat uit ${(cfg.questions || []).length} vragen, verdeeld over ${(cfg.dimensions || []).length} assen. Je beantwoordt ze in zo'n drie minuten, zonder inloggen:</p>
+       <ol>${qs}</ol>` : "";
+
   return `<section class="intro card">
     <span class="eyebrow">${esc(cfg.eyebrow || "ERP Growth Hack Scan")}</span>
     <h1>${esc(cfg.title)}</h1>
@@ -139,9 +158,13 @@ function renderScan(cfg) {
     <ul>${dims}</ul>
     ${bullets}
     <p>${esc(cfg.audience || "")}</p>
+    ${axisBlock}
+    ${qBlock}
+    <h2>Wat je krijgt</h2>
+    <p>Direct na de laatste vraag zie je je totaalscore, een score per as en een actieplan waarin de assen op volgorde van impact staan — je begint dus bij je grootste kans. Je hoeft geen gegevens achter te laten om je uitslag te zien.</p>
     <h2>Andere ERP-scans</h2>
     <ul>${others}</ul>
-    <p>Twijfel je nog over je systeemkeuze? Lees eerst de gids <a href="/info/welke-erp-past-bij-productie">welke ERP past bij productie</a>, of bekijk de hele <a href="/info">kennisbank over ERP</a>.</p>
+    <p>Verder lezen? Bekijk hoe je <a href="/info/systeemintegratie">je ERP koppelt aan andere systemen</a>, hoe je <a href="/info/processen-automatiseren">bedrijfsprocessen automatiseert</a>, of de gids <a href="/info/welke-erp-past-bij-productie">welke ERP past bij productie</a>. Alles staat in de <a href="/info">kennisbank over ERP</a>.</p>
   </section>`;
 }
 
@@ -189,7 +212,7 @@ function renderLanding() {
     <section>
       <h2>Zo werkt de ERP-scan</h2>
       <ol>
-        <li><strong>Beantwoord 10 vragen</strong> over je strategie, techniek, data en processen — in zo'n 3 minuten.</li>
+        <li><strong>Beantwoord 11 vragen</strong> over je strategie, techniek, data en processen — in zo'n 3 minuten.</li>
         <li><strong>Krijg direct je diagnose</strong> met een score per as en een totaalbeeld van je ERP-gereedheid.</li>
         <li><strong>Werk je actieplan af</strong> met concrete vervolgstappen op volgorde van impact.</li>
       </ol>

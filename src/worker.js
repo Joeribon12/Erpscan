@@ -33,6 +33,7 @@ export default {
     if (url.pathname === "/api/lead") {
       if (request.method === "OPTIONS") return new Response(null, { status: 204 });
       if (request.method !== "POST") return json({ error: "Method not allowed" }, 405);
+      if (!(await allowRequest(request, "lead", 10, 3600))) return tooMany(3600);
       return handleLead(request, env);
     }
 
@@ -47,6 +48,8 @@ export default {
     if (url.pathname === "/api/diagnose") {
       if (request.method === "OPTIONS") return new Response(null, { status: 204 });
       if (request.method !== "POST") return json({ error: "Method not allowed" }, 405);
+      // Betaalde LLM-call achter een publiek endpoint: eerst door de limiter.
+      if (!(await allowRequest(request, "diagnose", 5, 3600))) return tooMany(3600);
       return handleDiagnose(request, env);
     }
 
@@ -76,7 +79,7 @@ async function servePage(env, url, matched) {
     html = await idx.text();
   }
   const m = SEO[url.pathname] || SEO["/"];
-  let out = injectSEO(html, m, SITE_ORIGIN + url.pathname);
+  let out = injectSEO(html, m, SITE_ORIGIN + url.pathname, url.pathname);
 
   // Server-side body-content: echte, unieke tekst per route binnen <main id="app">,
   // zodat zoekmachines elke pagina als "vol" en uniek zien (ook zonder JS).
@@ -90,7 +93,13 @@ async function servePage(env, url, matched) {
   });
 }
 
-function injectSEO(html, m, canonical) {
+// Structured data veilig in een <script>-blok zetten: "<" escapen zodat een
+// "</script>" in de tekst het blok niet voortijdig kan afsluiten.
+function ldScript(obj) {
+  return `<script type="application/ld+json">${JSON.stringify(obj).replace(/</g, "\\u003c")}</script>`;
+}
+
+function injectSEO(html, m, canonical, pathname) {
   const e = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   const t = e(m.t), d = e(m.d), u = e(canonical);
   html = html
@@ -102,13 +111,38 @@ function injectSEO(html, m, canonical) {
     .replace(/(<meta name="twitter:title" content=")[^"]*(")/, `$1${t}$2`)
     .replace(/(<meta name="twitter:description" content=")[^"]*(")/, `$1${d}$2`);
   let head = `<link rel="canonical" href="${u}"/>`;
+
   if (m.faq) {
-    const ld = {
+    head += ldScript({
       "@context": "https://schema.org", "@type": "FAQPage",
       mainEntity: m.faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
-    };
-    head += `<script type="application/ld+json">${JSON.stringify(ld)}</script>`;
+    });
   }
+
+  // Breadcrumbs: geeft Google het kruimelpad in plaats van een kale URL onder
+  // de titel, wat de weergave in de resultaten herkenbaarder maakt.
+  if (pathname && pathname !== "/") {
+    const crumbs = [{ name: "Home", url: SITE_ORIGIN + "/" }];
+    if (pathname.startsWith("/info/")) crumbs.push({ name: "Kennisbank", url: SITE_ORIGIN + "/info" });
+    crumbs.push({ name: m.t, url: canonical });
+    head += ldScript({
+      "@context": "https://schema.org", "@type": "BreadcrumbList",
+      itemListElement: crumbs.map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: c.url })),
+    });
+  }
+
+  // Article-schema op de kennisbankartikelen (niet op de kennisbank-index of
+  // de privacyverklaring): maakt expliciet dat dit redactionele inhoud is.
+  if (pathname && pathname.startsWith("/info/") && pathname !== "/info/privacy") {
+    head += ldScript({
+      "@context": "https://schema.org", "@type": "Article",
+      headline: m.t, description: m.d, url: canonical, inLanguage: "nl-NL",
+      isAccessibleForFree: true,
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      publisher: { "@type": "Organization", name: "ERP-scan", url: SITE_ORIGIN + "/" },
+    });
+  }
+
   return html.replace("</head>", head + "</head>");
 }
 
@@ -146,7 +180,7 @@ const SEO = {
   "/": { t: "Gratis ERP-scan: hoe futureproof is jouw ERP-systeem?", d: "Doe de gratis ERP-scan voor de groothandel, retail of maakindustrie. Zie in 3 minuten waar je ERP-systeem je remt, welke processen je kunt automatiseren en waar je marge laat liggen — met een concreet actieplan op volgorde van impact." },
   "/erp-scan-maakindustrie": { t: "ERP-scan maakindustrie: SAP ECC naar S/4HANA testen", d: "Hoe klaar is je ERP-systeem voor de maakindustrie en S/4HANA? Gratis ERP-scan voor productiebedrijven op SAP ECC, met advies richting de 2027-deadline." },
   "/erp-scan-retail": { t: "ERP-scan retail: futureproof ERP-systeem voor e-commerce", d: "Hoe futureproof is je ERP-systeem voor omnichannel retail en e-commerce? Doe de gratis ERP-scan en zie waar voorraad, data of marges je remmen." },
-  "/erp-scan-groothandel": { t: "ERP-software voor de groothandel: doe de gratis ERP-scan", d: "Hoe futureproof is je ERP-software voor de groothandel en distributie? Doe de gratis ERP-scan en zie in 3 minuten waar marge, voorraad, EDI-koppelingen of schaalbaarheid je remmen." },
+  "/erp-scan-groothandel": { t: "ERP-software voor de groothandel: gratis scan in 3 minuten", d: "Hoe futureproof is je ERP voor groothandel en distributie? 11 vragen, direct je score per as en een actieplan op volgorde van impact. Zie waar marge, voorraad of EDI-koppelingen je remmen — gratis, zonder inloggen." },
   "/info": { t: "ERP kennisbank: wat is ERP & je ERP-systeem optimaliseren", d: "Wat is ERP en hoe optimaliseer je je ERP-systeem? Korte, scherpe artikelen over ERP, SAP ERP, S/4HANA, AI en ERP-implementatie." },
   "/info/welke-erp-past-bij-productie": {
     t: "Welke ERP past bij productie? ERP-systemen voor de maakindustrie vergeleken",
@@ -184,16 +218,72 @@ const SEO = {
   "/info/ai-erp": { t: "AI in je ERP-systeem: use-cases en voorbeelden", d: "Welke AI-use-cases en voorbeelden in je ERP-systeem leveren echt iets op? Van factuurherkenning tot predictive maintenance, en wat je nodig hebt." },
   "/info/ai-in-je-bedrijf": { t: "AI toepassen in je bedrijf: praktisch stappenplan", d: "Hoe pas je AI toe in je bedrijf? Praktisch stappenplan om AI te implementeren: van één use-case naar structurele waarde, bovenop een gezond ERP-systeem." },
   "/info/schalen-zonder-chaos": { t: "Bedrijfsprocessen schalen zonder chaos (en zonder automatiseringsplatform)", d: "Lastig om bedrijfsprocessen te schalen zonder automatiseringsplatform? Standaardiseer en automatiseer je processen vóór het volume groeit. De hefbomen voor schaalbaar groeien zonder chaos." },
-  "/info/processen-automatiseren": { t: "Processen automatiseren: welke processen en hoe begin je?", d: "Welke bedrijfsprocessen kun je het best automatiseren en hoe begin je? Praktisch stappenplan voor procesautomatisering — van workflows in je ERP-systeem tot document-AI en integratie." },
+  "/info/processen-automatiseren": {
+    t: "Bedrijfsprocessen automatiseren: stappenplan in 7 stappen",
+    d: "Welke bedrijfsprocessen kun je het best automatiseren en hoe begin je? Selectiecriteria, de 3 niveaus van automatisering, een stappenplan in 7 stappen en de 5 fouten die het vaakst worden gemaakt.",
+    faq: [
+      { q: "Hoe automatiseer ik bedrijfsprocessen?", a: "In grote lijnen in zeven stappen: breng in kaart waar tijd weglekt, meet het huidige proces, standaardiseer het, kies het laagste passende niveau van automatisering, bouw één proces volledig af tot in productie, regel de uitzonderingen expliciet, en meet opnieuw voordat je opschaalt." },
+      { q: "Welke processen kun je het beste als eerste automatiseren?", a: "Processen die repetitief zijn, duidelijke regels volgen, veel voorkomen en nu foutgevoelig zijn. In de praktijk komen inkoopfacturen verwerken, orderinvoer, voorraad bijbestellen en goedkeuringsstromen er het vaakst als eerste uit." },
+      { q: "Heb ik daar speciale software voor nodig?", a: "Vaak niet meteen. Veel organisaties hebben workflows, goedkeuringen en signaleringen in hun ERP-systeem zitten die nooit zijn ingericht. Kijk eerst wat je bestaande systeem al kan voordat je extra tooling aanschaft." },
+      { q: "Wat is het verschil tussen automatiseren en digitaliseren?", a: "Digitaliseren is een papieren stap vervangen door een digitale, bijvoorbeeld een formulier dat een PDF wordt. Automatiseren betekent dat de stap zelf — en de overdracht naar de volgende stap — zonder handwerk verloopt." },
+      { q: "Waar gaat het meestal mis?", a: "Bij de uitzonderingen en bij het eigenaarschap. Automatisering die alleen het standaardgeval aankan, verplaatst werk naar een handmatige bak die niemand bijhoudt. En zonder duidelijke eigenaar verzandt de automatisering zodra het onderliggende proces verandert." },
+    ],
+  },
   "/info/cloud-of-onpremise": { t: "Cloud-ERP of on-premise: voordelen en nadelen vergeleken", d: "Cloud-ERP of on-premise ERP? De voordelen en nadelen in beheer, kosten, schaalbaarheid en innovatie vergeleken, zodat je onderbouwd kiest." },
   "/info/datakwaliteit": { t: "Datakwaliteit verbeteren: master data als fundament voor AI", d: "Hoe verbeter je datakwaliteit? Master data management is het fundament onder rapportage, AI en een betrouwbaar ERP-systeem. Zo pak je het aan." },
   "/info/clean-core": { t: "Wat is clean core? Clean core in SAP & S/4HANA uitgelegd", d: "Wat is clean core en waarom telt het voor je ERP? Uitleg van het clean core-principe in SAP en S/4HANA, en hoe je maatwerk afbouwt." },
   "/info/erp-implementatie": { t: "ERP-implementatie: succesfactoren en valkuilen", d: "Een succesvolle ERP-implementatie draait om proces, data en mensen — niet om techniek. De belangrijkste succesfactoren en valkuilen op een rij." },
   "/info/dashboards-kpi": { t: "Realtime dashboards & KPI's: sturen met process mining", d: "Stuur vooruit met realtime dashboards en de juiste KPI's. Wat maakt een KPI bruikbaar, en de rol van process mining in je ERP-systeem." },
-  "/info/systeemintegratie": { t: "ERP koppelen: systemen slim integreren met API's", d: "Wil je je ERP koppelen of laten integreren met je webshop, WMS of andere systemen? Zo laat je met slimme systeemintegratie en API's data automatisch en betrouwbaar doorstromen — van point-to-point naar een schaalbare keten." },
+  "/info/systeemintegratie": {
+    t: "ERP koppelen: 4 manieren vergeleken + stappenplan",
+    d: "Je ERP koppelen aan je webshop, WMS of EDI? Vergelijk de 4 koppelmanieren, kies het juiste patroon en volg het stappenplan in 7 stappen — inclusief kosten en de 5 fouten die het vaakst worden gemaakt.",
+    faq: [
+      { q: "Wat betekent het om systemen te koppelen?", a: "Systemen koppelen betekent dat twee of meer applicaties automatisch gegevens uitwisselen, zodat een gegeven maar één keer hoeft te worden vastgelegd. Denk aan een webshoporder die vanzelf als verkooporder in je ERP verschijnt, inclusief klantgegevens en voorraadmutatie." },
+      { q: "Kan ik mijn ERP koppelen aan mijn webshop?", a: "Vrijwel altijd. Veel ERP- en webshopplatformen bieden standaardconnectoren voor de meestvoorkomende combinaties. Zijn je processen afwijkend, dan is een koppeling via API's of een integratielaag doorgaans de betere route." },
+      { q: "Wat is het verschil tussen een API en EDI?", a: "Een API is een technische interface waarmee systemen elkaar direct bevragen of berichten sturen, meestal realtime. EDI is een gestandaardiseerd berichtformaat dat vooral in ketensamenwerking wordt gebruikt voor orders, pakbonnen en facturen, vaak in batches." },
+      { q: "Hoe lang duurt het om een koppeling te bouwen?", a: "Dat loopt sterk uiteen. Een standaardconnector configureren is indicatief een kwestie van dagen; een maatwerkkoppeling met testen en acceptatie eerder weken. Bepalend is zelden het programmeerwerk, maar de afspraak welk systeem eigenaar is van welk gegeven." },
+      { q: "Wanneer heb ik een integratieplatform nodig?", a: "Zodra je meerdere koppelingen hebt die bedrijfskritisch zijn, of wanneer elke nieuwe klant of kanaal opnieuw maatwerk vraagt. Een veelgebruikte vuistregel: vanaf ongeveer vijf koppelingen wegen hergebruik, centrale monitoring en uniforme foutafhandeling op tegen de investering." },
+    ],
+  },
   "/info/business-case-erp": { t: "Business case voor een nieuw ERP-systeem: kosten en baten", d: "Bouw een sterke business case voor een nieuw ERP-systeem: kosten, baten, ROI en de kosten van niets doen. Verder dan kostenbesparing." },
   "/info/privacy": { t: "Privacyverklaring | ERP-scan", d: "Privacyverklaring van de ERP-scan: welke gegevens we verwerken, waarom, met welke partijen en wat jouw rechten zijn." },
 };
+
+// ── Rate limiting ─────────────────────────────────────────────────────────
+// Eenvoudige IP-limiter op de Cache API, zodat er géén KV- of Durable-Object-
+// binding (en dus geen extra kosten of dashboard-config) nodig is. De teller
+// wordt per Cloudflare-locatie bijgehouden en is eventual consistent: dit is
+// een drempel tegen misbruik en weglopende LLM-kosten, geen harde quota.
+//
+// Faalt de cache om welke reden dan ook, dan laten we het verzoek DOOR — een
+// kapotte limiter mag nooit de lead- of diagnosepijplijn platleggen.
+async function allowRequest(request, bucket, limit, windowSec) {
+  try {
+    const ip = request.headers.get("cf-connecting-ip") || "onbekend";
+    const window = Math.floor(Date.now() / 1000 / windowSec);
+    const key = new Request(`https://ratelimit.invalid/${bucket}/${window}/${encodeURIComponent(ip)}`);
+    const cache = caches.default;
+
+    const hit = await cache.match(key);
+    const count = hit ? Number(await hit.text()) || 0 : 0;
+    if (count >= limit) return false;
+
+    await cache.put(key, new Response(String(count + 1), {
+      headers: { "cache-control": `max-age=${windowSec}` },
+    }));
+    return true;
+  } catch (err) {
+    console.error("Rate limiter faalde (verzoek doorgelaten):", err && err.stack ? err.stack : err);
+    return true;
+  }
+}
+
+function tooMany(retryAfter) {
+  return new Response(JSON.stringify({ error: "Te veel verzoeken. Probeer het later opnieuw." }), {
+    status: 429,
+    headers: { "content-type": "application/json; charset=utf-8", "retry-after": String(retryAfter) },
+  });
+}
 
 // ── Lead-afhandeling ──────────────────────────────────────────────────────
 async function handleLead(request, env) {
