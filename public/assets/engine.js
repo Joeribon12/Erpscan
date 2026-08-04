@@ -114,6 +114,7 @@ function computeScores(cfg, answers) {
 let CFG = null;            // actieve config
 const ANSWERS = {};        // questionId -> optionIndex
 const PROFILE_ANSWERS = {}; // profielveld-id -> { label, value }  (telt niet mee in de score)
+let GUESS = null;          // zelfvoorspelling (0-100) van de intro, voor de kloof-reveal op het resultaat
 
 function setHeaderMeta(text) { $("#header-meta").textContent = text || ""; }
 
@@ -132,11 +133,28 @@ function renderIntro() {
       <div class="meta-row">${tags.map((t) => `<span>${esc(t)}</span>`).join("")}</div>
       ${Array.isArray(CFG.intro?.bullets) && CFG.intro.bullets.length
         ? `<ul class="bullets">${CFG.intro.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>` : ""}
+      ${CFG.predict ? `<div class="predict">
+        <label for="predict-slider">${esc(CFG.predict.question || "Gok eens: hoe futureproof zijn jullie?")}</label>
+        <div class="predict-row">
+          <span class="predict-min">${esc(CFG.predict.min_label || "0")}</span>
+          <input type="range" id="predict-slider" min="0" max="100" step="1" value="50" aria-label="${esc(CFG.predict.question || "Je inschatting")}" />
+          <span class="predict-max">${esc(CFG.predict.max_label || "100")}</span>
+          <output id="predict-out">50</output>
+        </div>
+      </div>` : ""}
       <div class="actions" style="margin-top:26px">
         <button class="btn btn-primary" id="start">Start de scan <span class="arrow">→</span></button>
       </div>
     </section>`);
   app.replaceChildren(node);
+  // Zelfvoorspelling (optioneel): sla de gok op voor de kloof-reveal op het resultaat.
+  if (CFG.predict) {
+    const sl = $("#predict-slider", node), out = $("#predict-out", node);
+    GUESS = 50;
+    sl.addEventListener("input", () => { GUESS = +sl.value; out.textContent = sl.value; });
+  } else {
+    GUESS = null;
+  }
   // Profielvragen (omzet/omvang) overgeslagen: meteen naar de scanvragen.
   $("#start").addEventListener("click", renderQuestions);
 }
@@ -257,10 +275,56 @@ function chooseOption(q, j, btn) {
   btn.classList.add("selected");
   updateProgress();
   const total = CFG.questions.length;
-  setTimeout(() => {
-    if (Q_INDEX < total - 1) { Q_INDEX++; paintQuestion(); }
+  const isLast = Q_INDEX >= total - 1;
+  const proceed = () => {
+    if (!isLast) { Q_INDEX++; paintQuestion(); }
     else { renderResult(computeScores(CFG, ANSWERS)); }
+  };
+  setTimeout(() => {
+    // Is dit de laatste vraag van zijn as? Zo ja (en niet de allerlaatste vraag),
+    // toon een korte "aha"-flits met de tussenstand op die as vóór we doorgaan.
+    const nextQ = CFG.questions[Q_INDEX + 1];
+    const axisEnded = !isLast && nextQ && nextQ.dimension !== q.dimension;
+    const dim = CFG.dimensions.find((d) => d.id === q.dimension);
+    if (axisEnded && dim && dim.insight) showInterstitial(dim, proceed);
+    else proceed();
   }, 300);
+}
+
+// Tussenstand op één as (0-100) op basis van de tot nu toe gegeven antwoorden.
+function axisScore(dimId) {
+  const qs = CFG.questions.filter((q) => q.dimension === dimId);
+  let raw = 0, max = 0;
+  qs.forEach((q) => {
+    max += Math.max(...q.options.map((o) => o.score));
+    const idx = ANSWERS[q.id];
+    if (idx != null && q.options[idx]) raw += q.options[idx].score;
+  });
+  return max ? Math.round((raw / max) * 100) : 0;
+}
+
+// "Aha"-flits tussen twee assen: toont de tussenstand + een insight-regel.
+// Gaat vanzelf door na een korte pauze; "Verder" slaat de pauze over.
+function showInterstitial(dim, done) {
+  const pct = axisScore(dim.id);
+  const L = RUNTIME.DIMENSION_LEVELS;
+  const level = pct < L.low ? "low" : pct < L.mid ? "mid" : "high";
+  const text = dim.insight[level] || dim.insight.mid || "";
+  const nav = $(".qnav");
+  if (nav) nav.style.display = "none";
+  const card = el(`<article class="interstitial lvl-${level}">
+    <span class="int-eyebrow">${esc(dim.label)} · tussenstand</span>
+    <div class="int-score"><b>${pct}</b><small>/ 100</small></div>
+    <p class="int-text">${esc(text)}</p>
+    <button class="btn btn-primary" id="int-next" type="button">Verder <span class="arrow">→</span></button>
+    <div class="int-bar"><i></i></div>
+  </article>`);
+  $("#qstage").replaceChildren(card);
+  requestAnimationFrame(() => { const b = $("i", card); if (b) b.style.width = "100%"; });
+  let advanced = false;
+  const go = () => { if (advanced) return; advanced = true; clearTimeout(timer); if (nav) nav.style.display = ""; done(); };
+  const timer = setTimeout(go, 2600);
+  $("#int-next", card).addEventListener("click", go);
 }
 
 function updateProgress() {
@@ -272,9 +336,26 @@ function updateProgress() {
   const pp = $("#prog-pct"); if (pp) pp.textContent = pct + "%";
 }
 
+// Kiest een archetype op basis van het scorepatroon: alles sterk -> allStrong,
+// anders het archetype dat bij de zwakste as hoort. Config-driven (cfg.archetypes).
+function pickArchetype(result) {
+  const arr = CFG.archetypes;
+  if (!Array.isArray(arr) || !arr.length) return null;
+  const ranked = [...result.dimensions].sort((a, b) => a.pct - b.pct);
+  if (ranked.every((d) => d.level === "high")) {
+    const a = arr.find((x) => x.allStrong);
+    if (a) return a;
+  }
+  const weakest = ranked[0];
+  return arr.find((x) => x.weakest === weakest.id)
+    || arr.find((x) => !x.weakest && !x.allStrong)
+    || arr[0];
+}
+
 function renderResult(result) {
   setHeaderMeta(CFG.title);
   const R = 70, C = 2 * Math.PI * R;
+  const arch = pickArchetype(result);
   const node = el(`<section class="result">
     <span class="eyebrow">Jouw diagnose</span>
     <div class="card">
@@ -287,10 +368,12 @@ function renderResult(result) {
           <div class="num"><b id="score-num">0</b><small>/ 100</small></div>
         </div>
         <div>
+          ${arch ? `<div class="archetype"><span class="arch-badge">${esc(arch.label)}</span>${arch.tagline ? `<span class="arch-tag">${esc(arch.tagline)}</span>` : ""}</div>` : ""}
           <div class="verdict-label">${esc(result.verdict.label)}</div>
           <p class="verdict-summary">${esc(result.verdict.summary)}</p>
         </div>
       </div>
+      ${GUESS != null ? `<p class="gap-reveal" id="gap-reveal"></p>` : ""}
     </div>
 
     <section class="diagnosis card" id="diagnosis">
@@ -380,6 +463,19 @@ function renderResult(result) {
 
   // Animaties: ring + cijfer tellen omhoog
   animateReveal(result.total, C);
+
+  // Kloof-reveal: hoe verhoudt de echte score zich tot de zelf-inschatting?
+  if (GUESS != null) {
+    const g = $("#gap-reveal", node);
+    if (g) {
+      const diff = result.total - GUESS;
+      g.textContent = diff <= -10
+        ? `Je schatte jezelf op ${GUESS} — je scoort ${result.total}. Die ${Math.abs(diff)} punten overschatting is precies waar een frisse blik het meest oplevert.`
+        : diff >= 10
+        ? `Je schatte jezelf op ${GUESS} — je scoort hoger: ${result.total}. Mooi, en er is nog ruimte om te verzilveren.`
+        : `Je schatte jezelf op ${GUESS} — je scoort ${result.total}. Scherp ingeschat.`;
+    }
+  }
 
   // Direct de leadvraag tonen (geen feedback-tussenstap meer): meteen na de
   // diagnose vragen we om gegevens voor persoonlijk advies.

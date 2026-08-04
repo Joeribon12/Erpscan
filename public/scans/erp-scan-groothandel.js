@@ -10,7 +10,7 @@ export default {
   audience: "Voor IT- & operations-leiders in groothandel",
 
   intro: {
-    sub: "Krappe marges, grote assortimenten en veeleisende klanten: in de groothandel maakt je ERP-systeem het verschil tussen winst en weglek. Deze scan meet in tien vragen hoe sterk je ERP-software voor groothandel en distributie staat — van inkoopstrategie tot EDI, voorraad, data en orderschaalbaarheid. Je krijgt direct een diagnose met prioriteiten.",
+    sub: "Krappe marges, grote assortimenten en veeleisende klanten: in de groothandel maakt je ERP-systeem het verschil tussen winst en weglek. Deze scan meet in elf korte vragen hoe sterk je ERP-software voor groothandel en distributie staat — van inkoopstrategie tot EDI, voorraad, data en orderschaalbaarheid. Je krijgt direct een diagnose met prioriteiten.",
     bullets: [
       "Nulmeting van je distributie-volwassenheid",
       "Zie waar marges, voorraad of koppelingen weglekken",
@@ -19,11 +19,26 @@ export default {
   },
 
   dimensions: [
-    { id: "strategie",  label: "Strategie & inkoopkoers" },
-    { id: "ai",         label: "AI-readiness" },
-    { id: "cleancore",  label: "Clean core & techniek" },
-    { id: "data",       label: "Data & integratie (EDI, webshop)" },
-    { id: "schaal",     label: "Schaalbaarheid & orderprocessen" },
+    { id: "strategie", label: "Strategie & inkoopkoers", insight: {
+      low: "Zonder ERP-roadmap gekoppeld aan marge stuur je op onderbuik — hier laten de meeste groothandels het meeste liggen.",
+      mid: "De koers staat, maar mist ritme. Koplopers toetsen elke investering aan marge, voorraad of servicegraad.",
+      high: "Sterke koers: je stuurt ERP op marge. Dat plaatst je bij de voorhoede van de sector." } },
+    { id: "ai", label: "AI-readiness", insight: {
+      low: "AI is nog geen thema. Juist besteladvies en vraagvoorspelling verlagen bij groothandels het snelst voorraad én nee-verkoop.",
+      mid: "Eerste stappen gezet — de sprong naar productie is waar de echte marge-impact ontstaat.",
+      high: "AI stuurt al mee in inkoop en voorraad; daarmee zit je voor op de meeste distributiebedrijven." } },
+    { id: "cleancore", label: "Clean core & techniek", insight: {
+      low: "Veel maatwerk in de kern maakt elke upgrade duur en traag — vaak de stilste rem op wendbaarheid.",
+      mid: "Je bewaakt je kern bewust: een goede basis voor snelle updates.",
+      high: "Schone, actuele kern — je adopteert nieuwe functionaliteit sneller dan de meesten." } },
+    { id: "data", label: "Data & integratie (EDI, webshop)", insight: {
+      low: "Handmatige orders en versnipperde masterdata kosten marge én veroorzaken fouten. Dit fundament betaalt zich op elke andere as terug.",
+      mid: "Je koppelingen komen op orde. Standaardiseren en ownership maken je data betrouwbaar herbruikbaar.",
+      high: "Sterk datafundament — order-to-cash loopt bij jou strakker dan bij de meeste groothandels." } },
+    { id: "schaal", label: "Schaalbaarheid & magazijn", insight: {
+      low: "Groei loopt vast op handwerk en een magazijn dat niet meeschaalt — hier zit vaak de meest voelbare pijn.",
+      mid: "De basis draait; piekmomenten en uitzonderingen zijn nu je grootste rem.",
+      high: "Schaalbaar van order tot magazijn — nieuwe klanten en kanalen sluit je vlot aan." } },
   ],
 
   questions: [
@@ -127,6 +142,16 @@ export default {
         { label: "Realtime inzicht stuurt inkoop, prijs en voorraadbeheer", score: 3 },
       ],
     },
+    {
+      id: "q11", dimension: "schaal",
+      text: "Hoe goed ondersteunt je systeem het magazijn — van inslag en picking tot retouren?",
+      options: [
+        { label: "Vooral papier en ervaring; zoekwerk en misgrijpen horen erbij", score: 0 },
+        { label: "De basis staat in het systeem, maar met veel handmatige correcties", score: 1 },
+        { label: "WMS-functies sturen picking, locaties en voorraadmutaties aan", score: 2 },
+        { label: "Volledig gestuurd magazijn: realtime locaties, scanning en vlotte retourverwerking", score: 3 },
+      ],
+    },
   ],
 
   advice: {
@@ -162,6 +187,23 @@ export default {
     { min: 40, label: "Op de goede weg",         summary: "De basis staat, maar het margepotentieel is nog niet benut. Gerichte stappen op je zwakste assen maken je distributie merkbaar efficiënter." },
     { min: 70, label: "Volwassen & wendbaar",    summary: "Je landschap is goed op orde. De winst zit nu in verfijning en in het verzilveren van AI- en datawaarde bovenop een sterk fundament." },
     { min: 85, label: "Distributie-koploper",    summary: "Je behoort tot de voorhoede. Keten, voorraad en data zijn geautomatiseerd; de focus verschuift naar innovatie en margeoptimalisatie." },
+  ],
+
+  // Zelfvoorspelling op de intro; de kloof met de echte score wordt getoond.
+  predict: {
+    question: "Even gokken vóór je begint: hoe futureproof is jullie ERP voor de groothandel, van 0 tot 100?",
+    min_label: "Alles handwerk",
+    max_label: "Volledig in control",
+  },
+
+  // Archetype op basis van de zwakste as (of allStrong bij een topscore).
+  archetypes: [
+    { weakest: "strategie", label: "De Koerszoeker",     tagline: "Operationeel sterk, maar je ERP-koers mag scherper op marge." },
+    { weakest: "ai",        label: "De Datazuinige",     tagline: "Fundament staat; het AI-voordeel laat je nog links liggen." },
+    { weakest: "cleancore", label: "De Maatwerk-magneet", tagline: "Je draait, maar maatwerk zit je wendbaarheid in de weg." },
+    { weakest: "data",      label: "De Handmatige Held",  tagline: "Veel gaat op handkracht — koppelingen zijn je grootste kans." },
+    { weakest: "schaal",    label: "De Brandweerman",    tagline: "Je blust knap, maar groei vraagt om minder firefighting." },
+    { allStrong: true,      label: "De Ketenregisseur",  tagline: "Van inkoop tot magazijn strak geregisseerd — jij hoort bij de voorhoede." },
   ],
 
   lead: {

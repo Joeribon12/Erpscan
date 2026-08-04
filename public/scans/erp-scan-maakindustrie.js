@@ -14,7 +14,7 @@ export default {
   audience: "Voor IT- & operations-leiders in de maakindustrie",
 
   intro: {
-    sub: "Vraag je je af welke ERP bij jouw productie past? Deze gratis ERP-scan voor de maakindustrie meet in tien vragen hoe klaar je productiebedrijf is — van migratiestrategie en clean core tot data en productieprocessen. Zeker als je nog op SAP ECC draait en richting de S/4HANA-deadline van 2027 gaat, zie je direct waar je grootste keuze en risico ligt. Je krijgt meteen een diagnose met prioriteiten.",
+    sub: "Vraag je je af welke ERP bij jouw productie past? Deze gratis ERP-scan voor de maakindustrie meet in elf korte vragen hoe klaar je productiebedrijf is — van migratiestrategie en clean core tot data en productieprocessen. Zeker als je nog op SAP ECC draait en richting de S/4HANA-deadline van 2027 gaat, zie je direct waar je grootste keuze en risico ligt. Je krijgt meteen een diagnose met prioriteiten.",
     bullets: [
       "Concrete nulmeting van je ERP- en S/4HANA-gereedheid",
       "Zicht op je grootste keuze- en migratierisico's — vóórdat het 2027 is",
@@ -23,11 +23,30 @@ export default {
   },
 
   dimensions: [
-    { id: "strategie",  label: "Strategie & migratiekoers" },
-    { id: "ai",         label: "AI-readiness" },
-    { id: "cleancore",  label: "Clean core & techniek" },
-    { id: "data",       label: "Data & integratie" },
-    { id: "schaal",     label: "Schaalbaarheid & productieprocessen" },
+    { id: "strategie", label: "Strategie & migratiekoers", insight: {
+      low: "Zonder concreet migratieplan tikt de klok richting 2027 in je nadeel — hier zit vaak het grootste risico.",
+      mid: "De richting is helder; nu telt de uitvoering: een hard programma met planning en eigenaarschap.",
+      high: "Sterke koers — je gebruikt de migratie als transformatiehefboom. Voorhoede." } },
+    { id: "ai", label: "AI-readiness", insight: {
+      low: "AI in productie nog geen thema. Predictive maintenance of forecasting is vaak de eerste use-case met echte waarde.",
+      mid: "Er beweegt iets; het naar de werkvloer brengen is waar de uptime- en kwaliteitswinst zit.",
+      high: "AI is al verweven in planning en onderhoud — dat zie je bij weinig productiebedrijven." } },
+    { id: "cleancore", label: "Clean core & techniek", insight: {
+      low: "Onbekend Z-maatwerk is dé valkuil van elke ECC-migratie: het maakt je overstap duur en risicovol.",
+      mid: "Je kent je maatwerk — een goede basis om clean core leidend te maken in het ontwerp.",
+      high: "Schone kern richting clean core; dat verlaagt je migratierisico en beheerlast fors." } },
+    { id: "data", label: "Data & integratie", insight: {
+      low: "Fragiele shopfloor-koppelingen en vervuilde stamdata migreren niet vanzelf schoon. Datahygiëne is de stilste succesfactor.",
+      mid: "De richting klopt; koppelingen standaardiseren en ownership vastleggen maakt je migratie-ready.",
+      high: "Sterk datafundament — shopfloor en ERP sturen op dezelfde realtime waarheid." } },
+    { id: "schaal", label: "Schaalbaarheid & productieprocessen", insight: {
+      low: "Werkarounds buiten het systeem migreren niet mee en groeien niet mee. Standaardiseren vóór de conversie is cruciaal.",
+      mid: "De kern draait op standaard; uitzonderingen zijn nu je rem richting S/4.",
+      high: "Schaalbare, gestandaardiseerde processen — klaar voor de best practices van S/4HANA." } },
+    { id: "mensen", label: "Mensen & verandering", insight: {
+      low: "Techniek is zelden de bottleneck bij een S/4-migratie — mensen en kennis wél. Hier struikelen de meeste programma's.",
+      mid: "Je hebt betrokkenheid, maar kennisborging en eigenaarschap mogen steviger.",
+      high: "Business-eigenaarschap en kennisborging staan — dat maakt je programma robuust." } },
   ],
 
   questions: [
@@ -140,6 +159,18 @@ export default {
         { label: "Realtime inzicht en process mining sturen continue verbetering", score: 3 },
       ],
     },
+
+    // Mensen & verandering — vaak de échte faalfactor bij een S/4-migratie.
+    {
+      id: "q11", dimension: "mensen",
+      text: "Wie trekt de migratie straks inhoudelijk, en hoe geborgd is de kennis?",
+      options: [
+        { label: "Nog niemand aangewezen; kennis zit bij een paar mensen in het hoofd", score: 0 },
+        { label: "IT trekt het, business schuift incidenteel aan", score: 1 },
+        { label: "IT én business key-users zijn betrokken en (deels) vrijgemaakt", score: 2 },
+        { label: "Programma met business-eigenaarschap en actieve kennisborging", score: 3 },
+      ],
+    },
   ],
 
   advice: {
@@ -168,6 +199,11 @@ export default {
       mid:  { title: "Ruim de uitzonderingen op", body: "De kern draait op standaard, maar uitzonderingen remmen. Pak de handmatige stappen en workarounds aan en maak processen meetbaar, zodat opschalen en de migratie beheersbaar blijven." },
       high: { title: "Stuur productie datagedreven", body: "Je processen zijn schaalbaar. Benut realtime inzicht en process mining om OEE en doorlooptijd continu te verbeteren en de best practices van S/4HANA maximaal te benutten." },
     },
+    mensen: {
+      low:  { title: "Beleg eigenaarschap en borg kennis", body: "Techniek is zelden de faalfactor bij een S/4-migratie — mensen en kennis wél. Wijs nu een inhoudelijk trekker aan, betrek business key-users en borg de kennis die nu bij enkelen in het hoofd zit. Zonder dit fundament loopt elk programma vast, hoe goed de techniek ook is." },
+      mid:  { title: "Versterk key-users en verandercapaciteit", body: "Er is betrokkenheid, maar het mag steviger. Maak key-users per proces (deels) vrij, leg eigenaarschap vast en investeer in verandermanagement, zodat de nieuwe manier van werken ook echt landt." },
+      high: { title: "Houd kennis en eigenaarschap warm", body: "Mensen en eigenaarschap staan — een sterke basis. Borg dit met een vast opleidings- en kennisritme, zodat je na go-live niet afhankelijk bent van een handjevol specialisten." },
+    },
   },
 
   verdicts: [
@@ -175,6 +211,24 @@ export default {
     { min: 40, label: "Op weg, maar maak tempo",   summary: "De basis komt op gang, maar het migratiepotentieel is nog niet benut. Gerichte stappen op je zwakste assen verlagen het risico en maken de overstap naar S/4HANA beheersbaar." },
     { min: 70, label: "Goed op koers voor S/4HANA", summary: "Je staat er sterk voor. De winst zit nu in verfijning — clean core borgen, data realtime maken en AI-use-cases verzilveren bovenop een solide fundament." },
     { min: 85, label: "S/4HANA-ready koploper",    summary: "Je behoort tot de voorhoede van de maakindustrie en hebt ERP voor productiebedrijven echt op orde. Je fundament is schoon en schaalbaar; de focus verschuift naar transformatie en het uitnutten van data en AI op de werkvloer." },
+  ],
+
+  // Zelfvoorspelling op de intro; de kloof met de echte score wordt getoond.
+  predict: {
+    question: "Even gokken vóór je begint: hoe klaar zijn jullie voor S/4HANA, van 0 tot 100?",
+    min_label: "Nog niets",
+    max_label: "Migratie-ready",
+  },
+
+  // Archetype op basis van de zwakste as (of allStrong bij een topscore).
+  archetypes: [
+    { weakest: "strategie", label: "De Uitsteller",        tagline: "De klok tikt richting 2027 — je koers mag nu concreet worden." },
+    { weakest: "ai",        label: "De Fundamentbouwer",   tagline: "Basis op orde; AI op de werkvloer laat je nog liggen." },
+    { weakest: "cleancore", label: "De Maatwerk-erfgenaam", tagline: "Jaren ECC zit in je kern — dat is nu je grootste migratierisico." },
+    { weakest: "data",      label: "De Data-opschoner",    tagline: "Schone stamdata is je stilste, grootste succesfactor." },
+    { weakest: "schaal",    label: "De Workaround-koning",  tagline: "Buiten het systeem om werkt — tot de conversie. Standaardiseer eerst." },
+    { weakest: "mensen",    label: "De Eenzame Trekker",   tagline: "De techniek kan kloppen, maar zonder eigenaarschap struikelt het." },
+    { allStrong: true,      label: "De S/4-Koploper",      tagline: "Koers, kern, data én mensen op orde — jij hoort bij de voorhoede." },
   ],
 
   lead: {

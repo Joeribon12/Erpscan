@@ -495,6 +495,37 @@ table.cmp td:first-child { color: var(--text); font-weight: 500; }
 .article-lead .lede { max-width: 60ch; }
 .lead-note { margin: 14px 0 0; color: var(--muted); font-size: .82rem; }
 
+/* ── Zelfvoorspelling op de intro ─────────────────────────────────────── */
+.predict { margin-top: 24px; padding: 16px 18px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: var(--radius-sm); }
+.predict > label { display: block; font-size: .95rem; color: var(--text-soft); font-weight: 500; margin-bottom: 12px; }
+.predict-row { display: flex; align-items: center; gap: 12px; }
+.predict-row input[type=range] { flex: 1; accent-color: var(--accent); }
+.predict-min, .predict-max { font-size: .74rem; color: var(--muted); font-family: var(--font-mono); }
+.predict-row output { min-width: 3ch; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--accent-dim); font-size: 1.05rem; }
+
+/* ── Aha-flits tussen de assen ────────────────────────────────────────── */
+.interstitial { text-align: center; padding: clamp(26px, 5vw, 44px) 24px; animation: rise .35s var(--ease) both; }
+.int-eyebrow { font-family: var(--font-mono); font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.int-score { margin: 14px 0 6px; font-family: var(--font-mono); line-height: 1; }
+.int-score b { font-size: 3rem; color: var(--accent-dim); }
+.int-score small { color: var(--muted); font-size: 1rem; margin-left: 4px; }
+.int-text { max-width: 46ch; margin: 8px auto 22px; color: var(--text-soft); font-size: 1.02rem; }
+.interstitial.lvl-low .int-score b { color: var(--bad); }
+.interstitial.lvl-high .int-score b { color: var(--ok); }
+.int-bar { height: 3px; background: var(--line); border-radius: 3px; overflow: hidden; max-width: 220px; margin: 0 auto; }
+.int-bar i { display: block; height: 100%; width: 0; background: var(--grad-accent); transition: width 2.6s linear; }
+
+/* ── Archetype-badge op het resultaat ─────────────────────────────────── */
+.archetype { display: flex; flex-direction: column; gap: 2px; margin-bottom: 10px; }
+.arch-badge { align-self: flex-start; font-family: var(--font-display); font-weight: 600; font-size: .82rem; letter-spacing: .02em;
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface)); color: var(--accent-dim);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line)); border-radius: 999px; padding: 5px 13px; }
+.arch-tag { font-size: .9rem; color: var(--muted); margin-top: 4px; }
+
+/* ── Kloof-reveal (zelfvoorspelling vs. echte score) ──────────────────── */
+.gap-reveal { margin: 18px 0 0; padding-top: 16px; border-top: 1px solid var(--line-soft); color: var(--text-soft); font-size: .95rem; }
+.gap-reveal:empty { display: none; }
+
 /* ── Profielstap (kwalificatie: ERP / omzet / omvang) ──────────────────── */
 .profile-fields { display: grid; gap: 26px; margin-top: 26px; }
 .profile-field > label { display: block; font-weight: 500; color: var(--text-soft); font-size: .95rem; }

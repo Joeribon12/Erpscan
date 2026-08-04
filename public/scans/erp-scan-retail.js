@@ -11,7 +11,7 @@ export default {
   audience: "Voor IT- & e-commerce-verantwoordelijken in retail",
 
   intro: {
-    sub: "Klanten verwachten één naadloze ervaring over winkel, webshop en app. Deze scan meet in tien vragen hoe goed jouw ERP-systeem voor retail die belofte waarmaakt — van omnichannel-strategie tot realtime voorraad, data en seizoensschaalbaarheid. Of je nu inzet op een omnichannel ERP of op ERP voor e-commerce, je krijgt direct een diagnose met prioriteiten.",
+    sub: "Klanten verwachten één naadloze ervaring over winkel, webshop en app. Deze scan meet in elf korte vragen hoe goed jouw ERP-systeem voor retail die belofte waarmaakt — van omnichannel-strategie tot realtime voorraad, data en seizoensschaalbaarheid. Of je nu inzet op een omnichannel ERP of op ERP voor e-commerce, je krijgt direct een diagnose met prioriteiten.",
     bullets: [
       "Nulmeting van je omnichannel-volwassenheid",
       "Zie waar voorraad, marges of klantdata je afremmen",
@@ -20,11 +20,26 @@ export default {
   },
 
   dimensions: [
-    { id: "strategie",  label: "Strategie & omnichannel-koers" },
-    { id: "ai",         label: "AI-readiness" },
-    { id: "cleancore",  label: "Clean core & techniek" },
-    { id: "data",       label: "Data & integratie (POS, webshop, PIM)" },
-    { id: "schaal",     label: "Schaalbaarheid & seizoensprocessen" },
+    { id: "strategie", label: "Strategie & omnichannel-koers", insight: {
+      low: "Winkel en online als losse werelden leidt tot losse keuzes — één koers is waar omnichannel begint.",
+      mid: "De afstemming staat; ritme en heldere business cases maken kanaalkeuzes elkaar versterkend.",
+      high: "Eén klantgerichte koers over alle kanalen — daarmee loop je voor op de meeste retailers." } },
+    { id: "ai", label: "AI-readiness", insight: {
+      low: "AI is nog geen thema. Vraagvoorspelling en personalisatie leveren in retail snel zichtbare omzet of minder derving.",
+      mid: "Er beweegt iets; het naar productie brengen is waar de omzetimpact ontstaat.",
+      high: "AI stuurt al prijs en personalisatie — daarmee zit je op voorhoede-niveau." } },
+    { id: "cleancore", label: "Clean core & techniek", insight: {
+      low: "Zwaar maatwerk remt nieuwe kanalen af en maakt upgrades pijnlijk.",
+      mid: "Je bewaakt de kern bewust: een goede basis om snel kanalen toe te voegen.",
+      high: "Wendbare kern — nieuwe kanalen en features adopteer je vlot." } },
+    { id: "data", label: "Data & integratie (POS, webshop, PIM)", insight: {
+      low: "Voorraad die niet klopt kost direct omzet én vertrouwen. Eén realtime voorraadbeeld betaalt zich overal terug.",
+      mid: "Koppelingen komen op orde; centrale product- en prijsdata maakt elk kanaal consistent.",
+      high: "Eén realtime klant- en productbeeld — ship-from-store en click&collect werken bij jou soepel." } },
+    { id: "schaal", label: "Schaalbaarheid & fulfilment", insight: {
+      low: "Pieken, retouren en kanaaluitrol lopen vast op handwerk — hier voel je de stress het hardst.",
+      mid: "De kern draait; piekmomenten en uitzonderingen zijn nu je grootste rem.",
+      high: "Schaalbaar van piek tot retour — nieuwe kanalen en filialen breng je snel live." } },
   ],
 
   questions: [
@@ -125,7 +140,17 @@ export default {
         { label: "Nauwelijks; sturen gebeurt achteraf op losse rapporten", score: 0 },
         { label: "Losse rapportages, geen kanaaloverstijgend beeld", score: 1 },
         { label: "Dashboards op de belangrijkste retail-KPI's", score: 2 },
-        { label: "Realtime kanaaloverzicht stuurt inkoop, prijs en bijbestelling", score: 3 },
+        { label: "Realtime kanaaloverzicht stuurt inkoop, prijs en nabestellen", score: 3 },
+      ],
+    },
+    {
+      id: "q11", dimension: "schaal",
+      text: "Hoe soepel verwerken jullie retouren en piek-fulfilment — van bestelling tot weer verkoopbaar?",
+      options: [
+        { label: "Retouren stapelen op; bij pieken loopt de fulfilment vast", score: 0 },
+        { label: "Het lukt, maar met veel handwerk en trage doorlooptijd", score: 1 },
+        { label: "Retour- en fulfilmentproces is grotendeels gestandaardiseerd", score: 2 },
+        { label: "Retouren snel weer verkoopbaar; fulfilment schaalt automatisch mee met pieken", score: 3 },
       ],
     },
   ],
@@ -163,6 +188,23 @@ export default {
     { min: 40, label: "Op weg naar omnichannel",   summary: "De basis komt op gang, maar de naadloze klantervaring is nog niet rond. Gerichte stappen op je zwakste assen maken je merkbaar wendbaarder." },
     { min: 70, label: "Volwassen omnichannel",     summary: "Je retaillandschap is goed op orde. De winst zit nu in verfijning en in het verzilveren van AI- en datawaarde bovenop een sterk fundament." },
     { min: 85, label: "Retail-koploper",           summary: "Je behoort tot de voorhoede. Kanalen, voorraad en data zijn naadloos verbonden; de focus verschuift naar innovatie en margeoptimalisatie." },
+  ],
+
+  // Zelfvoorspelling op de intro; de kloof met de echte score wordt getoond.
+  predict: {
+    question: "Even gokken vóór je begint: hoe omnichannel-ready zijn jullie, van 0 tot 100?",
+    min_label: "Losse kanalen",
+    max_label: "Naadloos",
+  },
+
+  // Archetype op basis van de zwakste as (of allStrong bij een topscore).
+  archetypes: [
+    { weakest: "strategie", label: "De Kanaaljongleur",     tagline: "Winkel én online draaien, maar nog zonder gedeelde koers." },
+    { weakest: "ai",        label: "De Datazuinige",        tagline: "Fundament staat; AI voor prijs en personalisatie laat je liggen." },
+    { weakest: "cleancore", label: "De Maatwerk-magneet",   tagline: "Je draait, maar maatwerk remt nieuwe kanalen af." },
+    { weakest: "data",      label: "De Voorraad-gokker",    tagline: "Zonder één realtime voorraadbeeld lekt er omzet en vertrouwen weg." },
+    { weakest: "schaal",    label: "De Piek-overlever",     tagline: "Je komt de pieken door, maar met te veel firefighting." },
+    { allStrong: true,      label: "De Omnichannel-koploper", tagline: "Kanalen, voorraad en data naadloos verbonden — voorhoede." },
   ],
 
   lead: {
