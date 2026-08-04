@@ -33,8 +33,8 @@ export const PAGES = [
   },
   {
     id: "s4hana",
-    title: "SAP ECC → S/4HANA: alles wat je moet weten",
-    teaser: "De 2027-deadline, greenfield vs. brownfield en hoe je je voorbereidt.",
+    title: "SAP ECC → S/4HANA: de complete migratiegids",
+    teaser: "De 2027-deadline, migratieroutes, RISE vs. GROW, kosten en een roadmap richting go-live.",
     path: "/info/s4hana",
   },
   {

@@ -469,6 +469,32 @@ table.cmp td:first-child { color: var(--text); font-weight: 500; }
 .related-link:hover { border-color: var(--accent); transform: translateX(3px); text-decoration: none; }
 .related-link > span { color: var(--accent); }
 
+/* ── Pillar-artikel: meta, inhoudsopgave, kort-antwoord, FAQ, lead ───────── */
+.article-meta { font-family: var(--font-mono); font-size: .8rem; color: var(--muted); letter-spacing: .03em; margin: 4px 0 0; }
+.sec-anchor { scroll-margin-top: 92px; }
+
+.toc { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 18px 22px; margin: 26px 0; }
+.toc-title, .toc > p { font-family: var(--font-mono); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+.toc ol, .toc ul { margin: 0; padding-left: 20px; display: grid; gap: 7px; }
+.toc a { color: var(--text-soft); }
+.toc a:hover { color: var(--accent); }
+
+.callout--answer { border-left: 0; border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 7%, var(--surface)), var(--surface));
+  border-radius: var(--radius-sm); padding: 20px 24px; }
+.callout--answer h3 { color: var(--accent-dim); }
+.callout--answer p { color: var(--text-soft); max-width: 68ch; }
+
+.faq-block { margin: 30px 0; }
+.faq-list { display: grid; gap: 14px; margin-top: 18px; }
+.faq-item { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 16px 18px; }
+.faq-item h3 { margin: 0 0 5px; font-family: var(--font-display); font-size: 1.05rem; color: var(--text); }
+.faq-item p { margin: 0; max-width: 68ch; }
+
+.article-lead { margin-top: 40px; }
+.article-lead .lede { max-width: 60ch; }
+.lead-note { margin: 14px 0 0; color: var(--muted); font-size: .82rem; }
+
 /* ── Profielstap (kwalificatie: ERP / omzet / omvang) ──────────────────── */
 .profile-fields { display: grid; gap: 26px; margin-top: 26px; }
 .profile-field > label { display: block; font-weight: 500; color: var(--text-soft); font-size: .95rem; }

@@ -170,7 +170,17 @@ const SEO = {
   },
   "/info/erp-feiten": { t: "ERP in cijfers: 10 feiten over ERP-systemen", d: "Tien feiten en cijfers over ERP-systemen die je moet kennen: van migratiedeadlines tot benutte functionaliteit en de rol van SAP ERP." },
   "/info/optimaliseren": { t: "ERP-systeem optimaliseren: 7 hefbomen voor rendement", d: "Hoe optimaliseer je je ERP-systeem en haal je er meer uit? De 7 grootste hefbomen, van clean core en data tot AI, met de meeste impact eerst." },
-  "/info/s4hana": { t: "SAP ECC naar S/4HANA migratie: de 2027-deadline uitgelegd", d: "Alles over de migratie van SAP ECC (SAP ERP) naar S/4HANA: de 2027-deadline, greenfield vs. brownfield en hoe je je overstap voorbereidt." },
+  "/info/s4hana": {
+    t: "SAP ECC naar S/4HANA: routes, kosten en de 2027-deadline",
+    d: "Complete gids voor de migratie van SAP ECC naar S/4HANA: de 2027-deadline, greenfield vs. brownfield vs. bluefield, RISE en GROW, een realistisch kostenbeeld en een roadmap richting go-live.",
+    faq: [
+      { q: "Wat gebeurt er als ik na 2030 nog op SAP ECC draai?", a: "Reguliere support en beveiligingsupdates vervallen. Er blijven risico's op het gebied van compliance en kwetsbaarheden die zich opstapelen. Voor regelgevingsgevoelige sectoren is dat op termijn niet houdbaar." },
+      { q: "Is brownfield altijd goedkoper dan greenfield?", a: "Niet automatisch. Brownfield is initieel goedkoper, maar als verouderde processen en maatwerk niet vooraf worden opgelost, lopen de kosten tijdens de uitvoering alsnog op. Bij veel achterstallige processen kan greenfield uiteindelijk voordeliger zijn." },
+      { q: "Draait S/4HANA op een andere database dan HANA?", a: "Nee. S/4HANA draait uitsluitend op SAP HANA. Dat is een wezenlijk verschil met ECC, dat ook op andere databases kon draaien, en het heeft gevolgen voor je licentie- en infrastructuurkeuzes." },
+      { q: "Wat is het verschil tussen RISE with SAP en GROW with SAP?", a: "RISE richt zich vooral op bestaande klanten die naar een private cloud willen met behoud van vrijheid in maatwerk. GROW is bedoeld voor nieuwe klanten in de public cloud, met grotendeels standaard processen en een vaste updatecyclus." },
+      { q: "Hoe lang duurt een S/4HANA-migratie?", a: "Voor een middelgrote organisatie is 18 tot 36 maanden een realistische indicatie, afhankelijk van scope, hoeveelheid maatwerk en gekozen route. Grote, internationale landschappen lopen langer door." },
+    ],
+  },
   "/info/ai-erp": { t: "AI in je ERP-systeem: use-cases en voorbeelden", d: "Welke AI-use-cases en voorbeelden in je ERP-systeem leveren echt iets op? Van factuurherkenning tot predictive maintenance, en wat je nodig hebt." },
   "/info/ai-in-je-bedrijf": { t: "AI toepassen in je bedrijf: praktisch stappenplan", d: "Hoe pas je AI toe in je bedrijf? Praktisch stappenplan om AI te implementeren: van één use-case naar structurele waarde, bovenop een gezond ERP-systeem." },
   "/info/schalen-zonder-chaos": { t: "Bedrijfsprocessen schalen zonder chaos (en zonder automatiseringsplatform)", d: "Lastig om bedrijfsprocessen te schalen zonder automatiseringsplatform? Standaardiseer en automatiseer je processen vóór het volume groeit. De hefbomen voor schaalbaar groeien zonder chaos." },

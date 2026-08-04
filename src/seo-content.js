@@ -115,6 +115,11 @@ function sectionHtml(s) {
       `<li><a href="${esc(it.href)}">${esc(it.label)}</a></li>`).join("");
     return `${h}<ul>${items}</ul>`;
   }
+  if (s.type === "faq") {
+    const items = (s.items || []).map((it) =>
+      `<h3>${esc(it.q)}</h3><p>${esc(it.a)}</p>`).join("");
+    return `${h}${items}`;
+  }
   return "";
 }
 
@@ -142,15 +147,24 @@ function renderScan(cfg) {
 
 function renderArticle(cfg) {
   const sections = (cfg.sections || []).map(sectionHtml).join("");
-  const cta = cfg.cta
-    ? `<p><a href="${esc(cfg.cta.href || "/")}">${esc(cfg.cta.label || "Doe de ERP-scan")}</a> — ${esc(cfg.cta.body || "")}</p>`
+  const tocItems = (cfg.sections || []).filter((s) => s.heading);
+  const toc = (cfg.toc && tocItems.length)
+    ? `<nav class="toc"><p>In dit artikel</p><ul>${tocItems.map((s) => `<li>${esc(s.heading)}</li>`).join("")}</ul></nav>`
     : "";
+  const meta = (cfg.date || cfg.readingTime)
+    ? `<p class="article-meta">${[cfg.date, cfg.readingTime].filter(Boolean).map(esc).join(" · ")}</p>` : "";
+  const ending = cfg.leadForm
+    ? `<section class="article-lead"><h2>${esc(cfg.leadForm.heading || "Vraag een specialist")}</h2>${cfg.leadForm.sub ? `<p>${esc(cfg.leadForm.sub)}</p>` : ""}</section>`
+    : (cfg.cta
+      ? `<p><a href="${esc(cfg.cta.href || "/")}">${esc(cfg.cta.label || "Doe de ERP-scan")}</a> — ${esc(cfg.cta.body || "")}</p>` : "");
   return `<article class="article">
     <span class="eyebrow">${esc(cfg.eyebrow || "Kennis")}</span>
     <h1>${esc(cfg.title)}</h1>
+    ${meta}
     ${cfg.intro ? `<p class="lede">${esc(cfg.intro)}</p>` : ""}
+    ${toc}
     ${sections}
-    ${cta}
+    ${ending}
     <p><a href="/info">← Terug naar de kennisbank</a> · <a href="/">Doe de gratis ERP-scan</a></p>
   </article>`;
 }

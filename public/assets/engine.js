@@ -829,7 +829,8 @@ function renderSection(s) {
     return `<section class="prose-block">${s.heading ? `<h2>${esc(s.heading)}</h2>` : ""}${body.map((p) => `<p>${esc(p)}</p>`).join("")}</section>`;
   }
   if (s.type === "callout") {
-    return `<aside class="callout">${s.title ? `<h3>${esc(s.title)}</h3>` : ""}<p>${esc(s.body)}</p></aside>`;
+    const v = s.variant ? ` callout--${esc(s.variant)}` : "";
+    return `<aside class="callout${v}">${s.title ? `<h3>${esc(s.title)}</h3>` : ""}<p>${esc(s.body)}</p></aside>`;
   }
   if (s.type === "quote") {
     return `<figure class="pullquote"><blockquote>${esc(s.body)}</blockquote>${s.cite ? `<figcaption>${esc(s.cite)}</figcaption>` : ""}</figure>`;
@@ -852,20 +853,42 @@ function renderSection(s) {
     const items = (s.items || []).map((it) => `<a class="related-link" href="${esc(it.href)}">${esc(it.label)} <span aria-hidden="true">→</span></a>`).join("");
     return `<section class="related-block">${s.heading ? `<h2>${esc(s.heading)}</h2>` : ""}<div class="related-list">${items}</div></section>`;
   }
+  if (s.type === "faq") {
+    const items = (s.items || []).map((it) =>
+      `<div class="faq-item"><h3>${esc(it.q)}</h3><p>${esc(it.a)}</p></div>`).join("");
+    return `<section class="faq-block">${s.heading ? `<h2>${esc(s.heading)}</h2>` : ""}<div class="faq-list">${items}</div></section>`;
+  }
   return "";
 }
 
 function renderArticle(cfg) {
   setHeaderMeta("");
-  const sections = (cfg.sections || []).map(renderSection).join("");
-  const cta = cfg.cta ? `
+  // Elke sectie krijgt een anker-id, zodat de inhoudsopgave ernaar kan linken.
+  const sections = (cfg.sections || []).map((s, i) =>
+    `<div class="sec-anchor" id="sec-${i}">${renderSection(s)}</div>`).join("");
+
+  // Optionele inhoudsopgave, opgebouwd uit de sectiekoppen (cfg.toc === true).
+  const tocItems = (cfg.sections || []).map((s, i) => (s.heading ? { i, label: s.heading } : null)).filter(Boolean);
+  const toc = (cfg.toc && tocItems.length)
+    ? `<nav class="toc" aria-label="In dit artikel"><p class="toc-title">In dit artikel</p>
+        <ol>${tocItems.map((t) => `<li><a href="#sec-${t.i}">${esc(t.label)}</a></li>`).join("")}</ol></nav>`
+    : "";
+
+  const meta = (cfg.date || cfg.readingTime)
+    ? `<p class="article-meta">${[cfg.date, cfg.readingTime].filter(Boolean).map(esc).join(" · ")}</p>` : "";
+
+  // Afsluiting: inline lead-formulier (cfg.leadForm) of anders de klassieke CTA-knop.
+  const ending = cfg.leadForm
+    ? articleLeadFormHtml(cfg)
+    : (cfg.cta ? `
     <div class="article-cta card">
       <div>
         <h2>${esc(cfg.cta.heading || "Benieuwd hoe jij ervoor staat?")}</h2>
         <p>${esc(cfg.cta.body || "")}</p>
       </div>
       <a class="btn btn-primary" href="${esc(cfg.cta.href || "/")}">${esc(cfg.cta.label || "Doe de scan")} <span class="arrow">→</span></a>
-    </div>` : "";
+    </div>` : "");
+
   const sources = Array.isArray(cfg.sources) && cfg.sources.length
     ? `<aside class="sources"><h3>Bronnen &amp; verantwoording</h3><ul>${cfg.sources.map((s) => `<li>${esc(s)}</li>`).join("")}</ul></aside>` : "";
 
@@ -873,12 +896,126 @@ function renderArticle(cfg) {
     <a class="back-link" href="${esc(cfg.backHref || "/info")}">${esc(cfg.backLabel || "← Kennisbank")}</a>
     <span class="eyebrow">${esc(cfg.eyebrow || "Kennis")}</span>
     <h1>${esc(cfg.title)}</h1>
+    ${meta}
     ${cfg.intro ? `<p class="lede">${esc(cfg.intro)}</p>` : ""}
+    ${toc}
     ${sections}
-    ${cta}
+    ${ending}
     ${sources}
   </article>`));
+  if (cfg.leadForm) wireArticleLead(cfg);
   window.scrollTo({ top: 0, behavior: "auto" });
+}
+
+// ── Inline lead-formulier onderaan een artikel ("Vraag een specialist") ──────
+// Additief: stuurt naar dezelfde lead-pijplijn (/api/lead) als de scan, maar
+// zonder scan-uitslag. Alleen actief als het artikel een cfg.leadForm heeft.
+function articleLeadFormHtml(cfg) {
+  const L = cfg.leadForm || {};
+  const privacy = L.privacy_url || DEFAULT_PRIVACY_URL;
+  return `<section class="lead card article-lead" id="article-lead">
+    <span class="eyebrow">${esc(L.eyebrow || "Persoonlijk advies")}</span>
+    <h2>${esc(L.heading || "Vraag een specialist")}</h2>
+    ${L.sub ? `<p class="lede">${esc(L.sub)}</p>` : ""}
+    <form id="article-lead-form" novalidate>
+      <div class="form-grid">
+        <div class="field" data-error="false">
+          <label for="al-name">Naam <span class="req">*</span></label>
+          <input id="al-name" name="name" type="text" autocomplete="name" placeholder="Voor- en achternaam" />
+          <span class="err" data-for="name"></span>
+        </div>
+        <div class="field" data-error="false">
+          <label for="al-email">Zakelijk e-mailadres <span class="req">*</span></label>
+          <input id="al-email" name="email" type="email" autocomplete="email" placeholder="naam@bedrijf.nl" />
+          <span class="err" data-for="email"></span>
+        </div>
+        <div class="field span-2" data-error="false">
+          <label for="al-phone">Telefoon <span class="optional">(optioneel)</span></label>
+          <input id="al-phone" name="phone" type="tel" autocomplete="tel" placeholder="+31 …" />
+        </div>
+        <div class="field span-2" data-error="false">
+          <label for="al-question">${esc(L.question_label || "Wat speelt er?")} <span class="req">*</span></label>
+          <textarea id="al-question" name="question" rows="3" placeholder="${esc(L.question_placeholder || "Beschrijf je situatie in een paar zinnen.")}"></textarea>
+          <span class="err" data-for="question"></span>
+        </div>
+        <div class="consent" data-error="false">
+          <input id="al-consent" name="consent" type="checkbox" />
+          <label for="al-consent">Ik ga akkoord dat mijn gegevens worden gebruikt om over mijn vraag contact met me op te nemen, conform het <a href="${esc(privacy)}" target="_blank" rel="noopener">privacybeleid</a>. <span class="req">*</span></label>
+        </div>
+      </div>
+      <div class="form-foot">
+        <button class="btn btn-primary" type="submit" id="al-submit">${esc(L.button || "Stuur mijn vraag")} <span class="arrow">→</span></button>
+        <span class="form-status" id="al-status"></span>
+      </div>
+      ${L.note ? `<p class="lead-note">${esc(L.note)}</p>` : ""}
+    </form>
+  </section>`;
+}
+
+function wireArticleLead(cfg) {
+  const form = $("#article-lead-form");
+  if (form) form.addEventListener("submit", (e) => onArticleLeadSubmit(e, cfg));
+}
+
+async function onArticleLeadSubmit(e, cfg) {
+  e.preventDefault();
+  const form = e.currentTarget;
+  const status = $("#al-status");
+  const data = {
+    name: ($("#al-name", form)?.value || "").trim(),
+    email: ($("#al-email", form)?.value || "").trim(),
+    phone: ($("#al-phone", form)?.value || "").trim(),
+    question: ($("#al-question", form)?.value || "").trim(),
+    consent: $("#al-consent", form)?.checked || false,
+  };
+
+  form.querySelectorAll("[data-error]").forEach((f) => (f.dataset.error = "false"));
+  form.querySelectorAll(".err").forEach((s) => (s.textContent = ""));
+  status.className = "form-status"; status.textContent = "";
+
+  const errs = {};
+  if (!data.name || data.name.length < 2) errs.name = "Vul je naam in.";
+  if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) errs.email = "Vul een geldig e-mailadres in.";
+  if (!data.question || data.question.length < 5) errs.question = "Beschrijf kort je vraag of situatie.";
+  if (!data.consent) errs.consent = "Akkoord is verplicht.";
+  if (Object.keys(errs).length) {
+    Object.entries(errs).forEach(([k, msg]) => {
+      const span = form.querySelector(`.err[data-for="${k}"]`);
+      if (span) span.textContent = msg;
+      const field = (k === "consent") ? form.querySelector(".consent") : span?.closest(".field");
+      if (field) field.dataset.error = "true";
+    });
+    status.classList.add("error"); status.textContent = "Controleer de gemarkeerde velden.";
+    return;
+  }
+
+  const L = cfg.leadForm || {};
+  const payload = {
+    scan_id: `artikel:${cfg.page_id || "onbekend"}`,
+    scan_title: `Gids: ${cfg.title}`,
+    lead: { name: data.name, organisation: "", email: data.email, phone: data.phone, question: data.question, consent: true },
+    meta: { url: location.href, referrer: document.referrer || null, user_agent: navigator.userAgent, submitted_at_client: new Date().toISOString() },
+  };
+
+  const btn = $("#al-submit"); btn.disabled = true;
+  status.textContent = "Versturen…";
+  try {
+    const res = await fetch(RUNTIME.WORKER_ENDPOINT, {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const sec = $("#article-lead");
+    if (sec) sec.innerHTML = `<div class="thanks" style="padding:22px 0">
+      <div class="check" aria-hidden="true">✓</div>
+      <h2>${esc(L.thanks_heading || "Bedankt — je vraag is verstuurd")}</h2>
+      <p class="lede" style="margin-inline:auto">${esc(L.thanks_sub || "Een specialist neemt binnen één werkdag contact met je op.")}</p>
+    </div>`;
+  } catch (err) {
+    btn.disabled = false;
+    status.classList.add("error");
+    status.textContent = "Versturen mislukte. Probeer het zo nog eens of mail ons direct.";
+    console.error("Article lead submit error:", err);
+  }
 }
 
 function renderFatal(id, errs, kind = "scan") {
