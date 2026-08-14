@@ -868,6 +868,7 @@ async function renderLanding() {
       <div class="related-list" style="margin-top:18px">
         <a class="related-link" href="/info/processen-automatiseren">Bedrijfsprocessen automatiseren <span aria-hidden="true">→</span></a>
         <a class="related-link" href="/info/systeemintegratie">ERP koppelen &amp; systemen integreren <span aria-hidden="true">→</span></a>
+        <a class="related-link" href="/info/dashboards-kpi">ERP met KPI-dashboards <span aria-hidden="true">→</span></a>
         <a class="related-link" href="/info/schalen-zonder-chaos">Schalen zonder chaos <span aria-hidden="true">→</span></a>
         <a class="related-link" href="/info/welke-erp-past-bij-productie">Welke ERP past bij productie? <span aria-hidden="true">→</span></a>
         <a class="related-link" href="/info/s4hana">SAP ECC → S/4HANA <span aria-hidden="true">→</span></a>

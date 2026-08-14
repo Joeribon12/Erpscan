@@ -22,6 +22,12 @@ export const PAGES = [
     path: "/info/processen-automatiseren",
   },
   {
+    id: "dashboards-kpi",
+    title: "ERP met KPI-dashboards: realtime sturen",
+    teaser: "Welke KPI's tellen per functiegebied, een stappenplan van rapport naar realtime sturing, en de rol van process mining.",
+    path: "/info/dashboards-kpi",
+  },
+  {
     id: "welke-erp-past-bij-productie",
     title: "Welke ERP past bij productie?",
     teaser: "Keuzecriteria, een besliskader in 5 stappen en een eerlijke vergelijking van ERP-systemen voor de maakindustrie.",
@@ -92,12 +98,6 @@ export const PAGES = [
     title: "ERP-implementatie: succesfactoren & valkuilen",
     teaser: "De factoren die het verschil maken — techniek is zelden de bottleneck.",
     path: "/info/erp-implementatie",
-  },
-  {
-    id: "dashboards-kpi",
-    title: "Realtime inzicht: dashboards & KPI's",
-    teaser: "Stuur vooruit in plaats van achteruit, met de juiste KPI's.",
-    path: "/info/dashboards-kpi",
   },
   {
     id: "business-case-erp",

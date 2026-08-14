@@ -223,6 +223,7 @@ function renderLanding() {
       <ul>
         <li><a href="/info/processen-automatiseren">Bedrijfsprocessen automatiseren: waar begin je?</a></li>
         <li><a href="/info/systeemintegratie">ERP koppelen: systemen slim integreren met API's</a></li>
+        <li><a href="/info/dashboards-kpi">ERP met KPI-dashboards: realtime sturen</a></li>
         <li><a href="/info/schalen-zonder-chaos">Bedrijfsprocessen schalen zonder chaos</a></li>
         <li><a href="/info/welke-erp-past-bij-productie">Welke ERP past bij productie?</a></li>
         <li><a href="/info/s4hana">Van SAP ECC naar S/4HANA</a></li>

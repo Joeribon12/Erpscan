@@ -233,7 +233,17 @@ const SEO = {
   "/info/datakwaliteit": { t: "Datakwaliteit verbeteren: master data als fundament voor AI", d: "Hoe verbeter je datakwaliteit? Master data management is het fundament onder rapportage, AI en een betrouwbaar ERP-systeem. Zo pak je het aan." },
   "/info/clean-core": { t: "Wat is clean core? Clean core in SAP & S/4HANA uitgelegd", d: "Wat is clean core en waarom telt het voor je ERP? Uitleg van het clean core-principe in SAP en S/4HANA, en hoe je maatwerk afbouwt." },
   "/info/erp-implementatie": { t: "ERP-implementatie: succesfactoren en valkuilen", d: "Een succesvolle ERP-implementatie draait om proces, data en mensen — niet om techniek. De belangrijkste succesfactoren en valkuilen op een rij." },
-  "/info/dashboards-kpi": { t: "Realtime dashboards & KPI's: sturen met process mining", d: "Stuur vooruit met realtime dashboards en de juiste KPI's. Wat maakt een KPI bruikbaar, en de rol van process mining in je ERP-systeem." },
+  "/info/dashboards-kpi": {
+    t: "ERP met KPI-dashboards: realtime sturen op de juiste cijfers",
+    d: "Hoe werkt een ERP met KPI-dashboards? Welke KPI's tellen per functiegebied, een stappenplan van rapport naar realtime sturing, en de rol van process mining.",
+    faq: [
+      { q: "Wat is een ERP met KPI-dashboards?", a: "Een ERP-systeem dat de belangrijkste stuurgetallen — zoals voorraad, marge, doorlooptijd of leverbetrouwbaarheid — realtime toont op basis van de eigen transactiedata, in plaats van achteraf via een los rapport of export." },
+      { q: "Heb ik een aparte BI-tool nodig voor KPI-dashboards?", a: "Niet per se. De meeste moderne ERP-systemen hebben ingebouwde dashboard- of rapportagefunctionaliteit die vaak nog niet volledig is ingericht. Een externe BI-laag wordt vooral zinvol bij data uit meerdere systemen tegelijk of geavanceerdere analyses." },
+      { q: "Hoeveel KPI's hoort een dashboard te tonen?", a: "Minder dan je denkt. Een richtgetal dat vaak wordt gehanteerd is minder dan tien KPI's per rol. Meer cijfers verdrukken elkaar en maken het lastiger om te zien waar écht op gestuurd moet worden." },
+      { q: "Wat is het verschil tussen een dashboard en process mining?", a: "Een dashboard toont uitkomsten: wát een KPI op dit moment is. Process mining reconstrueert uit logdata hóé een proces daadwerkelijk verloopt, inclusief omwegen en uitzonderingen. Ze vullen elkaar aan: het dashboard signaleert, process mining verklaart." },
+      { q: "Waarom lopen dashboards vaak achter, ook al is de data er wel?", a: "Meestal niet door een technische beperking, maar omdat rapportage is ingericht als periodieke export in plaats van een live koppeling met de brondata. Vaak is de eerste stap simpelweg het herinrichten van bestaande rapportage, niet nieuwe software." },
+    ],
+  },
   "/info/systeemintegratie": {
     t: "ERP koppelen: 4 manieren vergeleken + stappenplan",
     d: "Je ERP koppelen aan je webshop, WMS of EDI? Vergelijk de 4 koppelmanieren, kies het juiste patroon en volg het stappenplan in 7 stappen — inclusief kosten en de 5 fouten die het vaakst worden gemaakt.",
