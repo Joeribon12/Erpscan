@@ -1016,24 +1016,22 @@ function articleLeadFormHtml(cfg) {
     ${L.sub ? `<p class="lede">${esc(L.sub)}</p>` : ""}
     <form id="article-lead-form" novalidate>
       <div class="form-grid">
-        <div class="field" data-error="false">
-          <label for="al-name">Naam <span class="req">*</span></label>
-          <input id="al-name" name="name" type="text" autocomplete="name" placeholder="Voor- en achternaam" />
-          <span class="err" data-for="name"></span>
-        </div>
-        <div class="field" data-error="false">
+        <div class="field span-2" data-error="false">
           <label for="al-email">Zakelijk e-mailadres <span class="req">*</span></label>
           <input id="al-email" name="email" type="email" autocomplete="email" placeholder="naam@bedrijf.nl" />
           <span class="err" data-for="email"></span>
         </div>
-        <div class="field span-2" data-error="false">
+        <div class="field" data-error="false">
+          <label for="al-name">Naam <span class="optional">(optioneel)</span></label>
+          <input id="al-name" name="name" type="text" autocomplete="name" placeholder="Voor- en achternaam" />
+        </div>
+        <div class="field" data-error="false">
           <label for="al-phone">Telefoon <span class="optional">(optioneel)</span></label>
           <input id="al-phone" name="phone" type="tel" autocomplete="tel" placeholder="+31 …" />
         </div>
         <div class="field span-2" data-error="false">
-          <label for="al-question">${esc(L.question_label || "Wat speelt er?")} <span class="req">*</span></label>
+          <label for="al-question">${esc(L.question_label || "Wat speelt er?")} <span class="optional">(optioneel)</span></label>
           <textarea id="al-question" name="question" rows="3" placeholder="${esc(L.question_placeholder || "Beschrijf je situatie in een paar zinnen.")}"></textarea>
-          <span class="err" data-for="question"></span>
         </div>
         <div class="consent" data-error="false">
           <input id="al-consent" name="consent" type="checkbox" />
@@ -1071,9 +1069,7 @@ async function onArticleLeadSubmit(e, cfg) {
   status.className = "form-status"; status.textContent = "";
 
   const errs = {};
-  if (!data.name || data.name.length < 2) errs.name = "Vul je naam in.";
   if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) errs.email = "Vul een geldig e-mailadres in.";
-  if (!data.question || data.question.length < 5) errs.question = "Beschrijf kort je vraag of situatie.";
   if (!data.consent) errs.consent = "Akkoord is verplicht.";
   if (Object.keys(errs).length) {
     Object.entries(errs).forEach(([k, msg]) => {
