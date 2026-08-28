@@ -31,6 +31,9 @@ import artAiErp        from "../public/pages/ai-erp.js";
 import artAiBedrijf    from "../public/pages/ai-in-je-bedrijf.js";
 import artSchalen      from "../public/pages/schalen-zonder-chaos.js";
 import artProcessen    from "../public/pages/processen-automatiseren.js";
+import artProductie    from "../public/pages/productieproces-automatiseren.js";
+import artInkoop       from "../public/pages/inkoopproces-automatiseren.js";
+import artWerkprocessen from "../public/pages/werkprocessen-automatiseren.js";
 import artCloud        from "../public/pages/cloud-of-onpremise.js";
 import artData         from "../public/pages/datakwaliteit.js";
 import artCleanCore    from "../public/pages/clean-core.js";
@@ -56,6 +59,9 @@ const ART_CFG = {
   "/info/ai-in-je-bedrijf": artAiBedrijf,
   "/info/schalen-zonder-chaos": artSchalen,
   "/info/processen-automatiseren": artProcessen,
+  "/info/productieproces-automatiseren": artProductie,
+  "/info/inkoopproces-automatiseren": artInkoop,
+  "/info/werkprocessen-automatiseren": artWerkprocessen,
   "/info/cloud-of-onpremise": artCloud,
   "/info/datakwaliteit": artData,
   "/info/clean-core": artCleanCore,

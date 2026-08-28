@@ -19,7 +19,7 @@ export default {
   date: "Laatst bijgewerkt: augustus 2026",
   toc: true,
 
-  intro: "Bedrijfsprocessen automatiseren bespaart tijd, verlaagt het aantal fouten en maakt groeien mogelijk zonder dat je evenredig mensen bijzet. Maar niet elk proces leent zich ervoor, en de volgorde waarin je het aanpakt bepaalt of het iets oplevert of alleen maar geld kost. Deze gids laat zien hoe je de juiste processen selecteert, welke niveaus van automatisering er zijn, hoe een realistisch traject eruitziet en welke fouten het vaakst worden gemaakt — met je ERP-systeem als motor.",
+  intro: "Het automatiseren van processen bespaart tijd, verlaagt het aantal fouten en maakt groeien mogelijk zonder dat je evenredig mensen bijzet. Maar niet elk bedrijfsproces leent zich ervoor, en de volgorde waarin je het aanpakt bepaalt of het iets oplevert of alleen maar geld kost. Deze gids laat zien hoe je de juiste processen selecteert, welke niveaus van automatisering er zijn, hoe dat er in de praktijk per proces uitziet, hoe een realistisch traject verloopt en welke fouten het vaakst worden gemaakt — met je ERP-systeem als motor.",
 
   sections: [
     {
@@ -111,6 +111,15 @@ export default {
         { q: "Wat is het verschil tussen automatiseren en digitaliseren?", a: "Digitaliseren is een papieren stap vervangen door een digitale, bijvoorbeeld een formulier dat een PDF wordt. Automatiseren betekent dat de stap zelf — en de overdracht naar de volgende stap — zonder handwerk verloopt." },
         { q: "Wat levert procesautomatisering op?", a: "Minder tijd per handeling, minder fouten en correctiewerk, kortere doorlooptijden en beter zicht op het proces. Bij hoog volume en veel handwerk is een terugverdientijd van enkele maanden tot ongeveer een jaar een indicatieve richtlijn; vraagt het traject eerst standaardisatie of dataopschoning, dan loopt dat langer door." },
         { q: "Waar gaat het meestal mis?", a: "Bij de uitzonderingen en bij het eigenaarschap. Automatisering die alleen het standaardgeval aankan, verplaatst werk naar een handmatige bak die niemand bijhoudt. En zonder duidelijke eigenaar verzandt de automatisering zodra het onderliggende proces verandert." },
+      ],
+    },
+    {
+      type: "related",
+      heading: "Verdiep je in één specifiek proces",
+      items: [
+        { label: "Productieproces automatiseren: waar begin je op de werkvloer?", href: "/info/productieproces-automatiseren" },
+        { label: "Inkoopproces automatiseren: van aanvraag tot betaling", href: "/info/inkoopproces-automatiseren" },
+        { label: "Werkprocessen automatiseren: ook zonder IT-afdeling", href: "/info/werkprocessen-automatiseren" },
       ],
     },
     {

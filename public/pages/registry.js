@@ -22,6 +22,24 @@ export const PAGES = [
     path: "/info/processen-automatiseren",
   },
   {
+    id: "productieproces-automatiseren",
+    title: "Productieproces automatiseren: waar begin je op de werkvloer?",
+    teaser: "Order-naar-planning, shopfloor-terugmelding, kwaliteitscontrole en voorraadtriggers — en waarom de productievloer weerbarstiger is dan kantoor.",
+    path: "/info/productieproces-automatiseren",
+  },
+  {
+    id: "inkoopproces-automatiseren",
+    title: "Inkoopproces automatiseren: van aanvraag tot betaling",
+    teaser: "Het volledige purchase-to-pay-traject, de 3-way match, en de vijf valkuilen die het resultaat opeten bij half automatiseren.",
+    path: "/info/inkoopproces-automatiseren",
+  },
+  {
+    id: "werkprocessen-automatiseren",
+    title: "Werkprocessen automatiseren: ook zonder IT-afdeling",
+    teaser: "Herken welk dagelijks werkproces kansrijk is, wat je met bestaande software al kunt, en hoe je met beperkt budget begint.",
+    path: "/info/werkprocessen-automatiseren",
+  },
+  {
     id: "dashboards-kpi",
     title: "ERP met KPI-dashboards: realtime sturen",
     teaser: "Welke KPI's tellen per functiegebied, een stappenplan van rapport naar realtime sturing, en de rol van process mining.",
